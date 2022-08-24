@@ -32,7 +32,7 @@ class ReaderMetadata(BaseReaderMetadata):
         return ["tif", "tiff"]
 
     @staticmethod
-    def get_reader() -> base_image_reader.reader.Reader:
+    def get_reader() -> bioio_types.reader.Reader:
         from .custom_tiff_reader import CustomTiffReader
 
         return CustomTiffReader
