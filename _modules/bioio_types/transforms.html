@@ -1,0 +1,634 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>bioio_types.transforms - bioio-types 0.1.dev1+g7f54841 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">bioio-types 0.1.dev1+g7f54841 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">bioio-types 0.1.dev1+g7f54841 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Package modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../bioio_types.html">bioio_types package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for bioio_types.transforms</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ConflictingArgumentsError</span><span class="p">,</span> <span class="n">UnexpectedShapeError</span>
+<span class="kn">from</span> <span class="nn">.image_container</span> <span class="kn">import</span> <span class="n">ImageContainer</span>
+
+<span class="c1">###############################################################################</span>
+
+
+<div class="viewcode-block" id="transpose_to_dims"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.transforms.transpose_to_dims">[docs]</a><span class="k">def</span> <span class="nf">transpose_to_dims</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This shuffles the data dimensions from given_dims to return_dims. Each dimension</span>
+<span class="sd">    must be present in given_dims must be used in return_dims</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions</span>
+<span class="sd">        specified in given_dims</span>
+<span class="sd">    given_dims: str</span>
+<span class="sd">        The dimension ordering of data, &quot;CZYX&quot;, &quot;VBTCXZY&quot; etc</span>
+<span class="sd">    return_dims: str</span>
+<span class="sd">        The dimension ordering of the return data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        The data with the specified dimension ordering.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ConflictingArgumentsError</span>
+<span class="sd">        given_dims and return_dims are incompatible.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use a counter to track that the contents are composed of the same letters</span>
+    <span class="c1"># and that no letter is repeated</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">Counter</span><span class="p">(</span><span class="n">given_dims</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">return_dims</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">given_dims</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;given_dims=</span><span class="si">{</span><span class="n">given_dims</span><span class="si">}</span><span class="s2"> and return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2"> are incompatible.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Resort the data into return_dims order</span>
+    <span class="n">match_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">dim</span><span class="p">:</span> <span class="n">given_dims</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">}</span>
+    <span class="n">transposer</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
+        <span class="n">transposer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_map</span><span class="p">[</span><span class="n">dim</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">transposer</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="reshape_data"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.transforms.reshape_data">[docs]</a><span class="k">def</span> <span class="nf">reshape_data</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reshape the data into return_dims, pad missing dimensions, and prune extra</span>
+<span class="sd">    dimensions. Warns the user to use the base reader if the depth of the Dimension</span>
+<span class="sd">    being removed is not 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions</span>
+<span class="sd">        specified in given_dims</span>
+<span class="sd">    given_dims: str</span>
+<span class="sd">        The dimension ordering of data, &quot;CZYX&quot;, &quot;VBTCXZY&quot; etc</span>
+<span class="sd">    return_dims: str</span>
+<span class="sd">        The dimension ordering of the return data</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        * C=1 =&gt; desired specific channel, if C in the input data has depth 3 then C=1</span>
+<span class="sd">          returns the 2nd slice (0 indexed)</span>
+<span class="sd">        * Z=10 =&gt; desired specific channel, if Z in the input data has depth 20 then</span>
+<span class="sd">          Z=10 returns the 11th slice</span>
+<span class="sd">        * T=[0, 1] =&gt; desired specific timepoints, if T in the input data has depth 100</span>
+<span class="sd">          then T=[0, 1] returns the 1st and 2nd slice (0 indexed)</span>
+<span class="sd">        * T=(0, 1) =&gt; desired specific timepoints, if T in the input data has depth 100</span>
+<span class="sd">          then T=(0, 1) returns the 1st and 2nd slice (0 indexed)</span>
+<span class="sd">        * T=(0, -1) =&gt; desired specific timepoints, if T in the input data has depth 100</span>
+<span class="sd">          then T=(0, -1) returns the first and last slice</span>
+<span class="sd">        * T=range(10) =&gt; desired specific timepoints, if T in the input data has depth</span>
+<span class="sd">          100 then T=range(10) returns the first ten slices</span>
+<span class="sd">        * T=slice(0, -1, 5) =&gt; desired specific timepoints, T=slice(0, -1, 5) returns</span>
+<span class="sd">          every fifth timepoint</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        The data with the specified dimension ordering.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ConflictingArgumentsError</span>
+<span class="sd">        Missing dimension in return dims when using range, slice, or multi-index</span>
+<span class="sd">        dimension selection for the requested dimension.</span>
+
+<span class="sd">    IndexError</span>
+<span class="sd">        Requested dimension index not present in data.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Specific index selection</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... z1 = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=1)</span>
+
+<span class="sd">    List of index selection</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... first_and_second = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=[0, 1])</span>
+
+<span class="sd">    Tuple of index selection</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... first_and_last = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=(0, -1))</span>
+
+<span class="sd">    Range of index selection</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... first_three = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=range(3))</span>
+
+<span class="sd">    Slice selection</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... every_other = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=slice(0, -1, 2))</span>
+
+<span class="sd">    Empty dimension expansion</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... with_time = reshape_data(data, &quot;ZYX&quot;, &quot;TZYX&quot;)</span>
+
+<span class="sd">    Dimension order shuffle</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... as_zx_base = reshape_data(data, &quot;ZYX&quot;, &quot;YZX&quot;)</span>
+
+<span class="sd">    Selections, empty dimension expansions, and dimension order shuffle</span>
+
+<span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
+<span class="sd">    ... example = reshape_data(data, &quot;CYX&quot;, &quot;BSTCZYX&quot;, C=slice(0, -1, 3))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check for parameter conflicts</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+        <span class="c1"># return_dims=&#39;TCZYX&#39; and fixed dimensions &#39;C=1&#39;</span>
+        <span class="c1"># Dimension is in kwargs</span>
+        <span class="c1"># Dimension is an integer</span>
+        <span class="c1"># Dimension is in return dimensions</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;When selecting a single dimension index, the specified dimension can &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;not be provided in return_dims. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># return_dims=&#39;CZYX&#39; and iterable dimensions &#39;T=range(10)&#39;</span>
+        <span class="c1"># Dimension is in kwargs</span>
+        <span class="c1"># Dimension is an iterable</span>
+        <span class="c1"># Dimension is not in return dimensions</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dims</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;When selecting a multiple dimension indices, the specified &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;dimension must be provided in return_dims. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Process each dimension available</span>
+    <span class="n">new_dims</span> <span class="o">=</span> <span class="n">given_dims</span>
+    <span class="n">dim_specs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+        <span class="c1"># Store index of the dim as it is in given data</span>
+        <span class="n">dim_index</span> <span class="o">=</span> <span class="n">given_dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="c1"># Handle dim in return dims which means that it is</span>
+        <span class="c1"># an iterable or None selection</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
+            <span class="c1"># Specific iterable requested</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Actual dim specification</span>
+                <span class="c1"># The specification provided for this dimension in the kwargs</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="c1"># Convert operator to standard list or slice</span>
+                <span class="c1"># dask.Array and numpy.ndarray both natively support</span>
+                <span class="c1"># List[int] and slices being passed to getitem so no need to cast them</span>
+                <span class="c1"># to anything different</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">)):</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
+
+                <span class="c1"># Get the largest absolute value index in the list using min and max</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)),</span> <span class="nb">max</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)])</span>
+
+                <span class="c1"># Get the largest absolute value index from start and stop of slice</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">stop</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">start</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Nothing was requested from this dimension</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="c1"># No op means that it doesn&#39;t matter how much data is in this dimension</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Not in given dims means that it is a fixed integer selection</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Integer requested</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="c1"># Check that integer</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="n">dim_spec</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Remove dim from new dims as it is fixed size</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that fixed integer request isn&#39;t outside of request</span>
+        <span class="k">if</span> <span class="n">check_selection_max</span> <span class="o">&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dimension specified with </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">display_dim_spec</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but Dimension shape is </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># All checks and operations passed, append dim operation to getitem ops</span>
+        <span class="n">dim_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
+
+    <span class="c1"># Run getitems</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">dim_specs</span><span class="p">)]</span>
+
+    <span class="c1"># Add empty dims where dimensions were requested but data doesn&#39;t exist</span>
+    <span class="c1"># Add dimensions to new dims where empty dims are added</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">return_dims</span><span class="p">):</span>
+        <span class="c1"># This dimension wasn&#39;t processed</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="n">dim</span><span class="si">}{</span><span class="n">new_dims</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+
+    <span class="c1"># Any extra dimensions have been removed, only a problem if the depth is &gt; 1</span>
+    <span class="k">return</span> <span class="n">transpose_to_dims</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">given_dims</span><span class="o">=</span><span class="n">new_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="o">=</span><span class="n">return_dims</span>
+    <span class="p">)</span>  <span class="c1"># don&#39;t pass kwargs or 2 copies</span></div>
+
+
+<div class="viewcode-block" id="generate_stack"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.transforms.generate_stack">[docs]</a><span class="k">def</span> <span class="nf">generate_stack</span><span class="p">(</span>
+    <span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">],</span>
+    <span class="n">drop_non_matching_scenes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">select_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">scene_character</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+    <span class="n">scene_coord_values</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">MetaArrayLike</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stack each scene contained in the reader into a</span>
+<span class="sd">    single array. This method handles the logic of determining which</span>
+<span class="sd">    stack function to use (dask or numpy) and whether or not to return a</span>
+<span class="sd">    labelled array (xr.DataArray). Users should prefer</span>
+<span class="sd">    to use one of get_stack, get_dask_stack, get_xarray_stack, or</span>
+<span class="sd">    get_xarray_dask_stack.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mode: Literal[&quot;data&quot;, &quot;dask_data&quot;, &quot;xarray_data&quot;, &quot;xarray_dask_data&quot;]</span>
+<span class="sd">        String describing the style of data to return. Should be one of:</span>
+<span class="sd">        &quot;data&quot;, &quot;dask_data&quot;, &quot;xarray_data&quot;, &quot;xarray_dask_data&quot;.</span>
+<span class="sd">    drop_non_matching_scenes: bool</span>
+<span class="sd">        During the scene iteration process, if the next scene to be added</span>
+<span class="sd">        to the stack has different shape or dtype, should it be dropped or</span>
+<span class="sd">        raise an error.  Default: False (raise an error)</span>
+<span class="sd">    select_scenes: Optional[</span>
+<span class="sd">            Union[List[Union[str, int]], Tuple[Union[str, int], ...]]]</span>
+<span class="sd">        Which scenes to stack into a single array. Scenes can be provided</span>
+<span class="sd">        as a list or tuple of scene indices or names. It is recommended to</span>
+<span class="sd">        use the scene integer index instead of the scene name to avoid</span>
+<span class="sd">        duplicate scene name lookup issues.</span>
+<span class="sd">        Default: None (stack all scenes)</span>
+<span class="sd">    scene_character: str</span>
+<span class="sd">        Character to use as the name of the scene dimension on the output</span>
+<span class="sd">        array. Default &quot;I&quot;</span>
+<span class="sd">    scene_coord_values: Literal[&quot;index&quot;, &quot;names&quot;]</span>
+<span class="sd">        How to assign coordinates to the scene dimension of the final</span>
+<span class="sd">        array. If scene_coord_values=&quot;names&quot; use the scene name from</span>
+<span class="sd">        the reader object. If scene_coord_values=&quot;index&quot; don&#39;t attach any</span>
+<span class="sd">        coordinates and fall back to integer values.</span>
+<span class="sd">        Default: &quot;index&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    stack: types.MetaArrayLike</span>
+<span class="sd">        The fully stacked array. This can be 6+ dimensions with Scene being</span>
+<span class="sd">        the first dimension.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mode_check</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode_check</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid mode kwarg. Found </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> but should be one of:&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode_check</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">scene_stacks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scene_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">select_scenes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">select_scenes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image_container</span><span class="o">.</span><span class="n">scenes</span><span class="p">)))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">select_scenes</span><span class="p">):</span>
+        <span class="n">image_container</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">image_container</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+        <span class="c1"># Store the shape and dtype of the first scenes data</span>
+        <span class="c1"># to check against later scenes. If returning a DataArray</span>
+        <span class="c1"># store the coords and dims to use in the final output</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
+
+            <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+                <span class="n">coords</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+                <span class="n">dims</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dims</span>
+
+                <span class="k">if</span> <span class="n">scene_character</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Provided scene dimension character &#39;</span><span class="si">{</span><span class="n">scene_character</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;was found in the existing dimensions of the data </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+
+        <span class="c1"># Check other scenes against the first scene</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">shape</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">drop_non_matching_scenes</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">UnexpectedShapeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;All scenes must have same shape. Found shape&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">dtype</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">drop_non_matching_scenes</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;All scenes must have the same dtype. Found data&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;with dtype </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+        <span class="n">scene_stacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">scene_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image_container</span><span class="o">.</span><span class="n">current_scene</span><span class="p">)</span>
+
+    <span class="n">stack</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">stack</span> <span class="k">if</span> <span class="s2">&quot;dask&quot;</span> <span class="ow">in</span> <span class="n">mode</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span>
+
+    <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+        <span class="n">all_data</span> <span class="o">=</span> <span class="n">stack</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scene_stacks</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">scene_coord_values</span> <span class="o">==</span> <span class="s2">&quot;names&quot;</span><span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">scene_character</span><span class="p">:</span> <span class="n">scene_names</span><span class="p">,</span> <span class="o">**</span><span class="n">coords</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">all_data</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">scene_character</span><span class="p">,</span> <span class="o">*</span><span class="n">dims</span><span class="p">),</span>
+            <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">stack</span><span class="p">(</span><span class="n">scene_stacks</span><span class="p">)</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    </body>
+</html>
