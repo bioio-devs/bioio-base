@@ -1,25 +1,6 @@
 bioio\_types package
 ====================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   bioio_types.bin
-
-Submodules
-----------
-
-bioio\_types.example module
----------------------------
-
-.. automodule:: bioio_types.example
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
