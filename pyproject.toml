@@ -17,6 +17,7 @@ requires-python = ">=3.8"
 license = { text = "BSD License" }
 authors = [
   { email = "evamaxfieldbrown@gmail.com", name = "Eva Maxfield Brown" },
+  { email = "danielt@alleninstitute.org", name = "Dan Toloudis" },
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -71,8 +72,7 @@ dev = [
 
 # entry points
 # https://peps.python.org/pep-0621/#entry-points
-[project.entry-points."console_scripts"]
-calc-string-length = "bioio_types.bin.str_len:main"
+# [project.entry-points."console_scripts"]
 
 # build settings
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
