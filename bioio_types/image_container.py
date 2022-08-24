@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
-from typing import Any, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, List, Optional, Tuple, Union
 
-import dask.array as da
-import numpy as np
-import xarray as xr
+if TYPE_CHECKING:
+    import dask.array as da
+    import numpy as np
+    import xarray as xr
 
 from .dimensions import Dimensions
 from .types import PhysicalPixelSizes
@@ -33,23 +34,23 @@ class ImageContainer(ABC):
         pass
 
     @property
-    def xarray_dask_data(self) -> xr.DataArray:
+    def xarray_dask_data(self) -> "xr.DataArray":
         pass
 
     @property
-    def xarray_data(self) -> xr.DataArray:
+    def xarray_data(self) -> "xr.DataArray":
         pass
 
     @property
-    def dask_data(self) -> da.Array:
+    def dask_data(self) -> "da.Array":
         pass
 
     @property
-    def data(self) -> np.ndarray:
+    def data(self) -> "np.ndarray":
         pass
 
     @property
-    def dtype(self) -> np.dtype:
+    def dtype(self) -> "np.dtype":
         pass
 
     @property
@@ -63,13 +64,13 @@ class ImageContainer(ABC):
     @abstractmethod
     def get_image_dask_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any
-    ) -> da.Array:
+    ) -> "da.Array":
         pass
 
     @abstractmethod
     def get_image_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any
-    ) -> np.ndarray:
+    ) -> "np.ndarray":
         pass
 
     @property

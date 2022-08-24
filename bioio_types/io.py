@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Tuple
 
 from fsspec.core import url_to_fs
-from fsspec.spec import AbstractFileSystem
+
+if TYPE_CHECKING:
+    from fsspec.spec import AbstractFileSystem
 
 from .types import PathLike
 
@@ -16,7 +18,7 @@ def pathlike_to_fs(
     uri: PathLike,
     enforce_exists: bool = False,
     fs_kwargs: Dict[str, Any] = {},
-) -> Tuple[AbstractFileSystem, str]:
+) -> Tuple["AbstractFileSystem", str]:
     """
     Find and return the appropriate filesystem and path from a path-like object.
 
