@@ -15,9 +15,27 @@ Typing, base classes, and more for BioIO projects.
 ## Quickstart
 
 ```python
-from bioio_types import example
+from bioio_types.reader import Reader
 
-print(example.str_len("hello"))  # prints 5
+class CustomTiffReader(Reader):
+    # Your code here
+```
+
+```python
+from typing import List
+
+from bioio_types.reader_metadata import ReaderMetadata as BaseReaderMetadata
+
+class ReaderMetadata(BaseReaderMetadata):
+    @staticmethod
+    def get_supported_extensions() -> List[str]:
+        return ["tif", "tiff"]
+
+    @staticmethod
+    def get_reader() -> base_image_reader.reader.Reader:
+        from .custom_tiff_reader import CustomTiffReader
+
+        return CustomTiffReader
 ```
 
 ## Documentation
