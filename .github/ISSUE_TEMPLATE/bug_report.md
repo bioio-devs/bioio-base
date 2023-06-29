@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help us improve bioio-types
+about: Create a report to help us improve bioio-base
 labels: bug
 ---
 
@@ -28,4 +28,4 @@ labels: bug
 <!-- Any additional information about your environment. -->
 
 -   OS Version: _[e.g. macOS 11.3.1]_
--   bioio-types Version: _[e.g. 0.5.0]_
+-   bioio-base Version: _[e.g. 0.5.0]_

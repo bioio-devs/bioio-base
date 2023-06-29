@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a feature for bioio-types
+about: Suggest a feature for bioio-base
 labels: enhancement
 ---
 

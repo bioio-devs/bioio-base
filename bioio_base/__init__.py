@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""Top-level package for bioio_types."""
+"""Top-level package for bioio_base."""
 
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("bioio-types")
+    __version__ = version("bioio-base")
 except PackageNotFoundError:
     __version__ = "uninstalled"
 

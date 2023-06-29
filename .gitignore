@@ -67,7 +67,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/bioio_types.*rst
+docs/bioio_base.*rst
 docs/modules.rst
 
 # PyBuilder
