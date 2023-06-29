@@ -22,10 +22,12 @@ class ImageContainer(ABC):
         pass
 
     @property
+    @abstractmethod
     def current_scene(self) -> str:
         pass
 
     @property
+    @abstractmethod
     def current_scene_index(self) -> int:
         pass
 
@@ -34,30 +36,37 @@ class ImageContainer(ABC):
         pass
 
     @property
+    @abstractmethod
     def xarray_dask_data(self) -> "xr.DataArray":
         pass
 
     @property
+    @abstractmethod
     def xarray_data(self) -> "xr.DataArray":
         pass
 
     @property
+    @abstractmethod
     def dask_data(self) -> "da.Array":
         pass
 
     @property
+    @abstractmethod
     def data(self) -> "np.ndarray":
         pass
 
     @property
+    @abstractmethod
     def dtype(self) -> "np.dtype":
         pass
 
     @property
+    @abstractmethod
     def shape(self) -> Tuple[int, ...]:
         pass
 
     @property
+    @abstractmethod
     def dims(self) -> Dimensions:
         pass
 
@@ -74,13 +83,16 @@ class ImageContainer(ABC):
         pass
 
     @property
+    @abstractmethod
     def metadata(self) -> Any:
         pass
 
     @property
+    @abstractmethod
     def channel_names(self) -> Optional[List[str]]:
         pass
 
     @property
+    @abstractmethod
     def physical_pixel_sizes(self) -> PhysicalPixelSizes:
         pass

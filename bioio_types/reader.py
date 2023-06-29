@@ -224,7 +224,6 @@ class Reader(ImageContainer, ABC):
         if isinstance(scene_id, str):
             # Only need to run when the scene id is different from current scene
             if scene_id != self.current_scene:
-
                 # Validate scene id
                 if scene_id not in self.scenes:
                     raise IndexError(
@@ -242,7 +241,6 @@ class Reader(ImageContainer, ABC):
         elif isinstance(scene_id, int):
             # Only need to run when scene index is different from current scene
             if scene_id != self.current_scene_index:
-
                 # Validate scene index
                 if scene_id >= len(self.scenes):
                     raise IndexError(
@@ -836,7 +834,6 @@ class Reader(ImageContainer, ABC):
         return None
 
     def get_stack(self, **kwargs: Any) -> "np.ndarray":
-
         """
         Get all scenes stacked in to a single array.
 
