@@ -30,7 +30,7 @@ lint:
 
 # run tests
 test:
-	pytest --cov-report xml --cov-report html --cov=bioio_types bioio_types/tests
+	pytest --cov-report xml --cov-report html --cov=bioio_base bioio_base/tests
 
 # run lint and then run tests
 build:
@@ -39,9 +39,9 @@ build:
 
 # generate Sphinx HTML documentation
 generate-docs:
-	rm -f docs/bioio_types*.rst
+	rm -f docs/bioio_base*.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs bioio_types **/tests
+	sphinx-apidoc -o docs bioio_base **/tests
 	python -msphinx "docs" "docs/_build"
 
 

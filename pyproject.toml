@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 # package basics
 # https://peps.python.org/pep-0621/
 [project]
-name = "bioio-types"
+name = "bioio-base"
 description = "Typing, base classes, and more for BioIO projects."
 keywords = []
 readme = "README.md"
@@ -36,23 +36,15 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bioio-devs/bioio-types"
-"Bug Tracker" = "https://github.com/bioio-devs/bioio-types/issues"
-Documentation = "https://bioio-devs.github.io/bioio-types"
-"User Support" = "https://github.com/bioio-devs/bioio-types/issues"
+Homepage = "https://github.com/bioio-devs/bioio-base"
+"Bug Tracker" = "https://github.com/bioio-devs/bioio-base/issues"
+Documentation = "https://bioio-devs.github.io/bioio-base"
+"User Support" = "https://github.com/bioio-devs/bioio-base/issues"
 
 # extra dependencies
 # https://peps.python.org/pep-0621/#dependencies-optional-dependencies
 [project.optional-dependencies]
 lint = [
-  "black>=22.3.0",
-  "check-manifest>=0.48",
-  "flake8>=3.8.3",
-  "flake8-debugger>=3.2.1",
-  "flake8-pyprojecttoml",
-  "flake8-typing-imports>=1.9.0",
-  "isort>=5.7.0",
-  "mypy>=0.790",
   "pre-commit>=2.20.0",
 ]
 test = [
@@ -118,7 +110,7 @@ ignore = [
 ]
 
 [tool.mypy]
-files = "bioio_types/*.py"
+files = "bioio_base/*.py"
 ignore_missing_imports = true
 disallow_untyped_defs = true
 check_untyped_defs = true
