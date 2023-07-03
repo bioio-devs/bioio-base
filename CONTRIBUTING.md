@@ -11,20 +11,20 @@ project as it will always be the most up-to-date.
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up `bioio-types` for local development.
+Ready to contribute? Here's how to set up `bioio-base` for local development.
 
-1. Fork the `bioio-types` repo on GitHub.
+1. Fork the `bioio-base` repo on GitHub.
 
 2. Clone your fork locally:
 
     ```bash
-    git clone git@github.com:{your_name_here}/bioio-types.git
+    git clone git@github.com:{your_name_here}/bioio-base.git
     ```
 
 3. Install the project in editable mode. (It is also recommended to work in a virtualenv or anaconda environment):
 
     ```bash
-    cd bioio-types/
+    cd bioio-base/
     just install
     ```
 

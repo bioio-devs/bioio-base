@@ -9,37 +9,53 @@ from fsspec.implementations.local import LocalFileSystem
 from psutil import Process
 from xarray.testing import assert_equal
 
+from .image_container import ImageContainer
 from .reader import Reader
 from .types import PathLike
 
 ###############################################################################
 
 
-def check_local_file_not_open(reader: Reader) -> None:
+def check_local_file_not_open(image_container: ImageContainer) -> None:
+    if not hasattr(image_container, "_fs") or not hasattr(image_container, "_path"):
+        if not hasattr(image_container, "reader"):
+            raise ValueError(
+                "Expected 'image_container' to have '_fs' and "
+                "'_path' attributes or a 'reader' attribute"
+            )
+
+        image_container = image_container.reader
+        if not hasattr(image_container, "_fs") or not hasattr(image_container, "_path"):
+            raise ValueError(
+                "Expected 'image_container' to have '_fs' and "
+                "'_path' attributes or a 'reader' attribute with "
+                "'_fs' and '_path' attributes"
+            )
+
     # Check that there are no open file pointers
-    if isinstance(reader._fs, LocalFileSystem):
+    if isinstance(image_container._fs, LocalFileSystem):
         proc = Process()
-        assert str(reader._path) not in [f.path for f in proc.open_files()]
+        assert str(image_container._path) not in [f.path for f in proc.open_files()]
 
 
-def check_can_serialize_reader(reader: Reader) -> None:
+def check_can_serialize_image_container(image_container: ImageContainer) -> None:
     # Dump and reconstruct
-    reconstructed = deserialize(*serialize(reader))
+    reconstructed = deserialize(*serialize(image_container))
 
     # Assert primary attrs are equal
-    if reader._xarray_data is None:
-        assert reconstructed._xarray_data is None
+    if image_container.xarray_data is None:
+        assert reconstructed.xarray_data is None
     else:
-        assert_equal(reader._xarray_data, reconstructed._xarray_data)
+        assert_equal(image_container.xarray_data, reconstructed.xarray_data)
 
-    if reader._xarray_dask_data is None:
-        assert reconstructed._xarray_dask_data is None
+    if image_container.xarray_dask_data is None:
+        assert reconstructed.xarray_dask_data is None
     else:
-        assert_equal(reader._xarray_dask_data, reconstructed._xarray_dask_data)
+        assert_equal(image_container.xarray_dask_data, reconstructed.xarray_dask_data)
 
 
-def run_reader_checks(
-    reader: Reader,
+def run_image_container_checks(
+    image_container: ImageContainer,
     set_scene: str,
     expected_scenes: Tuple[str, ...],
     expected_current_scene: str,
@@ -51,40 +67,40 @@ def run_reader_checks(
         Optional[float], Optional[float], Optional[float]
     ],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
-) -> Reader:
+) -> ImageContainer:
     """
     A general suite of tests to run against readers.
     """
 
     # Check serdes
-    check_can_serialize_reader(reader)
+    check_can_serialize_image_container(image_container)
 
     # Set scene
-    reader.set_scene(set_scene)
+    image_container.set_scene(set_scene)
 
     # Check scene info
-    assert reader.scenes == expected_scenes
-    assert reader.current_scene == expected_current_scene
+    assert image_container.scenes == expected_scenes
+    assert image_container.current_scene == expected_current_scene
 
     # Check basics
-    assert reader.shape == expected_shape
-    assert reader.dtype == expected_dtype
-    assert reader.dims.order == expected_dims_order
-    assert reader.dims.shape == expected_shape
-    assert reader.channel_names == expected_channel_names
-    assert reader.physical_pixel_sizes == expected_physical_pixel_sizes
-    assert isinstance(reader.metadata, expected_metadata_type)
+    assert image_container.shape == expected_shape
+    assert image_container.dtype == expected_dtype
+    assert image_container.dims.order == expected_dims_order
+    assert image_container.dims.shape == expected_shape
+    assert image_container.channel_names == expected_channel_names
+    assert image_container.physical_pixel_sizes == expected_physical_pixel_sizes
+    assert isinstance(image_container.metadata, expected_metadata_type)
 
     # Read different chunks
-    zyx_chunk_from_delayed = reader.get_image_dask_data("ZYX").compute()
-    cyx_chunk_from_delayed = reader.get_image_dask_data("CYX").compute()
+    zyx_chunk_from_delayed = image_container.get_image_dask_data("ZYX").compute()
+    cyx_chunk_from_delayed = image_container.get_image_dask_data("CYX").compute()
 
     # Check image still not fully in memory
-    assert reader._xarray_data is None
+    assert image_container.xarray_data is None
 
     # Read in mem then pull chunks
-    zyx_chunk_from_mem = reader.get_image_data("ZYX")
-    cyz_chunk_from_mem = reader.get_image_data("CYX")
+    zyx_chunk_from_mem = image_container.get_image_data("ZYX")
+    cyz_chunk_from_mem = image_container.get_image_data("CYX")
 
     # Compare chunk reads
     np.testing.assert_array_equal(
@@ -97,13 +113,13 @@ def run_reader_checks(
     )
 
     # Check that the shape and dtype are expected after reading in full
-    assert reader.data.shape == expected_shape
-    assert reader.data.dtype == expected_dtype
+    assert image_container.data.shape == expected_shape
+    assert image_container.data.dtype == expected_dtype
 
     # Check serdes
-    check_can_serialize_reader(reader)
+    check_can_serialize_image_container(image_container)
 
-    return reader
+    return image_container
 
 
 def run_reader_mosaic_checks(
@@ -132,7 +148,7 @@ def run_reader_mosaic_checks(
 
 
 def run_image_file_checks(
-    Reader: Type[Reader],
+    ImageContainer: Type[ImageContainer],
     image: PathLike,
     set_scene: str,
     expected_scenes: Tuple[str, ...],
@@ -145,16 +161,16 @@ def run_image_file_checks(
         Optional[float], Optional[float], Optional[float]
     ],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
-) -> Reader:
+) -> ImageContainer:
     # Init container
-    reader = Reader(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
 
     # Check for file pointers
-    check_local_file_not_open(reader)
+    check_local_file_not_open(image_container)
 
     # Run array and metadata check operations
-    run_reader_checks(
-        reader=reader,
+    run_image_container_checks(
+        image_container=image_container,
         set_scene=set_scene,
         expected_scenes=expected_scenes,
         expected_current_scene=expected_current_scene,
@@ -167,13 +183,13 @@ def run_image_file_checks(
     )
 
     # Check for file pointers
-    check_local_file_not_open(reader)
+    check_local_file_not_open(image_container)
 
-    return reader
+    return image_container
 
 
 def run_multi_scene_image_read_checks(
-    Reader: Type[Reader],
+    ImageContainer: Type[ImageContainer],
     image: PathLike,
     first_scene_id: Union[str, int],
     first_scene_shape: Tuple[int, ...],
@@ -182,53 +198,53 @@ def run_multi_scene_image_read_checks(
     second_scene_shape: Tuple[int, ...],
     second_scene_dtype: np.dtype,
     allow_same_scene_data: bool = True,
-) -> Reader:
+) -> ImageContainer:
     """
     A suite of tests to ensure that data is reset when switching scenes.
     """
     # Read file
-    reader = Reader(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
     # Set scene
-    reader.set_scene(first_scene_id)
+    image_container.set_scene(first_scene_id)
 
     # Check basics
     if isinstance(first_scene_id, str):
-        assert reader.current_scene == first_scene_id
+        assert image_container.current_scene == first_scene_id
     else:
-        assert reader.current_scene_index == first_scene_id
-    assert reader.shape == first_scene_shape
-    assert reader.dtype == first_scene_dtype
+        assert image_container.current_scene_index == first_scene_id
+    assert image_container.shape == first_scene_shape
+    assert image_container.dtype == first_scene_dtype
 
     # Check that the shape and dtype are expected after reading in full
-    first_scene_data = reader.data
+    first_scene_data = image_container.data
     assert first_scene_data.shape == first_scene_shape
     assert first_scene_data.dtype == first_scene_dtype
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
     # Change scene
-    reader.set_scene(second_scene_id)
+    image_container.set_scene(second_scene_id)
 
     # Check data was reset
-    assert reader._xarray_dask_data is None
-    assert reader._xarray_data is None
-    assert reader._dims is None
+    assert image_container.xarray_dask_data is None
+    assert image_container.xarray_data is None
+    assert image_container.dims is None
 
     # Check basics
     if isinstance(second_scene_id, str):
-        assert reader.current_scene == second_scene_id
+        assert image_container.current_scene == second_scene_id
     else:
-        assert reader.current_scene_index == second_scene_id
-    assert reader.shape == second_scene_shape
-    assert reader.dtype == second_scene_dtype
+        assert image_container.current_scene_index == second_scene_id
+    assert image_container.shape == second_scene_shape
+    assert image_container.dtype == second_scene_dtype
 
     # Check that the shape and dtype are expected after reading in full
-    second_scene_data = reader.data
+    second_scene_data = image_container.data
     assert second_scene_data.shape == second_scene_shape
     assert second_scene_data.dtype == second_scene_dtype
 
@@ -241,69 +257,69 @@ def run_multi_scene_image_read_checks(
             second_scene_data,
         )
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
-    return reader
+    return image_container
 
 
 def run_no_scene_name_image_read_checks(
-    Reader: Type[Reader],
+    ImageContainer: Type[ImageContainer],
     image: PathLike,
     first_scene_id: Union[str, int],
     first_scene_dtype: np.dtype,
     second_scene_id: Union[str, int],
     second_scene_dtype: np.dtype,
     allow_same_scene_data: bool = True,
-) -> Reader:
+) -> ImageContainer:
     """
     A suite of tests to check that scene names are auto-filled when not present, and
     scene switching is reflected in current_scene_index.
     """
     # Read file
-    reader = Reader(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
     # Set scene
-    reader.set_scene(0)
+    image_container.set_scene(0)
 
-    assert reader.current_scene_index == 0
+    assert image_container.current_scene_index == 0
 
     # Check basics
     if isinstance(first_scene_id, str):
-        assert reader.current_scene == first_scene_id
+        assert image_container.current_scene == first_scene_id
     else:
-        assert reader.current_scene_index == first_scene_id
-    assert reader.dtype == first_scene_dtype
+        assert image_container.current_scene_index == first_scene_id
+    assert image_container.dtype == first_scene_dtype
 
     # Check that the shape and dtype are expected after reading in full
-    first_scene_data = reader.data
+    first_scene_data = image_container.data
     assert first_scene_data.dtype == first_scene_dtype
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
     # Change scene
-    reader.set_scene(1)
+    image_container.set_scene(1)
 
-    assert reader.current_scene_index == 1
+    assert image_container.current_scene_index == 1
 
     # Check data was reset
-    assert reader._xarray_dask_data is None
-    assert reader._xarray_data is None
-    assert reader._dims is None
+    assert image_container.xarray_dask_data is None
+    assert image_container.xarray_data is None
+    assert image_container.dims is None
 
     # Check basics
     if isinstance(second_scene_id, str):
-        assert reader.current_scene == second_scene_id
+        assert image_container.current_scene == second_scene_id
     else:
-        assert reader.current_scene_index == second_scene_id
-    assert reader.dtype == second_scene_dtype
+        assert image_container.current_scene_index == second_scene_id
+    assert image_container.dtype == second_scene_dtype
 
     # Check that the shape and dtype are expected after reading in full
-    second_scene_data = reader.data
+    second_scene_data = image_container.data
     assert second_scene_data.dtype == second_scene_dtype
 
     # Check that the first and second scene are not the same
@@ -315,7 +331,7 @@ def run_no_scene_name_image_read_checks(
             second_scene_data,
         )
 
-    check_local_file_not_open(reader)
-    check_can_serialize_reader(reader)
+    check_local_file_not_open(image_container)
+    check_can_serialize_image_container(image_container)
 
-    return reader
+    return image_container
