@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Type, Union
 
 if TYPE_CHECKING:
     import dask.array as da
@@ -10,12 +10,23 @@ if TYPE_CHECKING:
     import xarray as xr
 
 from .dimensions import Dimensions
-from .types import PhysicalPixelSizes
+from .reader import Reader
+from .types import ImageLike, PhysicalPixelSizes
 
 ###############################################################################
 
 
 class ImageContainer(ABC):
+    def __init__(
+        self,
+        image: ImageLike,
+        reader: Optional[Type[Reader]] = None,
+        reconstruct_mosaic: bool = True,
+        fs_kwargs: Dict[str, Any] = {},
+        **kwargs: Any,
+    ):
+        pass
+
     @property
     @abstractmethod
     def scenes(self) -> Tuple[str, ...]:

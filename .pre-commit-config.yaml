@@ -1,4 +1,4 @@
-files: bioio_types
+files: bioio_base
 repos:
 
   - repo: https://github.com/PyCQA/isort
