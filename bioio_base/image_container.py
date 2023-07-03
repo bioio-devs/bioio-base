@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     import xarray as xr
 
 from .dimensions import Dimensions
-from .reader import Reader
 from .types import ImageLike, PhysicalPixelSizes
 
 ###############################################################################
@@ -20,7 +19,7 @@ class ImageContainer(ABC):
     def __init__(
         self,
         image: ImageLike,
-        reader: Optional[Type[Reader]] = None,
+        reader: Optional[Type["ImageContainer"]] = None,
         reconstruct_mosaic: bool = True,
         fs_kwargs: Dict[str, Any] = {},
         **kwargs: Any,
