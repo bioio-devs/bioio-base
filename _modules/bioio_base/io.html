@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>bioio_types.exceptions - bioio-types 0.1.dev1+g4d801d6 documentation</title>
+    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+        <title>bioio_base.io - bioio-base 0.1.dev1+gceaa0b5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-types 0.1.dev1+g4d801d6 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gceaa0b5 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,10 +146,10 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-types 0.1.dev1+g4d801d6 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gceaa0b5 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -158,8 +158,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Package modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../bioio_types.html">bioio_types package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Package modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Package modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../bioio_base.html">bioio_base package</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
@@ -196,55 +196,71 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for bioio_types.exceptions</h1><div class="highlight"><pre>
+          <h1>Source code for bioio_base.io</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">fsspec.core</span> <span class="kn">import</span> <span class="n">url_to_fs</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">fsspec.spec</span> <span class="kn">import</span> <span class="n">AbstractFileSystem</span>
+
+<span class="kn">from</span> <span class="nn">.types</span> <span class="kn">import</span> <span class="n">PathLike</span>
 
 <span class="c1">###############################################################################</span>
 
 
-<div class="viewcode-block" id="ConflictingArgumentsError"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.exceptions.ConflictingArgumentsError">[docs]</a><span class="k">class</span> <span class="nc">ConflictingArgumentsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is returned when two or more arguments to the</span>
-<span class="sd">    same function are in conflict.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="pathlike_to_fs"><a class="viewcode-back" href="../../bioio_base.html#bioio_base.io.pathlike_to_fs">[docs]</a><span class="k">def</span> <span class="nf">pathlike_to_fs</span><span class="p">(</span>
+    <span class="n">uri</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span>
+    <span class="n">enforce_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;AbstractFileSystem&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find and return the appropriate filesystem and path from a path-like object.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uri: PathLike</span>
+<span class="sd">        The local or remote path or uri.</span>
+<span class="sd">    enforce_exists: bool</span>
+<span class="sd">        Check whether or not the resource exists, if not, raise FileNotFoundError.</span>
 
-<div class="viewcode-block" id="InvalidDimensionOrderingError"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.exceptions.InvalidDimensionOrderingError">[docs]</a><span class="k">class</span> <span class="nc">InvalidDimensionOrderingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling dimension ordering or</span>
-<span class="sd">    validation. Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fs: AbstractFileSystem</span>
+<span class="sd">        The filesystem to operate on.</span>
+<span class="sd">    path: str</span>
+<span class="sd">        The full path to the target resource.</span>
+<span class="sd">    fs_kwargs: Dict[str, Any]</span>
+<span class="sd">        Any specific keyword arguments to pass down to the fsspec created filesystem.</span>
+<span class="sd">        Default: {}</span>
 
-
-<div class="viewcode-block" id="UnexpectedShapeError"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.exceptions.UnexpectedShapeError">[docs]</a><span class="k">class</span> <span class="nc">UnexpectedShapeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling shape validation.</span>
-<span class="sd">    Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="UnsupportedFileFormatError"><a class="viewcode-back" href="../../bioio_types.html#bioio_types.exceptions.UnsupportedFileFormatError">[docs]</a><span class="k">class</span> <span class="nc">UnsupportedFileFormatError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is intended to communicate that the file extension is not one of</span>
-<span class="sd">    the supported file types and cannot be parsed with AICSImage.</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If enforce_exists is provided value True and the resource is not found or is</span>
+<span class="sd">        unavailable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert paths to string to be handled by url_to_fs</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">msg_extra</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span> <span class="o">=</span> <span class="n">reader_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="o">=</span> <span class="n">msg_extra</span>
+    <span class="c1"># Get details</span>
+    <span class="n">fs</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">url_to_fs</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">fs_kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span><span class="si">}</span><span class="s2"> does not support the image: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+    <span class="c1"># Check file exists</span>
+    <span class="k">if</span> <span class="n">enforce_exists</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fs</span><span class="o">.</span><span class="n">protocol</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span><span class="si">}</span><span class="s2">&quot;</span>
-
-        <span class="k">return</span> <span class="n">msg</span></div>
+    <span class="c1"># Get and store details</span>
+    <span class="c1"># We do not return an AbstractBufferedFile (i.e. fs.open) as we do not want to have</span>
+    <span class="c1"># any open file buffers _after_ any API call. API calls must themselves call</span>
+    <span class="c1"># fs.open and complete their function during the context of the opened buffer.</span>
+    <span class="k">return</span> <span class="n">fs</span><span class="p">,</span> <span class="n">path</span></div>
 </pre></div>
         </article>
       </div>
@@ -265,9 +281,7 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -280,10 +294,8 @@
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>

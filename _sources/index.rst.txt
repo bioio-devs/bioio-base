@@ -1,4 +1,4 @@
-Welcome to bioio-types's documentation!
+Welcome to bioio-base's documentation!
 ======================================
 
 .. toctree::

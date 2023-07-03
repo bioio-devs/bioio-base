@@ -1,0 +1,549 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="bioio_base" href="modules.html" />
+
+    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
+        <title>bioio_base package - bioio-base 0.1.dev1+gceaa0b5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gceaa0b5 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gceaa0b5 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Package modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Package modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">bioio_base package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="bioio-base-package">
+<h1>bioio_base package<a class="headerlink" href="#bioio-base-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-bioio_base.constants">
+<span id="bioio-base-constants-module"></span><h2>bioio_base.constants module<a class="headerlink" href="#module-bioio_base.constants" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-bioio_base.dimensions">
+<span id="bioio-base-dimensions-module"></span><h2>bioio_base.dimensions module<a class="headerlink" href="#module-bioio_base.dimensions" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.dimensions.</span></span><span class="sig-name descname"><span class="pre">DimensionNames</span></span><a class="reference internal" href="_modules/bioio_base/dimensions.html#DimensionNames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.dimensions.DimensionNames" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.Channel">
+<span class="sig-name descname"><span class="pre">Channel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'C'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.Channel" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.MosaicTile">
+<span class="sig-name descname"><span class="pre">MosaicTile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'M'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.MosaicTile" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.Samples">
+<span class="sig-name descname"><span class="pre">Samples</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'S'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.Samples" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.SpatialX">
+<span class="sig-name descname"><span class="pre">SpatialX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'X'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.SpatialX" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.SpatialY">
+<span class="sig-name descname"><span class="pre">SpatialY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Y'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.SpatialY" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.SpatialZ">
+<span class="sig-name descname"><span class="pre">SpatialZ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Z'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.SpatialZ" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.dimensions.DimensionNames.Time">
+<span class="sig-name descname"><span class="pre">Time</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'T'</span></em><a class="headerlink" href="#bioio_base.dimensions.DimensionNames.Time" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.dimensions.Dimensions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.dimensions.</span></span><span class="sig-name descname"><span class="pre">Dimensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/dimensions.html#Dimensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.dimensions.Dimensions" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A general object for managing the pairing of dimension name and dimension size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dims: Union[str, Iterable]</strong></dt><dd><p>An ordered string or iterable of the dimensions to pair with their sizes.</p>
+</dd>
+<dt><strong>shape: Tuple[int, …]</strong></dt><dd><p>An ordered tuple of the dimensions sizes to pair with their names.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dims</span> <span class="o">=</span> <span class="n">Dimensions</span><span class="p">(</span><span class="s2">&quot;TCZYX&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">624</span><span class="p">,</span> <span class="mi">924</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>
+<span class="gp">... </span><span class="n">dims</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.dimensions.Dimensions.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ItemsView</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/dimensions.html#Dimensions.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.dimensions.Dimensions.items" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.dimensions.Dimensions.order">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio_base.dimensions.Dimensions.order" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>order: str</dt><dd><p>The natural order of the dimensions as a single string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.dimensions.Dimensions.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.dimensions.Dimensions.shape" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>shape: Tuple[int, …]</dt><dd><p>The dimension sizes in their natural order.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-bioio_base.exceptions">
+<span id="bioio-base-exceptions-module"></span><h2>bioio_base.exceptions module<a class="headerlink" href="#module-bioio_base.exceptions" title="Permalink to this heading">#</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="bioio_base.exceptions.ConflictingArgumentsError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConflictingArgumentsError</span></span><a class="reference internal" href="_modules/bioio_base/exceptions.html#ConflictingArgumentsError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.exceptions.ConflictingArgumentsError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>This exception is returned when two or more arguments to the
+same function are in conflict.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="bioio_base.exceptions.InvalidDimensionOrderingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidDimensionOrderingError</span></span><a class="reference internal" href="_modules/bioio_base/exceptions.html#InvalidDimensionOrderingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.exceptions.InvalidDimensionOrderingError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>A general exception that can be thrown when handling dimension ordering or
+validation. Should be provided with a message for the user to be given more context.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="bioio_base.exceptions.UnexpectedShapeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnexpectedShapeError</span></span><a class="reference internal" href="_modules/bioio_base/exceptions.html#UnexpectedShapeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.exceptions.UnexpectedShapeError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>A general exception that can be thrown when handling shape validation.
+Should be provided with a message for the user to be given more context.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="bioio_base.exceptions.UnsupportedFileFormatError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnsupportedFileFormatError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_extra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/exceptions.html#UnsupportedFileFormatError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.exceptions.UnsupportedFileFormatError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>This exception is intended to communicate that the file extension is not one of
+the supported file types and cannot be parsed with AICSImage.</p>
+</dd></dl>
+
+</section>
+<section id="bioio-base-image-container-module">
+<h2>bioio_base.image_container module<a class="headerlink" href="#bioio-base-image-container-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-bioio_base.io">
+<span id="bioio-base-io-module"></span><h2>bioio_base.io module<a class="headerlink" href="#module-bioio_base.io" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.io.pathlike_to_fs">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.io.</span></span><span class="sig-name descname"><span class="pre">pathlike_to_fs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enforce_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">AbstractFileSystem</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/io.html#pathlike_to_fs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.io.pathlike_to_fs" title="Permalink to this definition">#</a></dt>
+<dd><p>Find and return the appropriate filesystem and path from a path-like object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>uri: PathLike</strong></dt><dd><p>The local or remote path or uri.</p>
+</dd>
+<dt><strong>enforce_exists: bool</strong></dt><dd><p>Check whether or not the resource exists, if not, raise FileNotFoundError.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>fs: AbstractFileSystem</dt><dd><p>The filesystem to operate on.</p>
+</dd>
+<dt>path: str</dt><dd><p>The full path to the target resource.</p>
+</dd>
+<dt>fs_kwargs: Dict[str, Any]</dt><dd><p>Any specific keyword arguments to pass down to the fsspec created filesystem.
+Default: {}</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>FileNotFoundError</dt><dd><p>If enforce_exists is provided value True and the resource is not found or is
+unavailable.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="bioio-base-reader-module">
+<h2>bioio_base.reader module<a class="headerlink" href="#bioio-base-reader-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="bioio-base-reader-metadata-module">
+<h2>bioio_base.reader_metadata module<a class="headerlink" href="#bioio-base-reader-metadata-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="bioio-base-test-utilities-module">
+<h2>bioio_base.test_utilities module<a class="headerlink" href="#bioio-base-test-utilities-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="bioio-base-transforms-module">
+<h2>bioio_base.transforms module<a class="headerlink" href="#bioio-base-transforms-module" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-bioio_base.types">
+<span id="bioio-base-types-module"></span><h2>bioio_base.types module<a class="headerlink" href="#module-bioio_base.types" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">PhysicalPixelSizes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#PhysicalPixelSizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Create new instance of PhysicalPixelSizes(Z, Y, X)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes.X" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes.Y">
+<span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes.Y" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes.Z" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-bioio_base">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-bioio_base" title="Permalink to this heading">#</a></h2>
+<p>Top-level package for bioio_base.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="contributing.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Contributing</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="modules.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">bioio_base</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">bioio_base package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-bioio_base.constants">bioio_base.constants module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.dimensions">bioio_base.dimensions module</a><ul>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames"><code class="docutils literal notranslate"><span class="pre">DimensionNames</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.Channel"><code class="docutils literal notranslate"><span class="pre">DimensionNames.Channel</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.MosaicTile"><code class="docutils literal notranslate"><span class="pre">DimensionNames.MosaicTile</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.Samples"><code class="docutils literal notranslate"><span class="pre">DimensionNames.Samples</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.SpatialX"><code class="docutils literal notranslate"><span class="pre">DimensionNames.SpatialX</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.SpatialY"><code class="docutils literal notranslate"><span class="pre">DimensionNames.SpatialY</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.SpatialZ"><code class="docutils literal notranslate"><span class="pre">DimensionNames.SpatialZ</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.DimensionNames.Time"><code class="docutils literal notranslate"><span class="pre">DimensionNames.Time</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio_base.dimensions.Dimensions"><code class="docutils literal notranslate"><span class="pre">Dimensions</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.dimensions.Dimensions.items"><code class="docutils literal notranslate"><span class="pre">Dimensions.items()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.Dimensions.order"><code class="docutils literal notranslate"><span class="pre">Dimensions.order</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.dimensions.Dimensions.shape"><code class="docutils literal notranslate"><span class="pre">Dimensions.shape</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bioio_base.exceptions">bioio_base.exceptions module</a><ul>
+<li><a class="reference internal" href="#bioio_base.exceptions.ConflictingArgumentsError"><code class="docutils literal notranslate"><span class="pre">ConflictingArgumentsError</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.exceptions.InvalidDimensionOrderingError"><code class="docutils literal notranslate"><span class="pre">InvalidDimensionOrderingError</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.exceptions.UnexpectedShapeError"><code class="docutils literal notranslate"><span class="pre">UnexpectedShapeError</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.exceptions.UnsupportedFileFormatError"><code class="docutils literal notranslate"><span class="pre">UnsupportedFileFormatError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio-base-image-container-module">bioio_base.image_container module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.io">bioio_base.io module</a><ul>
+<li><a class="reference internal" href="#bioio_base.io.pathlike_to_fs"><code class="docutils literal notranslate"><span class="pre">pathlike_to_fs()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio-base-reader-module">bioio_base.reader module</a></li>
+<li><a class="reference internal" href="#bioio-base-reader-metadata-module">bioio_base.reader_metadata module</a></li>
+<li><a class="reference internal" href="#bioio-base-test-utilities-module">bioio_base.test_utilities module</a></li>
+<li><a class="reference internal" href="#bioio-base-transforms-module">bioio_base.transforms module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.types">bioio_base.types module</a><ul>
+<li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.X"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.X</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.Y"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.Y</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.Z"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.Z</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bioio_base">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    </body>
+</html>

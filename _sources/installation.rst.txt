@@ -8,13 +8,13 @@ Installation
 Stable release
 --------------
 
-To install bioio-types, run this command in your terminal:
+To install bioio-base, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install bioio-types
+    $ pip install bioio-base
 
-This is the preferred method to install bioio-types, as it will always install the most recent stable release.
+This is the preferred method to install bioio-base, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -26,19 +26,19 @@ you through the process.
 From sources
 ------------
 
-The sources for bioio-types can be downloaded from the `Github repo`_.
+The sources for bioio-base can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/bioio-devs/bioio-types
+    $ git clone git://github.com/bioio-devs/bioio-base
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/bioio-devs/bioio-types/tarball/main
+    $ curl  -OL https://github.com/bioio-devs/bioio-base/tarball/main
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/bioio-devs/bioio-types
-.. _tarball: https://github.com/bioio-devs/bioio-types/tarball/main
+.. _Github repo: https://github.com/bioio-devs/bioio-base
+.. _tarball: https://github.com/bioio-devs/bioio-base/tarball/main
