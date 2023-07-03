@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="bioio_base" href="modules.html" />
 
     <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+gceaa0b5 documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+gc5e5a32 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gceaa0b5 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gc5e5a32 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gceaa0b5 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gc5e5a32 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -339,8 +339,94 @@ the supported file types and cannot be parsed with AICSImage.</p>
 </dd></dl>
 
 </section>
-<section id="bioio-base-image-container-module">
-<h2>bioio_base.image_container module<a class="headerlink" href="#bioio-base-image-container-module" title="Permalink to this heading">#</a></h2>
+<section id="module-bioio_base.image_container">
+<span id="bioio-base-image-container-module"></span><h2>bioio_base.image_container module<a class="headerlink" href="#module-bioio_base.image_container" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.image_container.</span></span><span class="sig-name descname"><span class="pre">ImageContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.image_container.ImageContainer" title="bioio_base.image_container.ImageContainer"><span class="pre">ImageContainer</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/image_container.html#ImageContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.image_container.ImageContainer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.channel_names">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.channel_names" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.current_scene">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_scene</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.current_scene" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.current_scene_index">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_scene_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.current_scene_index" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.dask_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">da.Array</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.dask_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.dims">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.dimensions.Dimensions" title="bioio_base.dimensions.Dimensions"><span class="pre">Dimensions</span></a></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.dims" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.dtype">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.dtype</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.dtype" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.get_image_dask_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_image_dask_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension_order_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">da.Array</span></span></span><a class="reference internal" href="_modules/bioio_base/image_container.html#ImageContainer.get_image_dask_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.image_container.ImageContainer.get_image_dask_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.get_image_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_image_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension_order_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="_modules/bioio_base/image_container.html#ImageContainer.get_image_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.image_container.ImageContainer.get_image_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.metadata">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.metadata" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.physical_pixel_sizes">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">physical_pixel_sizes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes" title="bioio_base.types.PhysicalPixelSizes"><span class="pre">PhysicalPixelSizes</span></a></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.physical_pixel_sizes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.scenes">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scenes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.scenes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.set_scene">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scene_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/image_container.html#ImageContainer.set_scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.image_container.ImageContainer.set_scene" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.shape">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.shape" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.xarray_dask_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xarray_dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.xarray_dask_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.xarray_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xarray_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.xarray_data" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-bioio_base.io">
 <span id="bioio-base-io-module"></span><h2>bioio_base.io module<a class="headerlink" href="#module-bioio_base.io" title="Permalink to this heading">#</a></h2>
@@ -379,17 +465,868 @@ unavailable.</p>
 </dd></dl>
 
 </section>
-<section id="bioio-base-reader-module">
-<h2>bioio_base.reader module<a class="headerlink" href="#bioio-base-reader-module" title="Permalink to this heading">#</a></h2>
+<section id="module-bioio_base.reader">
+<span id="bioio-base-reader-module"></span><h2>bioio_base.reader module<a class="headerlink" href="#module-bioio_base.reader" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.reader.</span></span><span class="sig-name descname"><span class="pre">Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bioio_base.image_container.ImageContainer" title="bioio_base.image_container.ImageContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageContainer</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>A small class to build standardized image reader objects that deal with the raw
+image and metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image: Any</strong></dt><dd><p>Some type of object to read and follow the Reader specification.</p>
+</dd>
+<dt><strong>fs_kwargs: Dict[str, Any]</strong></dt><dd><p>Any specific keyword arguments to pass down to the fsspec created filesystem.
+Default: {}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>It is up to the implementer of the Reader to decide which types they would like to
+accept (certain readers may not support buffers for example).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.channel_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.reader.Reader.channel_names" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>channel_names: List[str]</dt><dd><p>Using available metadata, the list of strings representing channel names.
+If no channel dimension present in the data, returns None.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.current_scene">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_scene</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio_base.reader.Reader.current_scene" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>scene: str</dt><dd><p>The current operating scene.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.current_scene_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_scene_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bioio_base.reader.Reader.current_scene_index" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>scene_index: int</dt><dd><p>The current operating scene index in the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.dask_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">da.Array</span></em><a class="headerlink" href="#bioio_base.reader.Reader.dask_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dask_data: da.Array</dt><dd><p>The image as a dask array with the native dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>data: np.ndarray</dt><dd><p>The image as a numpy array with native dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.dims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.dimensions.Dimensions" title="bioio_base.dimensions.Dimensions"><span class="pre">Dimensions</span></a></em><a class="headerlink" href="#bioio_base.reader.Reader.dims" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dims: Dimensions</dt><dd><p>Object with the paired dimension names and their sizes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.dtype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.dtype</span></em><a class="headerlink" href="#bioio_base.reader.Reader.dtype" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dtype: np.dtype</dt><dd><p>Data-type of the image array’s elements.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_dask_stack">
+<span class="sig-name descname"><span class="pre">get_dask_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">da.Array</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_dask_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_dask_stack" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all scenes stacked in to a single array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>stack: da.Array</dt><dd><p>The fully stacked array. This can be 6+ dimensions with Scene being
+the first dimension.</p>
+</dd>
+<dt>kwargs: Any</dt><dd><p>Extra keyword arguments that will be passed down to the
+generate stack function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">aicsimageio.transforms.generate_stack</span></code></dt><dd><p>Underlying function for generating various scene stacks.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_image_dask_data">
+<span class="sig-name descname"><span class="pre">get_image_dask_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension_order_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">da.Array</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_image_dask_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_image_dask_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Get specific dimension image data out of an image as a dask array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dimension_order_out: Optional[str]</strong></dt><dd><p>A string containing the dimension ordering desired for the returned ndarray.
+Default: The natural image dimension order.</p>
+</dd>
+<dt><strong>kwargs: Any</strong></dt><dd><ul class="simple">
+<li><p>C=1: specifies Channel 1</p></li>
+<li><p>T=3: specifies the fourth index in T</p></li>
+<li><p>D=n: D is Dimension letter and n is the index desired. D should not be
+present in the dimension_order_out.</p></li>
+<li><p>D=[a, b, c]: D is Dimension letter and a, b, c is the list of indices
+desired. D should be present in the dimension_order_out.</p></li>
+<li><p>D=(a, b, c): D is Dimension letter and a, b, c is the tuple of indices
+desired. D should be present in the dimension_order_out.</p></li>
+<li><p>D=range(…): D is Dimension letter and range is the standard Python
+range function. D should be present in the dimension_order_out.</p></li>
+<li><p>D=slice(…): D is Dimension letter and slice is the standard Python
+slice function. D should be present in the dimension_order_out.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>data: da.Array</dt><dd><p>The image data with the specified dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If a requested dimension is not present in the data the dimension is
+added with a depth of 1.</p>
+<p>See <cite>aicsimageio.transforms.reshape_data</cite> for more details.</p>
+<p class="rubric">Examples</p>
+<p>Specific index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>List of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Tuple of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Range of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Slice selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_image_data">
+<span class="sig-name descname"><span class="pre">get_image_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimension_order_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_image_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_image_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Read the image as a numpy array then return specific dimension image data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dimension_order_out: Optional[str]</strong></dt><dd><p>A string containing the dimension ordering desired for the returned ndarray.
+Default: The natural image dimension order.</p>
+</dd>
+<dt><strong>kwargs: Any</strong></dt><dd><ul class="simple">
+<li><p>C=1: specifies Channel 1</p></li>
+<li><p>T=3: specifies the fourth index in T</p></li>
+<li><p>D=n: D is Dimension letter and n is the index desired. D should not be
+present in the dimension_order_out.</p></li>
+<li><p>D=[a, b, c]: D is Dimension letter and a, b, c is the list of indices
+desired. D should be present in the dimension_order_out.</p></li>
+<li><p>D=(a, b, c): D is Dimension letter and a, b, c is the tuple of indices
+desired. D should be present in the dimension_order_out.</p></li>
+<li><p>D=range(…): D is Dimension letter and range is the standard Python
+range function. D should be present in the dimension_order_out.</p></li>
+<li><p>D=slice(…): D is Dimension letter and slice is the standard Python
+slice function. D should be present in the dimension_order_out.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>data: np.ndarray</dt><dd><p>The image data with the specified dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If a requested dimension is not present in the data the dimension is
+added with a depth of 1.</p></li>
+<li><p>This will preload the entire image before returning the requested data.</p></li>
+</ul>
+<p>See <cite>aicsimageio.transforms.reshape_data</cite> for more details.</p>
+<p class="rubric">Examples</p>
+<p>Specific index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>List of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Tuple of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Range of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Slice selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_mosaic_tile_position">
+<span class="sig-name descname"><span class="pre">get_mosaic_tile_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mosaic_tile_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_mosaic_tile_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_mosaic_tile_position" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the absolute position of the top left point for a single mosaic tile.
+Returns None if the image is not a mosaic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mosaic_tile_index: int</strong></dt><dd><p>The index for the mosaic tile to retrieve position information for.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>top: int</dt><dd><p>The Y coordinate for the tile position.</p>
+</dd>
+<dt>left: int</dt><dd><p>The X coordinate for the tile position.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>UnexpectedShapeError</dt><dd><p>The image has no mosaic dimension available.</p>
+</dd>
+<dt>IndexError</dt><dd><p>No matching mosaic tile index found.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_stack">
+<span class="sig-name descname"><span class="pre">get_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_stack" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all scenes stacked in to a single array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>stack: np.ndarray</dt><dd><p>The fully stacked array. This can be 6+ dimensions with Scene being
+the first dimension.</p>
+</dd>
+<dt>kwargs: Any</dt><dd><p>Extra keyword arguments that will be passed down to the
+generate stack function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">aicsimageio.transforms.generate_stack</span></code></dt><dd><p>Underlying function for generating various scene stacks.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_xarray_dask_stack">
+<span class="sig-name descname"><span class="pre">get_xarray_dask_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.DataArray</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_xarray_dask_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_xarray_dask_stack" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all scenes stacked in to a single array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>stack: xr.DataArray</dt><dd><p>The fully stacked array. This can be 6+ dimensions with Scene being
+the first dimension.</p>
+</dd>
+<dt>kwargs: Any</dt><dd><p>Extra keyword arguments that will be passed down to the
+generate stack function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">aicsimageio.transforms.generate_stack</span></code></dt><dd><p>Underlying function for generating various scene stacks.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>When requesting an xarray stack, the first scene’s coordinate planes
+are used for the returned xarray DataArray object coordinate planes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.get_xarray_stack">
+<span class="sig-name descname"><span class="pre">get_xarray_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xr.DataArray</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.get_xarray_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.get_xarray_stack" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all scenes stacked in to a single array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>stack: xr.DataArray</dt><dd><p>The fully stacked array. This can be 6+ dimensions with Scene being
+the first dimension.</p>
+</dd>
+<dt>kwargs: Any</dt><dd><p>Extra keyword arguments that will be passed down to the
+generate stack function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">aicsimageio.transforms.generate_stack</span></code></dt><dd><p>Underlying function for generating various scene stacks.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>When requesting an xarray stack, the first scene’s coordinate planes
+are used for the returned xarray DataArray object coordinate planes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.is_supported_image">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_supported_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.is_supported_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.is_supported_image" title="Permalink to this definition">#</a></dt>
+<dd><p>Asserts that the provided image like object is supported by the current Reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image: types.ImageLike</strong></dt><dd><p>The filepath or array to validate as a supported type.</p>
+</dd>
+<dt><strong>fs_kwargs: Dict[str, Any]</strong></dt><dd><p>Any specific keyword arguments to pass down to the fsspec created
+filesystem.
+Default: {}</p>
+</dd>
+<dt><strong>kwargs: Any</strong></dt><dd><p>Any kwargs used for reading and validation of the file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>supported: bool</dt><dd><p>Boolean indicated if the provided data is or is not supported by the
+current Reader.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>TypeError</dt><dd><p>Invalid type provided to image parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#bioio_base.reader.Reader.metadata" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt>metadata: Any</dt><dd><p>The metadata for the formats supported by the inhereting Reader.</p>
+<p>If the inheriting Reader supports processing the metadata into a more useful
+format / Python object, this will return the result.</p>
+<p>For both the unprocessed and processed metadata from the file, use
+<cite>xarray_dask_data.attrs</cite> which will contain a dictionary with keys:
+<cite>unprocessed</cite> and <cite>processed</cite> that you can then select.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.mosaic_dask_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mosaic_dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">da.Array</span></em><a class="headerlink" href="#bioio_base.reader.Reader.mosaic_dask_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dask_data: da.Array</dt><dd><p>The stitched together mosaic image as a dask array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>InvalidDimensionOrderingError</dt><dd><p>No MosaicTile dimension available to reader.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Each reader can implement mosaic tile stitching differently but it is common
+that each tile is a dask array chunk.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.mosaic_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mosaic_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">np.ndarray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.mosaic_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>data: np.ndarray</dt><dd><p>The stitched together mosaic image as a numpy array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>InvalidDimensionOrderingError</dt><dd><p>No MosaicTile dimension available to reader.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Very large images should use <cite>mosaic_dask_data</cite> to avoid seg-faults.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.mosaic_tile_dims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mosaic_tile_dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.dimensions.Dimensions" title="bioio_base.dimensions.Dimensions"><span class="pre">Dimensions</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.reader.Reader.mosaic_tile_dims" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>tile_dims: Optional[Dimensions]</dt><dd><p>The dimensions for each tile in the mosaic image.
+If the image is not a mosaic image, returns None.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.mosaic_xarray_dask_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mosaic_xarray_dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.mosaic_xarray_dask_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>xarray_dask_data: xr.DataArray</dt><dd><p>The delayed mosaic image and metadata as an annotated data array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>InvalidDimensionOrderingError</dt><dd><p>No MosaicTile dimension available to reader.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Each reader can implement mosaic tile stitching differently but it is common
+that each tile is a dask array chunk.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.mosaic_xarray_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mosaic_xarray_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.mosaic_xarray_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>xarray_dask_data: xr.DataArray</dt><dd><p>The in-memory mosaic image and metadata as an annotated data array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>InvalidDimensionOrderingError</dt><dd><p>No MosaicTile dimension available to reader.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Very large images should use <cite>mosaic_xarray_dask_data</cite> to avoid seg-faults.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.ome_metadata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ome_metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OME</span></em><a class="headerlink" href="#bioio_base.reader.Reader.ome_metadata" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>metadata: OME</dt><dd><p>The original metadata transformed into the OME specfication.
+This likely isn’t a complete transformation but is guarenteed to
+be a valid transformation.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>NotImplementedError</dt><dd><p>No metadata transformer available.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.physical_pixel_sizes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">physical_pixel_sizes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes" title="bioio_base.types.PhysicalPixelSizes"><span class="pre">PhysicalPixelSizes</span></a></em><a class="headerlink" href="#bioio_base.reader.Reader.physical_pixel_sizes" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>sizes: PhysicalPixelSizes</dt><dd><p>Using available metadata, the floats representing physical pixel sizes for
+dimensions Z, Y, and X.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>We currently do not handle unit attachment to these values. Please see the file
+metadata for unit information.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.scenes">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scenes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.reader.Reader.scenes" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>scenes: Tuple[str, …]</dt><dd><p>A tuple of valid scene ids in the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Scene IDs are strings - not a range of integers.</p>
+<p>When iterating over scenes please use:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">scenes</span>
+</pre></div>
+</div>
+<p>and not:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.set_scene">
+<span class="sig-name descname"><span class="pre">set_scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scene_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/reader.html#Reader.set_scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader.Reader.set_scene" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the operating scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>scene_id: Union[str, int]</strong></dt><dd><p>The scene id (if string) or scene index (if integer)
+to set as the operating scene.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>IndexError</dt><dd><p>The provided scene id or index is not found in the available scene id list.</p>
+</dd>
+<dt>TypeError</dt><dd><p>The provided value wasn’t a string (scene id) or integer (scene index).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.reader.Reader.shape" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>shape: Tuple[int, …]</dt><dd><p>Tuple of the image array’s dimensions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.xarray_dask_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xarray_dask_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.xarray_dask_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>xarray_dask_data: xr.DataArray</dt><dd><p>The delayed image and metadata as an annotated data array.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.xarray_data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xarray_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">xr.DataArray</span></em><a class="headerlink" href="#bioio_base.reader.Reader.xarray_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>xarray_data: xr.DataArray</dt><dd><p>The fully read image and metadata as an annotated data array.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="bioio-base-reader-metadata-module">
-<h2>bioio_base.reader_metadata module<a class="headerlink" href="#bioio-base-reader-metadata-module" title="Permalink to this heading">#</a></h2>
+<section id="module-bioio_base.reader_metadata">
+<span id="bioio-base-reader-metadata-module"></span><h2>bioio_base.reader_metadata module<a class="headerlink" href="#module-bioio_base.reader_metadata" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.reader_metadata.ReaderMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.reader_metadata.</span></span><span class="sig-name descname"><span class="pre">ReaderMetadata</span></span><a class="reference internal" href="_modules/bioio_base/reader_metadata.html#ReaderMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader_metadata.ReaderMetadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader_metadata.ReaderMetadata.get_reader">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a></span></span><a class="reference internal" href="_modules/bioio_base/reader_metadata.html#ReaderMetadata.get_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader_metadata.ReaderMetadata.get_reader" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.reader_metadata.ReaderMetadata.get_supported_extensions">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/reader_metadata.html#ReaderMetadata.get_supported_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.reader_metadata.ReaderMetadata.get_supported_extensions" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="bioio-base-test-utilities-module">
 <h2>bioio_base.test_utilities module<a class="headerlink" href="#bioio-base-test-utilities-module" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="bioio-base-transforms-module">
-<h2>bioio_base.transforms module<a class="headerlink" href="#bioio-base-transforms-module" title="Permalink to this heading">#</a></h2>
+<section id="module-bioio_base.transforms">
+<span id="bioio-base-transforms-module"></span><h2>bioio_base.transforms module<a class="headerlink" href="#module-bioio_base.transforms" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.transforms.generate_stack">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">generate_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.image_container.ImageContainer" title="bioio_base.image_container.ImageContainer"><span class="pre">ImageContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dask_data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xarray_data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xarray_dask_data'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_non_matching_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_character</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'I'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_coord_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'index'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'names'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'index'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#generate_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.generate_stack" title="Permalink to this definition">#</a></dt>
+<dd><p>Stack each scene contained in the reader into a
+single array. This method handles the logic of determining which
+stack function to use (dask or numpy) and whether or not to return a
+labelled array (xr.DataArray). Users should prefer
+to use one of get_stack, get_dask_stack, get_xarray_stack, or
+get_xarray_dask_stack.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>mode: Literal[“data”, “dask_data”, “xarray_data”, “xarray_dask_data”]</strong></dt><dd><p>String describing the style of data to return. Should be one of:
+“data”, “dask_data”, “xarray_data”, “xarray_dask_data”.</p>
+</dd>
+<dt><strong>drop_non_matching_scenes: bool</strong></dt><dd><p>During the scene iteration process, if the next scene to be added
+to the stack has different shape or dtype, should it be dropped or
+raise an error.  Default: False (raise an error)</p>
+</dd>
+<dt><strong>select_scenes: Optional[</strong></dt><dd><blockquote>
+<div><p>Union[List[Union[str, int]], Tuple[Union[str, int], …]]]</p>
+</div></blockquote>
+<p>Which scenes to stack into a single array. Scenes can be provided
+as a list or tuple of scene indices or names. It is recommended to
+use the scene integer index instead of the scene name to avoid
+duplicate scene name lookup issues.
+Default: None (stack all scenes)</p>
+</dd>
+<dt><strong>scene_character: str</strong></dt><dd><p>Character to use as the name of the scene dimension on the output
+array. Default “I”</p>
+</dd>
+<dt><strong>scene_coord_values: Literal[“index”, “names”]</strong></dt><dd><p>How to assign coordinates to the scene dimension of the final
+array. If scene_coord_values=”names” use the scene name from
+the reader object. If scene_coord_values=”index” don’t attach any
+coordinates and fall back to integer values.
+Default: “index”</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>stack: types.MetaArrayLike</dt><dd><p>The fully stacked array. This can be 6+ dimensions with Scene being
+the first dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.transforms.reshape_data">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">reshape_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#reshape_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.reshape_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Reshape the data into return_dims, pad missing dimensions, and prune extra
+dimensions. Warns the user to use the base reader if the depth of the Dimension
+being removed is not 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data: types.ArrayLike</strong></dt><dd><p>Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions
+specified in given_dims</p>
+</dd>
+<dt><strong>given_dims: str</strong></dt><dd><p>The dimension ordering of data, “CZYX”, “VBTCXZY” etc</p>
+</dd>
+<dt><strong>return_dims: str</strong></dt><dd><p>The dimension ordering of the return data</p>
+</dd>
+<dt><strong>kwargs:</strong></dt><dd><ul class="simple">
+<li><p>C=1 =&gt; desired specific channel, if C in the input data has depth 3 then C=1
+returns the 2nd slice (0 indexed)</p></li>
+<li><p>Z=10 =&gt; desired specific channel, if Z in the input data has depth 20 then
+Z=10 returns the 11th slice</p></li>
+<li><p>T=[0, 1] =&gt; desired specific timepoints, if T in the input data has depth 100
+then T=[0, 1] returns the 1st and 2nd slice (0 indexed)</p></li>
+<li><p>T=(0, 1) =&gt; desired specific timepoints, if T in the input data has depth 100
+then T=(0, 1) returns the 1st and 2nd slice (0 indexed)</p></li>
+<li><p>T=(0, -1) =&gt; desired specific timepoints, if T in the input data has depth 100
+then T=(0, -1) returns the first and last slice</p></li>
+<li><p>T=range(10) =&gt; desired specific timepoints, if T in the input data has depth
+100 then T=range(10) returns the first ten slices</p></li>
+<li><p>T=slice(0, -1, 5) =&gt; desired specific timepoints, T=slice(0, -1, 5) returns
+every fifth timepoint</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>data: types.ArrayLike</dt><dd><p>The data with the specified dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ConflictingArgumentsError</dt><dd><p>Missing dimension in return dims when using range, slice, or multi-index
+dimension selection for the requested dimension.</p>
+</dd>
+<dt>IndexError</dt><dd><p>Requested dimension index not present in data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Specific index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">z1</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>List of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Tuple of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Range of index selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Slice selection</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Empty dimension expansion</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">with_time</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;TZYX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Dimension order shuffle</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">as_zx_base</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YZX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Selections, empty dimension expansions, and dimension order shuffle</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">example</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;CYX&quot;</span><span class="p">,</span> <span class="s2">&quot;BSTCZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.transforms.transpose_to_dims">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">transpose_to_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#transpose_to_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.transpose_to_dims" title="Permalink to this definition">#</a></dt>
+<dd><p>This shuffles the data dimensions from given_dims to return_dims. Each dimension
+must be present in given_dims must be used in return_dims</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data: types.ArrayLike</strong></dt><dd><p>Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions
+specified in given_dims</p>
+</dd>
+<dt><strong>given_dims: str</strong></dt><dd><p>The dimension ordering of data, “CZYX”, “VBTCXZY” etc</p>
+</dd>
+<dt><strong>return_dims: str</strong></dt><dd><p>The dimension ordering of the return data</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>data: types.ArrayLike</dt><dd><p>The data with the specified dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ConflictingArgumentsError</dt><dd><p>given_dims and return_dims are incompatible.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-bioio_base.types">
 <span id="bioio-base-types-module"></span><h2>bioio_base.types module<a class="headerlink" href="#module-bioio_base.types" title="Permalink to this heading">#</a></h2>
@@ -509,15 +1446,81 @@ unavailable.</p>
 <li><a class="reference internal" href="#bioio_base.exceptions.UnsupportedFileFormatError"><code class="docutils literal notranslate"><span class="pre">UnsupportedFileFormatError</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bioio-base-image-container-module">bioio_base.image_container module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.image_container">bioio_base.image_container module</a><ul>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer"><code class="docutils literal notranslate"><span class="pre">ImageContainer</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.channel_names"><code class="docutils literal notranslate"><span class="pre">ImageContainer.channel_names</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.current_scene"><code class="docutils literal notranslate"><span class="pre">ImageContainer.current_scene</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.current_scene_index"><code class="docutils literal notranslate"><span class="pre">ImageContainer.current_scene_index</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dask_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dims"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dims</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dtype"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dtype</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.get_image_dask_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.get_image_dask_data()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.get_image_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.get_image_data()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.metadata"><code class="docutils literal notranslate"><span class="pre">ImageContainer.metadata</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">ImageContainer.physical_pixel_sizes</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.scenes"><code class="docutils literal notranslate"><span class="pre">ImageContainer.scenes</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.set_scene"><code class="docutils literal notranslate"><span class="pre">ImageContainer.set_scene()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.shape"><code class="docutils literal notranslate"><span class="pre">ImageContainer.shape</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.xarray_dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.xarray_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.xarray_data</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-bioio_base.io">bioio_base.io module</a><ul>
 <li><a class="reference internal" href="#bioio_base.io.pathlike_to_fs"><code class="docutils literal notranslate"><span class="pre">pathlike_to_fs()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bioio-base-reader-module">bioio_base.reader module</a></li>
-<li><a class="reference internal" href="#bioio-base-reader-metadata-module">bioio_base.reader_metadata module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.reader">bioio_base.reader module</a><ul>
+<li><a class="reference internal" href="#bioio_base.reader.Reader"><code class="docutils literal notranslate"><span class="pre">Reader</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.channel_names"><code class="docutils literal notranslate"><span class="pre">Reader.channel_names</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.current_scene"><code class="docutils literal notranslate"><span class="pre">Reader.current_scene</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.current_scene_index"><code class="docutils literal notranslate"><span class="pre">Reader.current_scene_index</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.data"><code class="docutils literal notranslate"><span class="pre">Reader.data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.dims"><code class="docutils literal notranslate"><span class="pre">Reader.dims</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.dtype"><code class="docutils literal notranslate"><span class="pre">Reader.dtype</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_dask_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_dask_stack()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_image_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.get_image_dask_data()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_image_data"><code class="docutils literal notranslate"><span class="pre">Reader.get_image_data()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_mosaic_tile_position"><code class="docutils literal notranslate"><span class="pre">Reader.get_mosaic_tile_position()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_stack()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_xarray_dask_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_xarray_dask_stack()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.get_xarray_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_xarray_stack()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.is_supported_image"><code class="docutils literal notranslate"><span class="pre">Reader.is_supported_image()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.metadata"><code class="docutils literal notranslate"><span class="pre">Reader.metadata</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_tile_dims"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_tile_dims</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_xarray_dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_xarray_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_xarray_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.ome_metadata"><code class="docutils literal notranslate"><span class="pre">Reader.ome_metadata</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">Reader.physical_pixel_sizes</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.scenes"><code class="docutils literal notranslate"><span class="pre">Reader.scenes</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.set_scene"><code class="docutils literal notranslate"><span class="pre">Reader.set_scene()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.shape"><code class="docutils literal notranslate"><span class="pre">Reader.shape</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.xarray_dask_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.xarray_data"><code class="docutils literal notranslate"><span class="pre">Reader.xarray_data</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-bioio_base.reader_metadata">bioio_base.reader_metadata module</a><ul>
+<li><a class="reference internal" href="#bioio_base.reader_metadata.ReaderMetadata"><code class="docutils literal notranslate"><span class="pre">ReaderMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.reader_metadata.ReaderMetadata.get_reader"><code class="docutils literal notranslate"><span class="pre">ReaderMetadata.get_reader()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader_metadata.ReaderMetadata.get_supported_extensions"><code class="docutils literal notranslate"><span class="pre">ReaderMetadata.get_supported_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bioio-base-test-utilities-module">bioio_base.test_utilities module</a></li>
-<li><a class="reference internal" href="#bioio-base-transforms-module">bioio_base.transforms module</a></li>
+<li><a class="reference internal" href="#module-bioio_base.transforms">bioio_base.transforms module</a><ul>
+<li><a class="reference internal" href="#bioio_base.transforms.generate_stack"><code class="docutils literal notranslate"><span class="pre">generate_stack()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.transforms.reshape_data"><code class="docutils literal notranslate"><span class="pre">reshape_data()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.transforms.transpose_to_dims"><code class="docutils literal notranslate"><span class="pre">transpose_to_dims()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-bioio_base.types">bioio_base.types module</a><ul>
 <li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes</span></code></a><ul>
 <li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.X"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.X</span></code></a></li>
