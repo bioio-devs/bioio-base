@@ -3,13 +3,10 @@
 
 from typing import Optional
 
-###############################################################################
-
 
 class ConflictingArgumentsError(Exception):
     """
-    This exception is returned when two or more arguments to the
-    same function are in conflict.
+    This exception is returned when 2 arguments to the same function are in conflict.
     """
 
 

@@ -3,18 +3,18 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-if TYPE_CHECKING:
-    import dask.array as da
-    import numpy as np
-    import xarray as xr
-    from fsspec.spec import AbstractFileSystem
-    from ome_types import OME
+import dask.array as da
+import numpy as np
+import xarray as xr
+from fsspec.spec import AbstractFileSystem
+from ome_types import OME
 
-from . import constants, exceptions, io, transforms, types
+from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
+from .io import pathlike_to_fs
 from .types import PhysicalPixelSizes
 
 ###############################################################################
@@ -39,22 +39,22 @@ class Reader(ImageContainer, ABC):
     accept (certain readers may not support buffers for example).
     """
 
-    _xarray_dask_data: Optional["xr.DataArray"] = None
-    _xarray_data: Optional["xr.DataArray"] = None
-    _mosaic_xarray_dask_data: Optional["xr.DataArray"] = None
-    _mosaic_xarray_data: Optional["xr.DataArray"] = None
+    _xarray_dask_data: Optional[xr.DataArray] = None
+    _xarray_data: Optional[xr.DataArray] = None
+    _mosaic_xarray_dask_data: Optional[xr.DataArray] = None
+    _mosaic_xarray_data: Optional[xr.DataArray] = None
     _dims: Optional[Dimensions] = None
     _metadata: Optional[Any] = None
     _scenes: Optional[Tuple[str, ...]] = None
     _current_scene_index: int = 0
     # Do not default because they aren't used by all readers
-    _fs: "AbstractFileSystem"
+    _fs: AbstractFileSystem
     _path: str
 
     @staticmethod
     @abstractmethod
     def _is_supported_image(
-        fs: "AbstractFileSystem",
+        fs: AbstractFileSystem,
         path: str,
         **kwargs: Any,
     ) -> bool:
@@ -112,7 +112,7 @@ class Reader(ImageContainer, ABC):
         # Check path
         if isinstance(image, (str, Path)):
             # Expand details of provided image
-            fs, path = io.pathlike_to_fs(
+            fs, path = pathlike_to_fs(
                 image,
                 enforce_exists=True,
                 fs_kwargs=fs_kwargs,
@@ -245,8 +245,8 @@ class Reader(ImageContainer, ABC):
                 if scene_id >= len(self.scenes):
                     raise IndexError(
                         f"Scene index: {scene_id} "
-                        f"is greater than the number of available scenes "
-                        f"present in the file."
+                        f"is greater than the maximum available scene index "
+                        f"({len(self.scenes) - 1}) present in the file."
                     )
 
                 # Update current scene
@@ -262,7 +262,7 @@ class Reader(ImageContainer, ABC):
             )
 
     @abstractmethod
-    def _read_delayed(self) -> "xr.DataArray":
+    def _read_delayed(self) -> xr.DataArray:
         """
         The delayed data array constructor for the image.
 
@@ -283,7 +283,7 @@ class Reader(ImageContainer, ABC):
         """
 
     @abstractmethod
-    def _read_immediate(self) -> "xr.DataArray":
+    def _read_immediate(self) -> xr.DataArray:
         """
         The immediate data array constructor for the image.
 
@@ -300,7 +300,7 @@ class Reader(ImageContainer, ABC):
         coordinate array the respective channel coordinate values.
         """
 
-    def _get_stitched_dask_mosaic(self) -> "xr.DataArray":
+    def _get_stitched_dask_mosaic(self) -> xr.DataArray:
         """
         Stitch all mosaic tiles back together and return as a single xr.DataArray with
         a delayed dask array for backing data.
@@ -325,7 +325,7 @@ class Reader(ImageContainer, ABC):
             "This reader does not support reconstructing mosaic images."
         )
 
-    def _get_stitched_mosaic(self) -> "xr.DataArray":
+    def _get_stitched_mosaic(self) -> xr.DataArray:
         """
         Stitch all mosaic tiles back together and return as a single xr.DataArray with
         an in-memory numpy array for backing data.
@@ -346,7 +346,7 @@ class Reader(ImageContainer, ABC):
         )
 
     @property
-    def xarray_dask_data(self) -> "xr.DataArray":
+    def xarray_dask_data(self) -> xr.DataArray:
         """
         Returns
         -------
@@ -359,7 +359,7 @@ class Reader(ImageContainer, ABC):
         return self._xarray_dask_data
 
     @property
-    def xarray_data(self) -> "xr.DataArray":
+    def xarray_data(self) -> xr.DataArray:
         """
         Returns
         -------
@@ -381,7 +381,7 @@ class Reader(ImageContainer, ABC):
         return self._xarray_data
 
     @property
-    def dask_data(self) -> "da.Array":
+    def dask_data(self) -> da.Array:
         """
         Returns
         -------
@@ -391,7 +391,7 @@ class Reader(ImageContainer, ABC):
         return self.xarray_dask_data.data
 
     @property
-    def data(self) -> "np.ndarray":
+    def data(self) -> np.ndarray:
         """
         Returns
         -------
@@ -401,7 +401,7 @@ class Reader(ImageContainer, ABC):
         return self.xarray_data.data
 
     @property
-    def mosaic_xarray_dask_data(self) -> "xr.DataArray":
+    def mosaic_xarray_dask_data(self) -> xr.DataArray:
         """
         Returns
         -------
@@ -431,7 +431,7 @@ class Reader(ImageContainer, ABC):
         return self._mosaic_xarray_dask_data
 
     @property
-    def mosaic_xarray_data(self) -> "xr.DataArray":
+    def mosaic_xarray_data(self) -> xr.DataArray:
         """
         Returns
         -------
@@ -460,7 +460,7 @@ class Reader(ImageContainer, ABC):
         return self._mosaic_xarray_data
 
     @property
-    def mosaic_dask_data(self) -> "da.Array":
+    def mosaic_dask_data(self) -> da.Array:
         """
         Returns
         -------
@@ -480,7 +480,7 @@ class Reader(ImageContainer, ABC):
         return self.mosaic_xarray_dask_data.data
 
     @property
-    def mosaic_data(self) -> "np.ndarray":
+    def mosaic_data(self) -> np.ndarray:
         """
         Returns
         -------
@@ -499,7 +499,7 @@ class Reader(ImageContainer, ABC):
         return self.mosaic_xarray_data.data
 
     @property
-    def dtype(self) -> "np.dtype":
+    def dtype(self) -> np.dtype:
         """
         Returns
         -------
@@ -533,7 +533,7 @@ class Reader(ImageContainer, ABC):
 
     def get_image_dask_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any
-    ) -> "da.Array":
+    ) -> da.Array:
         """
         Get specific dimension image data out of an image as a dask array.
 
@@ -610,7 +610,7 @@ class Reader(ImageContainer, ABC):
 
     def get_image_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any
-    ) -> "np.ndarray":
+    ) -> np.ndarray:
         """
         Read the image as a numpy array then return specific dimension image data.
 
@@ -714,7 +714,7 @@ class Reader(ImageContainer, ABC):
         return self._metadata
 
     @property
-    def ome_metadata(self) -> "OME":
+    def ome_metadata(self) -> OME:
         """
         Returns
         -------
@@ -747,7 +747,7 @@ class Reader(ImageContainer, ABC):
     @staticmethod
     def _generate_coord_array(
         start: Union[int, float], stop: Union[int, float], step_size: Union[int, float]
-    ) -> "np.ndarray":
+    ) -> np.ndarray:
         """
         Generate an np.ndarray for coordinate values.
 
@@ -792,16 +792,22 @@ class Reader(ImageContainer, ABC):
         return PhysicalPixelSizes(None, None, None)
 
     def get_mosaic_tile_position(
-        self, mosaic_tile_index: int
-    ) -> Optional[Tuple[int, int]]:
+        self, mosaic_tile_index: int, **kwargs: int
+    ) -> Tuple[int, int]:
         """
         Get the absolute position of the top left point for a single mosaic tile.
-        Returns None if the image is not a mosaic.
 
         Parameters
         ----------
         mosaic_tile_index: int
             The index for the mosaic tile to retrieve position information for.
+        kwargs: int
+            The keywords below allow you to specify the dimensions that you wish
+            to match. If you under-specify the constraints you can easily
+            end up with a massive image stack.
+                       Z = 1   # The Z-dimension.
+                       C = 2   # The C-dimension ("channel").
+                       T = 3   # The T-dimension ("time").
 
         Returns
         -------
@@ -819,6 +825,33 @@ class Reader(ImageContainer, ABC):
         """
         raise NotImplementedError()
 
+    def get_mosaic_tile_positions(self, **kwargs: int) -> List[Tuple[int, int]]:
+        """
+        Get the absolute positions of the top left points for each mosaic tile
+        matching the specified dimensions and current scene.
+
+        Parameters
+        ----------
+        kwargs: int
+            The keywords below allow you to specify the dimensions that you wish
+            to match. If you under-specify the constraints you can easily
+            end up with a massive image stack.
+                       Z = 1   # The Z-dimension.
+                       C = 2   # The C-dimension ("channel").
+                       T = 3   # The T-dimension ("time").
+
+        Returns
+        -------
+        mosaic_tile_positions: List[Tuple[int, int]]
+            List of the Y and X coordinate for the tile positions.
+
+        Raises
+        ------
+        UnexpectedShapeError
+            The image has no mosaic dimension available.
+        """
+        raise NotImplementedError()
+
     @property
     def mosaic_tile_dims(self) -> Optional[Dimensions]:
         """
@@ -829,11 +862,11 @@ class Reader(ImageContainer, ABC):
             If the image is not a mosaic image, returns None.
         """
         if DimensionNames.MosaicTile in self.dims.order:
-            return Dimensions("YX", (self.dims.Y, self.dims.X))  # type: ignore
+            return Dimensions("YX", (self.dims.Y, self.dims.X))
 
         return None
 
-    def get_stack(self, **kwargs: Any) -> "np.ndarray":
+    def get_stack(self, **kwargs: Any) -> np.ndarray:
         """
         Get all scenes stacked in to a single array.
 
@@ -853,7 +886,7 @@ class Reader(ImageContainer, ABC):
         """
         return transforms.generate_stack(self, mode="data", **kwargs)
 
-    def get_dask_stack(self, **kwargs: Any) -> "da.Array":
+    def get_dask_stack(self, **kwargs: Any) -> da.Array:
         """
         Get all scenes stacked in to a single array.
 
@@ -873,7 +906,7 @@ class Reader(ImageContainer, ABC):
         """
         return transforms.generate_stack(self, mode="dask_data", **kwargs)
 
-    def get_xarray_stack(self, **kwargs: Any) -> "xr.DataArray":
+    def get_xarray_stack(self, **kwargs: Any) -> xr.DataArray:
         """
         Get all scenes stacked in to a single array.
 
@@ -899,7 +932,7 @@ class Reader(ImageContainer, ABC):
         """
         return transforms.generate_stack(self, mode="xarray_data", **kwargs)
 
-    def get_xarray_dask_stack(self, **kwargs: Any) -> "xr.DataArray":
+    def get_xarray_dask_stack(self, **kwargs: Any) -> xr.DataArray:
         """
         Get all scenes stacked in to a single array.
 
