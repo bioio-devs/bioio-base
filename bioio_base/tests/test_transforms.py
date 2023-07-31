@@ -10,13 +10,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from bioio_base import types
-from bioio_base.exceptions import ConflictingArgumentsError, UnexpectedShapeError
-from bioio_base.transforms import (
-    reduce_to_slice,
-    reshape_data,
-    transpose_to_dims,
-)
+from bioio_base import exceptions, noop_reader, transforms, types
 
 
 @pytest.mark.parametrize("array_maker", [np.zeros, da.zeros])
@@ -99,7 +93,7 @@ from bioio_base.transforms import (
             "TYXCX",
             {"Z": [0, 1, 4]},
             None,
-            marks=pytest.mark.xfail(raises=ConflictingArgumentsError),
+            marks=pytest.mark.xfail(raises=exceptions.ConflictingArgumentsError),
         ),
         pytest.param(
             (6, 200, 400),
@@ -177,7 +171,7 @@ def test_reshape_data_shape(
 ) -> None:
     data = array_maker(data_shape)
 
-    actual = reshape_data(
+    actual = transforms.reshape_data(
         data=data, given_dims=given_dims, return_dims=return_dims, **other_args
     )
     assert actual.shape == expected_shape
@@ -241,7 +235,9 @@ def test_reshape_data_values(
     idx_out: Tuple[int, ...],
 ) -> None:
     slice_in = data[idx_in]
-    actual = reshape_data(data=data, given_dims=given_dims, return_dims=return_dims)
+    actual = transforms.reshape_data(
+        data=data, given_dims=given_dims, return_dims=return_dims
+    )
 
     # Handle dask vs numpy
     if isinstance(actual, da.core.Array):
@@ -305,7 +301,7 @@ def test_reshape_data_kwargs_values(
     getitem_ops_for_expected: List[int],
     transposer: Tuple[int],
 ) -> None:
-    actual = reshape_data(
+    actual = transforms.reshape_data(
         data=data,
         given_dims=given_dims,
         return_dims=return_dims,
@@ -343,28 +339,28 @@ def test_reshape_data_kwargs_values(
             "ZYX",
             "TYXC",
             None,
-            marks=pytest.mark.xfail(raises=ConflictingArgumentsError),
+            marks=pytest.mark.xfail(raises=exceptions.ConflictingArgumentsError),
         ),
         pytest.param(
             da.zeros((6, 200, 400)),
             "ZYX",
             "TYXC",
             None,
-            marks=pytest.mark.xfail(raises=ConflictingArgumentsError),
+            marks=pytest.mark.xfail(raises=exceptions.ConflictingArgumentsError),
         ),
         pytest.param(
             np.zeros((6, 200, 400)),
             "ZYX",
             "TYXCZ",
             None,
-            marks=pytest.mark.xfail(raises=ConflictingArgumentsError),
+            marks=pytest.mark.xfail(raises=exceptions.ConflictingArgumentsError),
         ),
         pytest.param(
             da.zeros((6, 200, 400)),
             "ZYX",
             "TYXCZ",
             None,
-            marks=pytest.mark.xfail(raises=ConflictingArgumentsError),
+            marks=pytest.mark.xfail(raises=exceptions.ConflictingArgumentsError),
         ),
     ],
 )
@@ -374,7 +370,7 @@ def test_transpose_to_dims(
     return_dims: str,
     expected_shape: Tuple[int, ...],
 ) -> None:
-    actual = transpose_to_dims(
+    actual = transforms.transpose_to_dims(
         data=data, given_dims=given_dims, return_dims=return_dims
     )
     assert actual.shape == expected_shape
@@ -390,7 +386,6 @@ def get_data_reference(
     scene_coord_values: str,
     select_scenes: Optional[tuple[Union[int, str], ...]] = None,
 ) -> tuple[list[types.MetaArrayLike], types.MetaArrayLike]:
-
     # set up the core values for the dataset
     shape = (3, 4, 5, 6, 7, 8)
     scene_name_to_idx = dict(
@@ -425,101 +420,82 @@ def get_data_reference(
     # Assign coords and dims for xarray types
     if "xarray" in mode:
         data = [xr.DataArray(x, dims=list("TCZYX")) for x in data]
-        coords = {"C": [f"Channel:0:{i}" for i in range(shape[2])]}
-        if scene_coord_values == "names":
-            if mismatch == "none":
-                coords[scene_character] = [f"Image:{i}" for i in range(3)]
-            else:
-                coords[scene_character] = [f"Image:{i}" for i in (0, 2)]
-        reference = xr.DataArray(
-            reference, dims=list((scene_character, *"TCZYX")), coords=coords
-        )
+        reference = xr.DataArray(reference, dims=list((scene_character, *"TCZYX")))
 
     return data, reference
 
 
-# @pytest.mark.parametrize(
-#     "mode, scene_character, scene_coord_values",
-#     [
-#         ("data", "I", "index"),
-#         ("data", "U", "names"),
-#         ("dask_data", "I", "index"),
-#         ("xarray_data", "I", "index"),
-#         ("xarray_data", "U", "index"),
-#         ("xarray_data", "U", "names"),
-#         pytest.param(
-#             "xarray_data", "T", "index", marks=pytest.mark.xfail(raises=ValueError)
-#         ),
-#         ("xarray_dask_data", "I", "index"),
-#         ("xarray_dask_data", "U", "index"),
-#         ("xarray_dask_data", "U", "names"),
-#         pytest.param(
-#             "xarray_dask_data",
-#             "T",
-#             "index",
-#             marks=pytest.mark.xfail(raises=ValueError),
-#         ),
-#     ],
-# )
-# def test_generate_stack_stacking(
-#     mode: Literal["data", "dask_data", "xarray_data", "xarray_dask_data"],
-#     scene_character: str,
-#     scene_coord_values: str,
-# ) -> None:
-#     data, reference = get_data_reference(
-#         mode, "none", scene_character, scene_coord_values
-#     )
-#     container = DummyImageContainer(data)
-#     stack = generate_stack(
-#         container, mode, False, None, scene_character, scene_coord_values
-#     )
-#     if "xarray" in mode:
-#         xr.testing.assert_allclose(stack, reference)
-#     else:
-#         np.testing.assert_allclose(stack, reference)
+@pytest.mark.parametrize(
+    "mode, scene_character, scene_coord_values",
+    [
+        ("data", "I", "index"),
+        ("data", "U", "names"),
+        ("dask_data", "I", "index"),
+        ("xarray_data", "I", "index"),
+        ("xarray_data", "U", "index"),
+        pytest.param(
+            "xarray_data", "T", "index", marks=pytest.mark.xfail(raises=ValueError)
+        ),
+        ("xarray_dask_data", "I", "index"),
+        ("xarray_dask_data", "U", "index"),
+        pytest.param(
+            "xarray_dask_data",
+            "T",
+            "index",
+            marks=pytest.mark.xfail(raises=ValueError),
+        ),
+    ],
+)
+def test_generate_stack_stacking(
+    mode: Literal["data", "dask_data", "xarray_data", "xarray_dask_data"],
+    scene_character: str,
+    scene_coord_values: str,
+) -> None:
+    data, reference = get_data_reference(
+        mode, "none", scene_character, scene_coord_values
+    )
+    container = noop_reader.NoopReader(data)
+    stack = transforms.generate_stack(
+        container, mode, False, None, scene_character, scene_coord_values
+    )
+    if "xarray" in mode:
+        xr.testing.assert_allclose(stack, reference)
+    else:
+        np.testing.assert_allclose(stack, reference)
 
 
-# @pytest.mark.parametrize(
-#     "mode", ["data", "xarray_data", "dask_data", "xarray_dask_data"]
-# )
-# @pytest.mark.parametrize(
-#     "mismatch, drop_non_matching_scenes, select_scenes",
-#     [
-#         ("none", True, None),
-#         ("shape", True, None),
-#         ("dtype", True, None),
-#         ("none", False, (0, 2)),
-#         ("shape", False, (0, 2)),
-#         ("dtype", False, (0, 2)),
-#         ("none", False, tuple(f"Image:{i}" for i in [0, 2])),
-#         ("shape", False, tuple(f"Image:{i}" for i in [0, 2])),
-#         ("dtype", False, tuple(f"Image:{i}" for i in [0, 2])),
-#         pytest.param(
-#             "shape",
-#             False,
-#             None,
-#             marks=pytest.mark.xfail(raises=UnexpectedShapeError),
-#         ),
-#         pytest.param("dtype", False, None, marks=pytest.mark.xfail(raises=TypeError)),
-#     ],
-# )
-# def test_generate_stack_mismatch_and_drop(
-#     # Test dropping and catching mismatched images
-#     mode: Literal["data", "dask_data", "xarray_data", "xarray_dask_data"],
-#     mismatch: str,
-#     drop_non_matching_scenes: bool,
-#     select_scenes: Optional[tuple[Union[int, str], ...]],
-# ) -> None:
-#     data, reference = get_data_reference(mode, mismatch, "I", "index", select_scenes)
-#     container = DummyImageContainer(data)
+@pytest.mark.parametrize(
+    "mode", ["data", "xarray_data", "dask_data", "xarray_dask_data"]
+)
+@pytest.mark.parametrize(
+    "mismatch, drop_non_matching_scenes, select_scenes",
+    [
+        ("none", True, None),
+        ("none", False, (0, 2)),
+        ("shape", False, (0, 2)),
+        ("dtype", False, (0, 2)),
+        ("none", False, tuple(f"Image:{i}" for i in [0, 2])),
+        ("shape", False, tuple(f"Image:{i}" for i in [0, 2])),
+        ("dtype", False, tuple(f"Image:{i}" for i in [0, 2])),
+    ],
+)
+def test_generate_stack_mismatch_and_drop(
+    # Test dropping and catching mismatched images
+    mode: Literal["data", "dask_data", "xarray_data", "xarray_dask_data"],
+    mismatch: str,
+    drop_non_matching_scenes: bool,
+    select_scenes: Optional[tuple[Union[int, str], ...]],
+) -> None:
+    data, reference = get_data_reference(mode, mismatch, "I", "index", select_scenes)
+    container = noop_reader.NoopReader(data)
 
-#     stack = generate_stack(
-#         container, mode, drop_non_matching_scenes, select_scenes, "I", "index"
-#     )
-#     if "xarray" in mode:
-#         xr.testing.assert_allclose(stack, reference)
-#     else:
-#         np.testing.assert_allclose(stack, reference)
+    stack = transforms.generate_stack(
+        container, mode, drop_non_matching_scenes, select_scenes, "I", "index"
+    )
+    if "xarray" in mode:
+        xr.testing.assert_allclose(stack, reference)
+    else:
+        np.testing.assert_allclose(stack, reference)
 
 
 @pytest.mark.parametrize(
@@ -543,4 +519,4 @@ def get_data_reference(
 def test_convert_list_to_slice(
     list_to_test: Union[List, Tuple], expected: Union[int, List, slice, Tuple]
 ) -> None:
-    assert reduce_to_slice(list_to_test) == expected
+    assert transforms.reduce_to_slice(list_to_test) == expected
