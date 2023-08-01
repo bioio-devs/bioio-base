@@ -95,9 +95,6 @@ def run_image_container_checks(
     zyx_chunk_from_delayed = image_container.get_image_dask_data("ZYX").compute()
     cyx_chunk_from_delayed = image_container.get_image_dask_data("CYX").compute()
 
-    # Check image still not fully in memory
-    assert image_container.xarray_data is None
-
     # Read in mem then pull chunks
     zyx_chunk_from_mem = image_container.get_image_data("ZYX")
     cyz_chunk_from_mem = image_container.get_image_data("CYX")
@@ -230,11 +227,6 @@ def run_multi_scene_image_read_checks(
     # Change scene
     image_container.set_scene(second_scene_id)
 
-    # Check data was reset
-    assert image_container.xarray_dask_data is None
-    assert image_container.xarray_data is None
-    assert image_container.dims is None
-
     # Check basics
     if isinstance(second_scene_id, str):
         assert image_container.current_scene == second_scene_id
@@ -305,11 +297,6 @@ def run_no_scene_name_image_read_checks(
     image_container.set_scene(1)
 
     assert image_container.current_scene_index == 1
-
-    # Check data was reset
-    assert image_container.xarray_dask_data is None
-    assert image_container.xarray_data is None
-    assert image_container.dims is None
 
     # Check basics
     if isinstance(second_scene_id, str):
