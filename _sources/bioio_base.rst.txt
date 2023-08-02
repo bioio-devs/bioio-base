@@ -44,6 +44,14 @@ bioio\_base.io module
    :undoc-members:
    :show-inheritance:
 
+bioio\_base.noop\_reader module
+-------------------------------
+
+.. automodule:: bioio_base.noop_reader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bioio\_base.reader module
 -------------------------
 

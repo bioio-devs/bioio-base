@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio_base.transforms - bioio-base 0.1.dev1+gc5e5a32 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
+        <title>bioio_base.transforms - bioio-base 0.1.dev1+g8b5f1d2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gc5e5a32 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g8b5f1d2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gc5e5a32 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g8b5f1d2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -202,7 +202,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -213,6 +213,22 @@
 <span class="kn">from</span> <span class="nn">.image_container</span> <span class="kn">import</span> <span class="n">ImageContainer</span>
 
 <span class="c1">###############################################################################</span>
+
+
+<div class="viewcode-block" id="reduce_to_slice"><a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.reduce_to_slice">[docs]</a><span class="k">def</span> <span class="nf">reduce_to_slice</span><span class="p">(</span><span class="n">L</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">]:</span>
+    <span class="c1"># if the list only has one element, then just use it</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># if the list has at least 2 elements we can check for sliceable</span>
+    <span class="c1"># it is convertable to a slice if the step size between each</span>
+    <span class="c1"># consecutive pair of elements is equal and positive</span>
+    <span class="c1"># 1. get all the deltas in a list:</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="c1"># 2. check if all the deltas are equal and positive</span>
+    <span class="k">if</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">steps</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># if we can&#39;t convert to a slice, then just return the list unmodified</span>
+    <span class="k">return</span> <span class="n">L</span></div>
 
 
 <div class="viewcode-block" id="transpose_to_dims"><a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.transpose_to_dims">[docs]</a><span class="k">def</span> <span class="nf">transpose_to_dims</span><span class="p">(</span>
@@ -355,17 +371,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check for parameter conflicts</span>
     <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-        <span class="c1"># return_dims=&#39;TCZYX&#39; and fixed dimensions &#39;C=1&#39;</span>
-        <span class="c1"># Dimension is in kwargs</span>
-        <span class="c1"># Dimension is an integer</span>
-        <span class="c1"># Dimension is in return dimensions</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;When selecting a single dimension index, the specified dimension can &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;not be provided in return_dims. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
         <span class="c1"># return_dims=&#39;CZYX&#39; and iterable dimensions &#39;T=range(10)&#39;</span>
         <span class="c1"># Dimension is in kwargs</span>
         <span class="c1"># Dimension is an iterable</span>
@@ -387,7 +392,7 @@
         <span class="c1"># Store index of the dim as it is in given data</span>
         <span class="n">dim_index</span> <span class="o">=</span> <span class="n">given_dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
 
-        <span class="c1"># Handle dim in return dims which means that it is</span>
+        <span class="c1"># Handle dim in return_dims which means that it is</span>
         <span class="c1"># an iterable or None selection</span>
         <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
             <span class="c1"># Specific iterable requested</span>
@@ -396,6 +401,9 @@
                 <span class="c1"># The specification provided for this dimension in the kwargs</span>
                 <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
                 <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">dim_spec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
                 <span class="c1"># Convert operator to standard list or slice</span>
                 <span class="c1"># dask.Array and numpy.ndarray both natively support</span>
@@ -407,6 +415,8 @@
                 <span class="c1"># Get the largest absolute value index in the list using min and max</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)),</span> <span class="nb">max</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)])</span>
+                    <span class="c1"># try to convert to slice if possible</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">reduce_to_slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
 
                 <span class="c1"># Get the largest absolute value index from start and stop of slice</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
@@ -419,7 +429,7 @@
                 <span class="c1"># No op means that it doesn&#39;t matter how much data is in this dimension</span>
                 <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># Not in given dims means that it is a fixed integer selection</span>
+        <span class="c1"># Not in return_dims means that it is a fixed integer selection</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                 <span class="c1"># Integer requested</span>
@@ -471,7 +481,7 @@
         <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">scene_character</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
-    <span class="n">scene_coord_values</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="s2">&quot;names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+    <span class="n">scene_coord_values</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">MetaArrayLike</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stack each scene contained in the reader into a</span>
@@ -500,7 +510,7 @@
 <span class="sd">    scene_character: str</span>
 <span class="sd">        Character to use as the name of the scene dimension on the output</span>
 <span class="sd">        array. Default &quot;I&quot;</span>
-<span class="sd">    scene_coord_values: Literal[&quot;index&quot;, &quot;names&quot;]</span>
+<span class="sd">    scene_coord_values : str</span>
 <span class="sd">        How to assign coordinates to the scene dimension of the final</span>
 <span class="sd">        array. If scene_coord_values=&quot;names&quot; use the scene name from</span>
 <span class="sd">        the reader object. If scene_coord_values=&quot;index&quot; don&#39;t attach any</span>
@@ -620,11 +630,11 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=322462d9"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
     </body>
 </html>

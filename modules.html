@@ -5,12 +5,12 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio_base package" href="bioio_base.html" /><link rel="prev" title="Installation" href="installation.html" />
 
-    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio_base - bioio-base 0.1.dev1+gc5e5a32 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
+        <title>bioio_base - bioio-base 0.1.dev1+g8b5f1d2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
 
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gc5e5a32 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g8b5f1d2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gc5e5a32 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g8b5f1d2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -257,6 +257,13 @@
 <li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.io.pathlike_to_fs"><code class="docutils literal notranslate"><span class="pre">pathlike_to_fs()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="bioio_base.html#module-bioio_base.noop_reader">bioio_base.noop_reader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.noop_reader.NoopReader"><code class="docutils literal notranslate"><span class="pre">NoopReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.noop_reader.NoopReader.scenes"><code class="docutils literal notranslate"><span class="pre">NoopReader.scenes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="bioio_base.html#module-bioio_base.reader">bioio_base.reader module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader"><code class="docutils literal notranslate"><span class="pre">Reader</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.channel_names"><code class="docutils literal notranslate"><span class="pre">Reader.channel_names</span></code></a></li>
@@ -270,6 +277,7 @@
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_image_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.get_image_dask_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_image_data"><code class="docutils literal notranslate"><span class="pre">Reader.get_image_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_mosaic_tile_position"><code class="docutils literal notranslate"><span class="pre">Reader.get_mosaic_tile_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_mosaic_tile_positions"><code class="docutils literal notranslate"><span class="pre">Reader.get_mosaic_tile_positions()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_stack()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_xarray_dask_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_xarray_dask_stack()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio_base.html#bioio_base.reader.Reader.get_xarray_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_xarray_stack()</span></code></a></li>
@@ -299,9 +307,19 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="bioio_base.html#bioio-base-test-utilities-module">bioio_base.test_utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioio_base.html#module-bioio_base.test_utilities">bioio_base.test_utilities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.check_can_serialize_image_container"><code class="docutils literal notranslate"><span class="pre">check_can_serialize_image_container()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.check_local_file_not_open"><code class="docutils literal notranslate"><span class="pre">check_local_file_not_open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.run_image_container_checks"><code class="docutils literal notranslate"><span class="pre">run_image_container_checks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.run_image_file_checks"><code class="docutils literal notranslate"><span class="pre">run_image_file_checks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.run_multi_scene_image_read_checks"><code class="docutils literal notranslate"><span class="pre">run_multi_scene_image_read_checks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.run_no_scene_name_image_read_checks"><code class="docutils literal notranslate"><span class="pre">run_no_scene_name_image_read_checks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.test_utilities.run_reader_mosaic_checks"><code class="docutils literal notranslate"><span class="pre">run_reader_mosaic_checks()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="bioio_base.html#module-bioio_base.transforms">bioio_base.transforms module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.transforms.generate_stack"><code class="docutils literal notranslate"><span class="pre">generate_stack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.transforms.reduce_to_slice"><code class="docutils literal notranslate"><span class="pre">reduce_to_slice()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.transforms.reshape_data"><code class="docutils literal notranslate"><span class="pre">reshape_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="bioio_base.html#bioio_base.transforms.transpose_to_dims"><code class="docutils literal notranslate"><span class="pre">transpose_to_dims()</span></code></a></li>
 </ul>
@@ -371,11 +389,11 @@
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=322462d9"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=30646c52"></script>
     </body>
 </html>
