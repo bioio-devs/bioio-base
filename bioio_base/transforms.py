@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from typing import Any, Literal, Optional, Union
+from typing import Any, List, Literal, Optional, Tuple, Union
 
 import dask.array as da
 import numpy as np
@@ -14,6 +14,22 @@ from .exceptions import ConflictingArgumentsError, UnexpectedShapeError
 from .image_container import ImageContainer
 
 ###############################################################################
+
+
+def reduce_to_slice(L: Union[List, Tuple]) -> Union[int, List, slice, Tuple]:
+    # if the list only has one element, then just use it
+    if len(L) == 1:
+        return slice(L[0], L[0] + 1)
+    # if the list has at least 2 elements we can check for sliceable
+    # it is convertable to a slice if the step size between each
+    # consecutive pair of elements is equal and positive
+    # 1. get all the deltas in a list:
+    steps = [(L[i + 1] - L[i]) for i in range(len(L) - 1)]
+    # 2. check if all the deltas are equal and positive
+    if steps[0] > 0 and steps.count(steps[0]) == len(steps):
+        return slice(min(L), max(L) + 1, steps[0])
+    # if we can't convert to a slice, then just return the list unmodified
+    return L
 
 
 def transpose_to_dims(
@@ -156,17 +172,6 @@ def reshape_data(
     """
     # Check for parameter conflicts
     for dim in given_dims:
-        # return_dims='TCZYX' and fixed dimensions 'C=1'
-        # Dimension is in kwargs
-        # Dimension is an integer
-        # Dimension is in return dimensions
-        if isinstance(kwargs.get(dim), int) and dim in return_dims:
-            raise ConflictingArgumentsError(
-                f"When selecting a single dimension index, the specified dimension can "
-                f"not be provided in return_dims. "
-                f"return_dims={return_dims}, dimension {dim} = {kwargs.get(dim)}"
-            )
-
         # return_dims='CZYX' and iterable dimensions 'T=range(10)'
         # Dimension is in kwargs
         # Dimension is an iterable
@@ -188,7 +193,7 @@ def reshape_data(
         # Store index of the dim as it is in given data
         dim_index = given_dims.index(dim)
 
-        # Handle dim in return dims which means that it is
+        # Handle dim in return_dims which means that it is
         # an iterable or None selection
         if dim in return_dims:
             # Specific iterable requested
@@ -197,6 +202,9 @@ def reshape_data(
                 # The specification provided for this dimension in the kwargs
                 dim_spec = kwargs.get(dim)
                 display_dim_spec = dim_spec
+
+                if isinstance(dim_spec, int):
+                    dim_spec = slice(dim_spec, dim_spec + 1)
 
                 # Convert operator to standard list or slice
                 # dask.Array and numpy.ndarray both natively support
@@ -208,6 +216,8 @@ def reshape_data(
                 # Get the largest absolute value index in the list using min and max
                 if isinstance(dim_spec, list):
                     check_selection_max = max([abs(min(dim_spec)), max(dim_spec)])
+                    # try to convert to slice if possible
+                    dim_spec = reduce_to_slice(dim_spec)
 
                 # Get the largest absolute value index from start and stop of slice
                 if isinstance(dim_spec, slice):
@@ -220,7 +230,7 @@ def reshape_data(
                 # No op means that it doesn't matter how much data is in this dimension
                 check_selection_max = 0
 
-        # Not in given dims means that it is a fixed integer selection
+        # Not in return_dims means that it is a fixed integer selection
         else:
             if dim in kwargs:
                 # Integer requested
@@ -272,7 +282,7 @@ def generate_stack(
         Union[list[Union[str, int]], tuple[Union[str, int], ...]]
     ] = None,
     scene_character: str = "I",
-    scene_coord_values: Literal["index", "names"] = "index",
+    scene_coord_values: str = "index",
 ) -> types.MetaArrayLike:
     """
     Stack each scene contained in the reader into a
@@ -301,7 +311,7 @@ def generate_stack(
     scene_character: str
         Character to use as the name of the scene dimension on the output
         array. Default "I"
-    scene_coord_values: Literal["index", "names"]
+    scene_coord_values : str
         How to assign coordinates to the scene dimension of the final
         array. If scene_coord_values="names" use the scene name from
         the reader object. If scene_coord_values="index" don't attach any

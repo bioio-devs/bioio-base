@@ -16,11 +16,13 @@ Docs: https://docs.pytest.org/en/latest/example/simple.html
       https://docs.pytest.org/en/latest/plugins.html#requiring-loading-plugins-in-a-test-module-or-conftest-file
 """
 
-from pathlib import Path
+import pathlib
 
 import pytest
 
 
 @pytest.fixture
-def data_dir() -> Path:
-    return Path(__file__).parent / "data"
+def sample_text_file(tmp_path: pathlib.Path) -> pathlib.Path:
+    example_file = tmp_path / "temp-example.txt"
+    example_file.write_text("just some example text here")
+    return example_file
