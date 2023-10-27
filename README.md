@@ -1,7 +1,7 @@
 # bioio-base
 
-[![Build Status](https://github.com/bioio-devs/bioio-base/workflows/CI/badge.svg)](https://github.com/bioio-devs/bioio-base/actions)
-[![Documentation](https://github.com/bioio-devs/bioio-base/workflows/Documentation/badge.svg)](https://bioio-devs.github.io/bioio-base)
+[![Build Status](https://github.com/bioio-devs/bioio-base/actions/workflows/ci.yml/badge.svg)](https://github.com/bioio-devs/bioio-base/actions)
+[![Documentation](https://github.com/bioio-devs/bioio-base/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio-base)
 
 Typing, base classes, and more for BioIO projects.
 
