@@ -47,6 +47,7 @@ class Reader(ImageContainer, ABC):
     _metadata: Optional[Any] = None
     _scenes: Optional[Tuple[str, ...]] = None
     _current_scene_index: int = 0
+    _current_resolution_level: int = 0
     # Do not default because they aren't used by all readers
     _fs: AbstractFileSystem
     _path: str
@@ -194,6 +195,16 @@ class Reader(ImageContainer, ABC):
         """
         return self._current_scene_index
 
+    @property
+    def current_resolution_level(self) -> int:
+        """
+        Returns
+        -------
+        resolution_level: int
+            The current resolution level.
+        """
+        return self._current_resolution_level
+
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
         self._xarray_dask_data = None
@@ -260,6 +271,31 @@ class Reader(ImageContainer, ABC):
                 f"Must provide either a string (for scene id) "
                 f"or integer (for scene index). Provided: {scene_id} ({type(scene_id)}."
             )
+
+    def set_resolution_level(self, resolution_level: int) -> None:
+        """
+        Set the resolution level.
+
+        Note: Does not check if the resolution level is valid since
+        the resolution level is not required for all the
+        readers that inherit this method.
+
+        Parameters
+        ----------
+        resolution_level: int
+            The resolution level to access the image at.
+
+        Raises
+        ------
+        TypeError
+            The provided value wasn't an integer.
+        """
+        if not isinstance(resolution_level, int):
+            raise TypeError(
+                f"Must provide either an integer for resolution level "
+                f". Provided: {resolution_level} ({type(resolution_level)}."
+            )
+        self._current_resolution_level = resolution_level
 
     @abstractmethod
     def _read_delayed(self) -> xr.DataArray:
