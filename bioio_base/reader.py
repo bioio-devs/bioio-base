@@ -196,6 +196,16 @@ class Reader(ImageContainer, ABC):
         return self._current_scene_index
 
     @property
+    def resolution_levels(self) -> Tuple[int, ...]:
+        """
+        Returns
+        -------
+        resolution_levels: Tuple[int, ...]
+            A tuple of valid resolution levels in the file.
+        """
+        return (self._current_resolution_level,)
+
+    @property
     def current_resolution_level(self) -> int:
         """
         Returns
@@ -276,10 +286,6 @@ class Reader(ImageContainer, ABC):
         """
         Set the resolution level.
 
-        Note: Does not check if the resolution level is valid since
-        the resolution level is not required for all the
-        readers that inherit this method.
-
         Parameters
         ----------
         resolution_level: int
@@ -290,11 +296,23 @@ class Reader(ImageContainer, ABC):
         TypeError
             The provided value wasn't an integer.
         """
+        # Ensure typing
         if not isinstance(resolution_level, int):
             raise TypeError(
                 f"Must provide either an integer for resolution level "
                 f". Provided: {resolution_level} ({type(resolution_level)}."
             )
+
+        # Validate resolution level
+        if resolution_level not in self.resolution_levels:
+            raise IndexError(
+                f"Resolution level: '{resolution_level}' "
+                "is not present in available image resolution levels: "
+                f"{self.resolution_levels}. Readers are not required by `bioio-base` "
+                "to support resolution levels and therefore may not have any "
+                "available besides the default of 0."
+            )
+
         self._current_resolution_level = resolution_level
 
     @abstractmethod
