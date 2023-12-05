@@ -293,16 +293,10 @@ class Reader(ImageContainer, ABC):
 
         Raises
         ------
-        TypeError
-            The provided value wasn't an integer.
+        IndexError
+            The provided resolution level is not found in the
+            available resolution level list.
         """
-        # Ensure typing
-        if not isinstance(resolution_level, int):
-            raise TypeError(
-                f"Must provide either an integer for resolution level "
-                f". Provided: {resolution_level} ({type(resolution_level)}."
-            )
-
         # Validate resolution level
         if resolution_level not in self.resolution_levels:
             raise IndexError(
