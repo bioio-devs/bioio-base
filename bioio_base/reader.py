@@ -200,8 +200,10 @@ class Reader(ImageContainer, ABC):
         """
         Returns
         -------
-        resolution_levels: Tuple[int, ...]
-            A tuple of valid resolution levels in the file.
+        resolution_levels: Tuple[str, ...]
+            Return the available resolution levels for the current scene.
+            By default these are ordered from highest resolution to lowest
+            resolution.
         """
         return (self._current_resolution_level,)
 
