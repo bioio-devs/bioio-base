@@ -46,6 +46,20 @@ class ImageContainer(ABC):
 
     @property
     @abstractmethod
+    def resolution_levels(self) -> Tuple[int, ...]:
+        pass
+
+    @property
+    @abstractmethod
+    def current_resolution_level(self) -> int:
+        pass
+
+    @abstractmethod
+    def set_resolution_level(self, resolution_level: int) -> None:
+        pass
+
+    @property
+    @abstractmethod
     def xarray_dask_data(self) -> xr.DataArray:
         pass
 

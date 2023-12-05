@@ -67,6 +67,9 @@ def run_image_container_checks(
         Optional[float], Optional[float], Optional[float]
     ],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
+    set_resolution_level: int = 0,
+    expected_current_resolution_level: int = 0,
+    expected_resolution_levels: Tuple[int, ...] = (0,),
 ) -> ImageContainer:
     """
     A general suite of tests to run against readers.
@@ -81,6 +84,13 @@ def run_image_container_checks(
     # Check scene info
     assert image_container.scenes == expected_scenes
     assert image_container.current_scene == expected_current_scene
+
+    # Set resolution level
+    image_container.set_resolution_level(set_resolution_level)
+
+    # Check resolution level info
+    assert image_container.resolution_levels == expected_resolution_levels
+    assert image_container.current_resolution_level == expected_current_resolution_level
 
     # Check basics
     assert image_container.shape == expected_shape
@@ -158,6 +168,9 @@ def run_image_file_checks(
         Optional[float], Optional[float], Optional[float]
     ],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
+    set_resolution_level: int = 0,
+    expected_current_resolution_level: int = 0,
+    expected_resolution_levels: Tuple[int, ...] = (0,),
 ) -> ImageContainer:
     # Init container
     image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
@@ -169,8 +182,11 @@ def run_image_file_checks(
     run_image_container_checks(
         image_container=image_container,
         set_scene=set_scene,
+        set_resolution_level=set_resolution_level,
         expected_scenes=expected_scenes,
         expected_current_scene=expected_current_scene,
+        expected_resolution_levels=expected_resolution_levels,
+        expected_current_resolution_level=expected_current_resolution_level,
         expected_shape=expected_shape,
         expected_dtype=expected_dtype,
         expected_dims_order=expected_dims_order,
