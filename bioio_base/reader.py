@@ -47,6 +47,7 @@ class Reader(ImageContainer, ABC):
     _metadata: Optional[Any] = None
     _scenes: Optional[Tuple[str, ...]] = None
     _current_scene_index: int = 0
+    _current_resolution_level: int = 0
     # Do not default because they aren't used by all readers
     _fs: AbstractFileSystem
     _path: str
@@ -194,6 +195,28 @@ class Reader(ImageContainer, ABC):
         """
         return self._current_scene_index
 
+    @property
+    def resolution_levels(self) -> Tuple[int, ...]:
+        """
+        Returns
+        -------
+        resolution_levels: Tuple[str, ...]
+            Return the available resolution levels for the current scene.
+            By default these are ordered from highest resolution to lowest
+            resolution.
+        """
+        return (self._current_resolution_level,)
+
+    @property
+    def current_resolution_level(self) -> int:
+        """
+        Returns
+        -------
+        resolution_level: int
+            The current resolution level.
+        """
+        return self._current_resolution_level
+
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
         self._xarray_dask_data = None
@@ -260,6 +283,33 @@ class Reader(ImageContainer, ABC):
                 f"Must provide either a string (for scene id) "
                 f"or integer (for scene index). Provided: {scene_id} ({type(scene_id)}."
             )
+
+    def set_resolution_level(self, resolution_level: int) -> None:
+        """
+        Set the resolution level.
+
+        Parameters
+        ----------
+        resolution_level: int
+            The resolution level to access the image at.
+
+        Raises
+        ------
+        IndexError
+            The provided resolution level is not found in the
+            available resolution level list.
+        """
+        # Validate resolution level
+        if resolution_level not in self.resolution_levels:
+            raise IndexError(
+                f"Resolution level: '{resolution_level}' "
+                "is not present in available image resolution levels: "
+                f"{self.resolution_levels}. Readers are not required by `bioio-base` "
+                "to support resolution levels and therefore may not have any "
+                "available besides the default of 0."
+            )
+
+        self._current_resolution_level = resolution_level
 
     @abstractmethod
     def _read_delayed(self) -> xr.DataArray:
