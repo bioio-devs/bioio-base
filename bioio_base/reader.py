@@ -115,7 +115,8 @@ class Reader(ImageContainer, ABC):
             # Expand details of provided image
             fs, path = pathlike_to_fs(
                 image,
-                enforce_exists=True,
+                # ZARRs accessed via https will fail the enforce_exists check
+                enforce_exists=False,
                 fs_kwargs=fs_kwargs,
             )
 
