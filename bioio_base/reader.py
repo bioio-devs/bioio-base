@@ -309,10 +309,11 @@ class Reader(ImageContainer, ABC):
                 "available besides the default of 0."
             )
 
-        self._current_resolution_level = resolution_level
-        # Reset self for future read
-        # Note that this resets metadata as well.
-        self._reset_self()
+        if resolution_level != self._current_resolution_level:
+            self._current_resolution_level = resolution_level
+            # Reset self for future read
+            # Note that this resets metadata as well.
+            self._reset_self()
 
     @abstractmethod
     def _read_delayed(self) -> xr.DataArray:
