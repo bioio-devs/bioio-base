@@ -240,7 +240,7 @@ def reshape_data(
 
                 # Check that integer
                 if not isinstance(dim_spec, Integral):
-                    raise ValueError(f"Dimensions not in output must be integers. Got {type(dim_spec).__name__} for {dim}.")
+                    raise TypeError(f"Dimensions not in output must be integers. Got {type(dim_spec).__name__} for {dim}.")
                 check_selection_max = dim_spec
             else:
                 dim_spec = 0
