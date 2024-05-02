@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from numbers import Integral
 from typing import Any, List, Literal, Optional, Tuple, Union
 
 import dask.array as da
@@ -238,6 +239,11 @@ def reshape_data(
                 display_dim_spec = dim_spec
 
                 # Check that integer
+                if not isinstance(dim_spec, Integral):
+                    raise TypeError(
+                        "Dimensions not in output must be integers. "
+                        f"Got {type(dim_spec).__name__} for {dim}."
+                    )
                 check_selection_max = dim_spec
             else:
                 dim_spec = 0
