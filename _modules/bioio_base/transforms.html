@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2024.01.29 -->
-        <title>bioio_base.transforms - bioio-base 0.1.dev1+g4260089 documentation</title>
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>bioio_base.transforms - bioio-base 0.1.dev1+gb95435e documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -112,6 +112,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -123,7 +125,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g4260089 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gb95435e documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +148,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g4260089 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gb95435e documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -195,13 +197,14 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <h1>Source code for bioio_base.transforms</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Integral</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
@@ -445,6 +448,11 @@
                 <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
 
                 <span class="c1"># Check that integer</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s2">&quot;Dimensions not in output must be integers. &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
                 <span class="n">check_selection_max</span> <span class="o">=</span> <span class="n">dim_spec</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">dim_spec</span> <span class="o">=</span> <span class="mi">0</span>
@@ -642,10 +650,10 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ca59af22"></script>
+</div><script src="../../_static/documentation_options.js?v=03be3aa8"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=30646c52"></script>
     </body>
