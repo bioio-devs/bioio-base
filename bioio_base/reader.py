@@ -222,7 +222,7 @@ class Reader(ImageContainer, ABC):
         """
         Returns
         -------
-        resolution_level_dims: Dict[int, Tuple[int]]
+        resolution_level_dims: Dict[int, Tuple[int, ...]]
             resolution level dictionary of shapes.
         """
         return {self._current_resolution_level: self.shape}
