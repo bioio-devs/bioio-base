@@ -217,6 +217,16 @@ class Reader(ImageContainer, ABC):
         """
         return self._current_resolution_level
 
+    @property
+    def resolution_level_dims(self) -> Dict[int, Tuple[int, ...]]:
+        """
+        Returns
+        -------
+        resolution_level_dims: Dict[int, Tuple[int]]
+            resolution level dictionary of shapes.
+        """
+        return {self._current_resolution_level: self.shape}
+
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
         self._xarray_dask_data = None
