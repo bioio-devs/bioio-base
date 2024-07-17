@@ -48,6 +48,7 @@ class Reader(ImageContainer, ABC):
     _scenes: Optional[Tuple[str, ...]] = None
     _current_scene_index: int = 0
     _current_resolution_level: int = 0
+    _resolution_level_dict: Optional[Dict[int, Tuple[int, ...]]] = None
     # Do not default because they aren't used by all readers
     _fs: AbstractFileSystem
     _path: str
@@ -225,7 +226,17 @@ class Reader(ImageContainer, ABC):
         resolution_level_dims: Dict[int, Tuple[int, ...]]
             resolution level dictionary of shapes.
         """
-        return {self._current_resolution_level: self.shape}
+        if self._resolution_level_dict is None:
+            initial_resoluiton_level = self.current_resolution_level
+            resolution_level_dict = {}
+
+            for level in self.resolution_levels:
+                self.set_resolution_level(level)
+                resolution_level_dict[level] = self.shape
+            self._resolution_level_dict = resolution_level_dict
+            self.set_resolution_level(initial_resoluiton_level)
+
+        return self._resolution_level_dict
 
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
