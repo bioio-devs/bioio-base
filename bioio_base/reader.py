@@ -225,7 +225,7 @@ class Reader(ImageContainer, ABC):
         resolution_level_dims: Dict[int, Tuple[int, ...]]
             resolution level dictionary of shapes.
         """
-        initial_resoluiton_level = self.current_resolution_level
+        initial_resolution_level = self.current_resolution_level
         resolution_level_dims = {}
 
         for level in self.resolution_levels:
