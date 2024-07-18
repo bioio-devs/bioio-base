@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.07.18 -->
-        <title>bioio_base.reader - bioio-base 0.1.dev1+g568ada3 documentation</title>
+        <title>bioio_base.reader - bioio-base 0.1.dev1+g9ff0a17 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=613ab9ff" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g568ada3 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g9ff0a17 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g568ada3 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g9ff0a17 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -294,7 +294,6 @@
     <span class="n">_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_current_scene_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">_current_resolution_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">_resolution_level_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># Do not default because they aren&#39;t used by all readers</span>
     <span class="n">_fs</span><span class="p">:</span> <span class="n">AbstractFileSystem</span>
     <span class="n">_path</span><span class="p">:</span> <span class="nb">str</span>
@@ -475,17 +474,15 @@
 <span class="sd">        resolution_level_dims: Dict[int, Tuple[int, ...]]</span>
 <span class="sd">            resolution level dictionary of shapes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution_level_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">initial_resoluiton_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_resolution_level</span>
-            <span class="n">resolution_level_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">initial_resolution_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_resolution_level</span>
+        <span class="n">resolution_level_dims</span> <span class="o">=</span> <span class="p">{}</span>
 
-            <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_resolution_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-                <span class="n">resolution_level_dict</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_resolution_level_dict</span> <span class="o">=</span> <span class="n">resolution_level_dict</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_resolution_level</span><span class="p">(</span><span class="n">initial_resoluiton_level</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_resolution_level</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+            <span class="n">resolution_level_dims</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_resolution_level</span><span class="p">(</span><span class="n">initial_resolution_level</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution_level_dict</span>
+        <span class="k">return</span> <span class="n">resolution_level_dims</span>
 
     <span class="k">def</span> <span class="nf">_reset_self</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Reset the data stored in the Reader object</span>
@@ -495,7 +492,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_mosaic_xarray_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_resolution_level_dict</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Reader.set_scene">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.reader.Reader.set_scene">[docs]</a>
@@ -1353,7 +1349,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=35433270"></script>
+</div><script src="../../_static/documentation_options.js?v=078db3bc"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
