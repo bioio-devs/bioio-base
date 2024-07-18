@@ -231,7 +231,7 @@ class Reader(ImageContainer, ABC):
         for level in self.resolution_levels:
             self.set_resolution_level(level)
             resolution_level_dims[level] = self.shape
-        self.set_resolution_level(initial_resoluiton_level)
+        self.set_resolution_level(initial_resolution_level)
 
         return resolution_level_dims
 
