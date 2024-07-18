@@ -246,6 +246,7 @@ class Reader(ImageContainer, ABC):
         self._mosaic_xarray_data = None
         self._dims = None
         self._metadata = None
+        self._resolution_level_dict = None
 
     def set_scene(self, scene_id: Union[str, int]) -> None:
         """
