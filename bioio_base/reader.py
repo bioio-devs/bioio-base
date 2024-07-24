@@ -15,7 +15,7 @@ from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
-from .types import PhysicalPixelSizes
+from .types import PhysicalPixelSizes, TimeInterval
 
 ###############################################################################
 
@@ -862,6 +862,22 @@ class Reader(ImageContainer, ABC):
         metadata for unit information.
         """
         return PhysicalPixelSizes(None, None, None)
+
+    @property
+    def time_interval(self) -> TimeInterval:
+        """
+        Returns
+        -------
+        sizes: Time Interval
+            Using available metadata, the floats representing time interval sizes for
+            dimension T.
+
+        Notes
+        -----
+        We currently do not handle unit attachment to these values. Please see the file
+        metadata for unit information.
+        """
+        return TimeInterval(None)
 
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int
