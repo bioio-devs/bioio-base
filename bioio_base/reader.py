@@ -868,9 +868,9 @@ class Reader(ImageContainer, ABC):
         """
         Returns
         -------
-        sizes: PhysicalPixelSizes
-            Using available metadata, the floats representing physical pixel sizes for
-            dimensions Z, Y, and X.
+        sizes: Time Interval
+            Using available metadata, the floats representing time interval sizes for
+            dimension T.
 
         Notes
         -----
