@@ -24,3 +24,7 @@ class PhysicalPixelSizes(NamedTuple):
     Z: Optional[float]
     Y: Optional[float]
     X: Optional[float]
+
+
+class TimeInterval(NamedTuple):
+    T: Optional[float]
