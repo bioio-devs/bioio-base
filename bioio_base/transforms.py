@@ -77,7 +77,7 @@ def transpose_to_dims(
     transposer = []
     for dim in return_dims:
         transposer.append(match_map[dim])
-    data = data.transpose(transposer)
+    data = data.transpose(tuple(transposer))
 
     return data
 
