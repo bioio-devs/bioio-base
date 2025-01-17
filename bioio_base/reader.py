@@ -45,6 +45,7 @@ class Reader(ImageContainer, ABC):
     _mosaic_xarray_data: Optional[xr.DataArray] = None
     _dims: Optional[Dimensions] = None
     _metadata: Optional[Any] = None
+    _physical_pixel_sizes: Optional[PhysicalPixelSizes] = None
     _scenes: Optional[Tuple[str, ...]] = None
     _current_scene_index: int = 0
     _current_resolution_level: int = 0
@@ -243,6 +244,7 @@ class Reader(ImageContainer, ABC):
         self._mosaic_xarray_data = None
         self._dims = None
         self._metadata = None
+        self._physical_pixel_sizes = None
 
     def set_scene(self, scene_id: Union[str, int]) -> None:
         """
