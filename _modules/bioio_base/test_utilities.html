@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.test_utilities - bioio-base 0.1.dev1+g1efab18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+        <title>bioio_base.test_utilities - bioio-base 0.1.dev1+g2318991 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g1efab18 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g2318991 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g1efab18 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g2318991 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -245,24 +245,24 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">distributed.protocol</span> <span class="kn">import</span> <span class="n">deserialize</span><span class="p">,</span> <span class="n">serialize</span>
-<span class="kn">from</span> <span class="nn">fsspec.implementations.local</span> <span class="kn">import</span> <span class="n">LocalFileSystem</span>
-<span class="kn">from</span> <span class="nn">psutil</span> <span class="kn">import</span> <span class="n">Process</span>
-<span class="kn">from</span> <span class="nn">xarray.testing</span> <span class="kn">import</span> <span class="n">assert_equal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">distributed.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialize</span><span class="p">,</span> <span class="n">serialize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fsspec.implementations.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalFileSystem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">psutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">Process</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarray.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_equal</span>
 
-<span class="kn">from</span> <span class="nn">.image_container</span> <span class="kn">import</span> <span class="n">ImageContainer</span>
-<span class="kn">from</span> <span class="nn">.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
-<span class="kn">from</span> <span class="nn">.types</span> <span class="kn">import</span> <span class="n">PathLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.image_container</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageContainer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathLike</span>
 
 <span class="c1">###############################################################################</span>
 
 
 <div class="viewcode-block" id="check_local_file_not_open">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.check_local_file_not_open">[docs]</a>
-<span class="k">def</span> <span class="nf">check_local_file_not_open</span><span class="p">(</span><span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_local_file_not_open</span><span class="p">(</span><span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_container</span><span class="p">,</span> <span class="s2">&quot;_fs&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_container</span><span class="p">,</span> <span class="s2">&quot;_path&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_container</span><span class="p">,</span> <span class="s2">&quot;reader&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -287,7 +287,7 @@
 
 <div class="viewcode-block" id="check_can_serialize_image_container">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.check_can_serialize_image_container">[docs]</a>
-<span class="k">def</span> <span class="nf">check_can_serialize_image_container</span><span class="p">(</span><span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_can_serialize_image_container</span><span class="p">(</span><span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># Dump and reconstruct</span>
     <span class="n">reconstructed</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="o">*</span><span class="n">serialize</span><span class="p">(</span><span class="n">image_container</span><span class="p">))</span>
 
@@ -306,7 +306,7 @@
 
 <div class="viewcode-block" id="run_image_container_checks">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.run_image_container_checks">[docs]</a>
-<span class="k">def</span> <span class="nf">run_image_container_checks</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_image_container_checks</span><span class="p">(</span>
     <span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">,</span>
     <span class="n">set_scene</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">expected_scenes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
@@ -384,7 +384,7 @@
 
 <div class="viewcode-block" id="run_reader_mosaic_checks">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.run_reader_mosaic_checks">[docs]</a>
-<span class="k">def</span> <span class="nf">run_reader_mosaic_checks</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_reader_mosaic_checks</span><span class="p">(</span>
     <span class="n">tiles_reader</span><span class="p">:</span> <span class="n">Reader</span><span class="p">,</span>
     <span class="n">stitched_reader</span><span class="p">:</span> <span class="n">Reader</span><span class="p">,</span>
     <span class="n">tiles_set_scene</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -412,7 +412,7 @@
 
 <div class="viewcode-block" id="run_image_file_checks">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.run_image_file_checks">[docs]</a>
-<span class="k">def</span> <span class="nf">run_image_file_checks</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_image_file_checks</span><span class="p">(</span>
     <span class="n">ImageContainer</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ImageContainer</span><span class="p">],</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span>
     <span class="n">set_scene</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -462,7 +462,7 @@
 
 <div class="viewcode-block" id="run_multi_scene_image_read_checks">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.run_multi_scene_image_read_checks">[docs]</a>
-<span class="k">def</span> <span class="nf">run_multi_scene_image_read_checks</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_multi_scene_image_read_checks</span><span class="p">(</span>
     <span class="n">ImageContainer</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ImageContainer</span><span class="p">],</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span>
     <span class="n">first_scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
@@ -535,7 +535,7 @@
 
 <div class="viewcode-block" id="run_no_scene_name_image_read_checks">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.test_utilities.run_no_scene_name_image_read_checks">[docs]</a>
-<span class="k">def</span> <span class="nf">run_no_scene_name_image_read_checks</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_no_scene_name_image_read_checks</span><span class="p">(</span>
     <span class="n">ImageContainer</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ImageContainer</span><span class="p">],</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">PathLike</span><span class="p">,</span>
     <span class="n">first_scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
@@ -635,7 +635,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=0a0a5bf7"></script>
+</div><script src="../../_static/documentation_options.js?v=33b60885"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
