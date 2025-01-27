@@ -9,7 +9,7 @@ import numpy as np
 import xarray as xr
 
 from .dimensions import Dimensions
-from .types import ImageLike, PhysicalPixelSizes, TimeInterval
+from .types import ImageLike, PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
 
@@ -118,6 +118,11 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def physical_pixel_sizes(self) -> PhysicalPixelSizes:
+        pass
+
+    @property
+    @abstractmethod
+    def scale(self) -> Scale:
         pass
 
     @property

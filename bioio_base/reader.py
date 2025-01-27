@@ -15,7 +15,7 @@ from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
-from .types import PhysicalPixelSizes, TimeInterval
+from .types import PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
 
@@ -878,6 +878,29 @@ class Reader(ImageContainer, ABC):
         metadata for unit information.
         """
         return TimeInterval(None)
+
+    @property
+    def scale(self) -> Scale:
+        """
+        Returns
+        -------
+        scale: Scale
+            A Scale object constructed from the Reader's time_interval and
+            physical_pixel_sizes.
+
+        Notes
+        -----
+        * Combines temporal and spatial scaling information into a single object.
+        * The channel scaling (`C`) is not derived from metadata and defaults to None.
+        """
+
+        return Scale(
+            T=self.time_interval.T,
+            C=None,
+            Z=self.physical_pixel_sizes.Z,
+            Y=self.physical_pixel_sizes.Y,
+            X=self.physical_pixel_sizes.X,
+        )
 
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int
