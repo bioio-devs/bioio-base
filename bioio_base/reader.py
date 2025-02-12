@@ -871,7 +871,7 @@ class Reader(ImageContainer, ABC):
         Returns
         -------
         sizes: Time Interval
-            Using available metadata, the floats representing time interval sizes for
+            Using available metadata, this float represents the time interval for
             dimension T.
 
         Notes
@@ -879,7 +879,7 @@ class Reader(ImageContainer, ABC):
         We currently do not handle unit attachment to these values. Please see the file
         metadata for unit information.
         """
-        return TimeInterval(None)
+        return None
 
     @property
     def scale(self) -> Scale:
@@ -897,7 +897,7 @@ class Reader(ImageContainer, ABC):
         """
 
         return Scale(
-            T=self.time_interval.T,
+            T=self.time_interval,
             C=None,
             Z=self.physical_pixel_sizes.Z,
             Y=self.physical_pixel_sizes.Y,
