@@ -66,6 +66,8 @@ def run_image_container_checks(
     expected_physical_pixel_sizes: Tuple[
         Optional[float], Optional[float], Optional[float]
     ],
+    expected_scale: Tuple[Optional[float]],
+    expected_time_interval: Tuple[Optional[float]],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
     set_resolution_level: int = 0,
     expected_current_resolution_level: int = 0,
@@ -99,6 +101,8 @@ def run_image_container_checks(
     assert image_container.dims.shape == expected_shape
     assert image_container.channel_names == expected_channel_names
     assert image_container.physical_pixel_sizes == expected_physical_pixel_sizes
+    assert image_container.scale == expected_scale
+    assert image_container.time_interval == expected_time_interval
     assert isinstance(image_container.metadata, expected_metadata_type)
 
     # Read different chunks
@@ -167,6 +171,8 @@ def run_image_file_checks(
     expected_physical_pixel_sizes: Tuple[
         Optional[float], Optional[float], Optional[float]
     ],
+    expected_scale: Tuple[Optional[float]],
+    expected_time_interval: Tuple[Optional[float]],
     expected_metadata_type: Union[type, Tuple[Union[type, Tuple[Any, ...]], ...]],
     set_resolution_level: int = 0,
     expected_current_resolution_level: int = 0,
@@ -192,6 +198,8 @@ def run_image_file_checks(
         expected_dims_order=expected_dims_order,
         expected_channel_names=expected_channel_names,
         expected_physical_pixel_sizes=expected_physical_pixel_sizes,
+        expected_scale=expected_scale,
+        expected_time_interval=expected_time_interval,
         expected_metadata_type=expected_metadata_type,
     )
 
