@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.test_utilities - bioio-base 0.1.dev1+g90d678c documentation</title>
+        <title>bioio_base.test_utilities - bioio-base 0.1.dev1+g8e3c0c2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g90d678c documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g8e3c0c2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g90d678c documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g8e3c0c2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -318,6 +318,8 @@
     <span class="n">expected_physical_pixel_sizes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span>
         <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">],</span>
+    <span class="n">expected_scale</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">expected_time_interval</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="n">expected_metadata_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="o">...</span><span class="p">]],</span>
     <span class="n">set_resolution_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">expected_current_resolution_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -351,6 +353,8 @@
     <span class="k">assert</span> <span class="n">image_container</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">expected_shape</span>
     <span class="k">assert</span> <span class="n">image_container</span><span class="o">.</span><span class="n">channel_names</span> <span class="o">==</span> <span class="n">expected_channel_names</span>
     <span class="k">assert</span> <span class="n">image_container</span><span class="o">.</span><span class="n">physical_pixel_sizes</span> <span class="o">==</span> <span class="n">expected_physical_pixel_sizes</span>
+    <span class="k">assert</span> <span class="n">image_container</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="n">expected_scale</span>
+    <span class="k">assert</span> <span class="n">image_container</span><span class="o">.</span><span class="n">time_interval</span> <span class="o">==</span> <span class="n">expected_time_interval</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_container</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">expected_metadata_type</span><span class="p">)</span>
 
     <span class="c1"># Read different chunks</span>
@@ -425,6 +429,8 @@
     <span class="n">expected_physical_pixel_sizes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span>
         <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="p">],</span>
+    <span class="n">expected_scale</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">expected_time_interval</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="n">expected_metadata_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="o">...</span><span class="p">]],</span>
     <span class="n">set_resolution_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">expected_current_resolution_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -450,6 +456,8 @@
         <span class="n">expected_dims_order</span><span class="o">=</span><span class="n">expected_dims_order</span><span class="p">,</span>
         <span class="n">expected_channel_names</span><span class="o">=</span><span class="n">expected_channel_names</span><span class="p">,</span>
         <span class="n">expected_physical_pixel_sizes</span><span class="o">=</span><span class="n">expected_physical_pixel_sizes</span><span class="p">,</span>
+        <span class="n">expected_scale</span><span class="o">=</span><span class="n">expected_scale</span><span class="p">,</span>
+        <span class="n">expected_time_interval</span><span class="o">=</span><span class="n">expected_time_interval</span><span class="p">,</span>
         <span class="n">expected_metadata_type</span><span class="o">=</span><span class="n">expected_metadata_type</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -635,7 +643,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=33a595da"></script>
+</div><script src="../../_static/documentation_options.js?v=6b44e5fe"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
