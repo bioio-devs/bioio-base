@@ -803,11 +803,12 @@ class Reader(ImageContainer, ABC):
             No metadata transformer available.
         """
         raise NotImplementedError()
-    
+
     @property
     def simple_metadata(self) -> Dict[str, Any]:
         """
-        Extracts and returns unvalidated metadata patterns found for specific image formats.
+        Extracts and returns unvalidated metadata patterns found for specific image
+        formats.
 
         Returns
         -------
@@ -820,8 +821,9 @@ class Reader(ImageContainer, ABC):
         NotImplementedError
             If the reader does not support simple metadata extraction.
         """
-        raise NotImplementedError("This reader does not support simple metadata extraction.")
-
+        raise NotImplementedError(
+            "This reader does not support simple metadata extraction."
+        )
 
     @property
     def channel_names(self) -> Optional[List[str]]:
