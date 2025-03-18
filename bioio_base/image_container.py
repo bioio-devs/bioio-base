@@ -9,7 +9,7 @@ import numpy as np
 import xarray as xr
 
 from .dimensions import Dimensions
-from .types import ImageLike, PhysicalPixelSizes, TimeInterval
+from .types import ImageLike, PhysicalPixelSizes
 
 ###############################################################################
 
@@ -118,41 +118,6 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def physical_pixel_sizes(self) -> PhysicalPixelSizes:
-        pass
-
-    @property
-    @abstractmethod
-    def time_interval(self) -> TimeInterval:
-        pass
-
-    @property
-    @abstractmethod
-    def image_size_t(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def image_size_c(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def image_size_z(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def image_size_y(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def image_size_x(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def timelapse(self) -> bool:
         pass
 
     @property
