@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime as dt
 import inspect
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -199,6 +198,7 @@ class Reader(ImageContainer, ABC):
         return self.scenes[self._current_scene_index]
 
     @property
+    @embedded_metadata(MetadataLabels.SCENE_INDEX.value)
     def current_scene_index(self) -> int:
         """
         Returns
@@ -817,27 +817,6 @@ class Reader(ImageContainer, ABC):
         raise NotImplementedError()
 
     @property
-    def simple_metadata(self) -> Dict[str, Any]:
-        """
-        Extracts and returns unvalidated metadata patterns found for specific image
-        formats.
-
-        Returns
-        -------
-        simple_metadata: Dict[str, Any]
-            A dictionary containing metadata patterns inferred from the image format.
-            This metadata is not validated and may contain format-specific quirks.
-
-        Raises
-        ------
-        NotImplementedError
-            If the reader does not support simple metadata extraction.
-        """
-        raise NotImplementedError(
-            "This reader does not support simple metadata extraction."
-        )
-
-    @property
     def channel_names(self) -> Optional[List[str]]:
         """
         Returns
@@ -899,6 +878,7 @@ class Reader(ImageContainer, ABC):
         return PhysicalPixelSizes(None, None, None)
 
     @property
+    @embedded_metadata(MetadataLabels.TIMELAPSE_INTERVAL.value)
     def time_interval(self) -> TimeInterval:
         """
         Returns
@@ -1111,16 +1091,6 @@ class Reader(ImageContainer, ABC):
         return None
 
     @property
-    @embedded_metadata(MetadataLabels.BINNING.value)
-    def binning(self) -> Optional[str]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.COLUMN.value)
-    def column(self) -> Optional[str]:
-        return None
-
-    @property
     @embedded_metadata(MetadataLabels.DIMENSIONS_PRESENT.value)
     def dimensions_present(self) -> Optional[str]:
         return self.dims.order
@@ -1151,21 +1121,6 @@ class Reader(ImageContainer, ABC):
         return self._get_dim_size("Z")
 
     @property
-    @embedded_metadata(MetadataLabels.IMAGED_BY.value)
-    def imaged_by(self) -> Optional[str]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGING_DATE.value)
-    def imaging_date(self) -> Optional[dt.datetime]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.OBJECTIVE.value)
-    def objective(self) -> Optional[str]:
-        return None
-
-    @property
     @embedded_metadata(MetadataLabels.PIXEL_SIZE_X.value)
     def pixel_size_x(self) -> Optional[float]:
         return self.physical_pixel_sizes.X
@@ -1181,58 +1136,34 @@ class Reader(ImageContainer, ABC):
         return self.physical_pixel_sizes.Z
 
     @property
-    @embedded_metadata(MetadataLabels.POSITION_INDEX.value)
-    def position_index(self) -> Optional[str]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.ROW.value)
-    def row(self) -> Optional[str]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.SCENE_INDEX.value)
-    def scene_index(self) -> int:
-        return self.current_scene_index
-
-    @property
     @embedded_metadata(MetadataLabels.TIMELAPSE.value)
     def timelapse(self) -> Optional[bool]:
         return self.image_size_t > 0 if self.image_size_t is not None else None
-
-    @property
-    @embedded_metadata(MetadataLabels.TIMELAPSE_INTERVAL.value)
-    def timelapse_interval(self) -> Optional[int]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.TOTAL_TIME_DURATION.value)
-    def total_time_duration(self) -> Optional[int]:
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.WELL.value)
-    def well(self) -> Optional[str]:
-        return None
 
     # -----------------------------------------------------------------------------
     # Manifest property that dynamically builds a dictionary of embedded metadata.
     # -----------------------------------------------------------------------------
     @property
-    def manifest(self) -> dict[str, Any]:
+    def manifest(self) -> Dict[str, Any]:
         """
-        Iterates over all properties decorated with @embedded_metadata and
-        builds a manifest dictionary. If a property returns None
-        (because no extraction logic was provided), that key will have a
-        value of None.
+        Iterates over all properties decorated with @embedded_metadata, including those
+        defined in subclasses, and builds a manifest dictionary.
+        If a property returns None, that key will be excluded from the resulting
+        dictionary.
         """
         manifest_data: Dict[str, Any] = {}
-        for name, prop in inspect.getmembers(
-            type(self), lambda o: isinstance(o, property)
-        ):
-            label = getattr(prop.fget, "_embedded_metadata_label", None)
-            if label is not None:
-                manifest_data[label] = getattr(self, name)
+
+        # Inspect the current class (subclass) and all its parents
+        for cls in inspect.getmro(self.__class__):
+            for name, prop in inspect.getmembers(
+                cls, lambda o: isinstance(o, property)
+            ):
+                label = getattr(prop.fget, "_embedded_metadata_label", None)
+                if label is not None and label not in manifest_data:
+                    value = getattr(self, name)
+                    if value is not None:
+                        manifest_data[label] = value
+
         return manifest_data
 
     def __str__(self) -> str:

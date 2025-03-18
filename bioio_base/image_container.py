@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime as dt
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
@@ -10,7 +9,7 @@ import numpy as np
 import xarray as xr
 
 from .dimensions import Dimensions
-from .types import ImageLike, PhysicalPixelSizes, Scale, TimeInterval
+from .types import ImageLike, PhysicalPixelSizes, TimeInterval
 
 ###############################################################################
 
@@ -123,11 +122,6 @@ class ImageContainer(ABC):
 
     @property
     @abstractmethod
-    def scale(self) -> Scale:
-        pass
-
-    @property
-    @abstractmethod
     def time_interval(self) -> TimeInterval:
         pass
 
@@ -154,51 +148,6 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def image_size_x(self) -> int:
-        pass
-
-    @property
-    @abstractmethod
-    def binning(self) -> Optional[str]:
-        pass
-
-    @property
-    @abstractmethod
-    def column(self) -> Optional[str]:
-        pass
-
-    @property
-    @abstractmethod
-    def imaged_by(self) -> Optional[str]:
-        pass
-
-    @property
-    @abstractmethod
-    def imaging_date(self) -> Optional[dt.datetime]:
-        pass
-
-    @property
-    @abstractmethod
-    def objective(self) -> Optional[str]:
-        pass
-
-    @property
-    @abstractmethod
-    def position_index(self) -> Optional[int]:
-        pass
-
-    @property
-    @abstractmethod
-    def row(self) -> Optional[str]:
-        pass
-
-    @property
-    @abstractmethod
-    def timelapse_interval(self) -> Optional[int]:
-        pass
-
-    @property
-    @abstractmethod
-    def total_time_duration(self) -> Optional[int]:
         pass
 
     @property
