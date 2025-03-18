@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime as dt
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
@@ -128,4 +129,84 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def time_interval(self) -> TimeInterval:
+        pass
+
+    @property
+    @abstractmethod
+    def image_size_t(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def image_size_c(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def image_size_z(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def image_size_y(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def image_size_x(self) -> int:
+        pass
+
+    @property
+    @abstractmethod
+    def binning(self) -> Optional[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def column(self) -> Optional[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def imaged_by(self) -> Optional[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def imaging_date(self) -> Optional[dt.datetime]:
+        pass
+
+    @property
+    @abstractmethod
+    def objective(self) -> Optional[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def position_index(self) -> Optional[int]:
+        pass
+
+    @property
+    @abstractmethod
+    def row(self) -> Optional[str]:
+        pass
+
+    @property
+    @abstractmethod
+    def timelapse_interval(self) -> Optional[int]:
+        pass
+
+    @property
+    @abstractmethod
+    def total_time_duration(self) -> Optional[int]:
+        pass
+
+    @property
+    @abstractmethod
+    def timelapse(self) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def manifest(self) -> Dict[str, Any]:
         pass

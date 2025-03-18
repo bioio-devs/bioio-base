@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime as dt
+import inspect
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import dask.array as da
 import numpy as np
@@ -15,9 +17,19 @@ from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
+from .metadata_labels import MetadataLabels
 from .types import PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
+Func = Callable[..., Any]
+
+
+def embedded_metadata(label: str) -> Callable[[Func], Func]:
+    def decorator(func: Func) -> Func:
+        setattr(func, "_embedded_metadata_label", label)  # type: ignore[attr-defined]
+        return func
+
+    return decorator
 
 
 class Reader(ImageContainer, ABC):
@@ -1090,6 +1102,138 @@ class Reader(ImageContainer, ABC):
         are used for the returned xarray DataArray object coordinate planes.
         """
         return transforms.generate_stack(self, mode="xarray_dask_data", **kwargs)
+
+    # --- New embedded metadata properties for the manifest ---
+    def _get_dim_size(self, dim: str) -> Optional[int]:
+        if dim in self.dims.order:
+            idx = self.dims.order.index(dim)
+            return self.shape[idx]
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.BINNING.value)
+    def binning(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.COLUMN.value)
+    def column(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.DIMENSIONS_PRESENT.value)
+    def dimensions_present(self) -> Optional[str]:
+        return self.dims.order
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGE_SIZE_C.value)
+    def image_size_c(self) -> Optional[int]:
+        return self._get_dim_size("C")
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGE_SIZE_T.value)
+    def image_size_t(self) -> Optional[int]:
+        return self._get_dim_size("T")
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGE_SIZE_X.value)
+    def image_size_x(self) -> Optional[int]:
+        return self._get_dim_size("X")
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGE_SIZE_Y.value)
+    def image_size_y(self) -> Optional[int]:
+        return self._get_dim_size("Y")
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGE_SIZE_Z.value)
+    def image_size_z(self) -> Optional[int]:
+        return self._get_dim_size("Z")
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGED_BY.value)
+    def imaged_by(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.IMAGING_DATE.value)
+    def imaging_date(self) -> Optional[dt.datetime]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.OBJECTIVE.value)
+    def objective(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.PIXEL_SIZE_X.value)
+    def pixel_size_x(self) -> Optional[float]:
+        return self.physical_pixel_sizes.X
+
+    @property
+    @embedded_metadata(MetadataLabels.PIXEL_SIZE_Y.value)
+    def pixel_size_y(self) -> Optional[float]:
+        return self.physical_pixel_sizes.Y
+
+    @property
+    @embedded_metadata(MetadataLabels.PIXEL_SIZE_Z.value)
+    def pixel_size_z(self) -> Optional[float]:
+        return self.physical_pixel_sizes.Z
+
+    @property
+    @embedded_metadata(MetadataLabels.POSITION_INDEX.value)
+    def position_index(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.ROW.value)
+    def row(self) -> Optional[str]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.SCENE_INDEX.value)
+    def scene_index(self) -> int:
+        return self.current_scene_index
+
+    @property
+    @embedded_metadata(MetadataLabels.TIMELAPSE.value)
+    def timelapse(self) -> Optional[bool]:
+        return self.image_size_t > 0 if self.image_size_t is not None else None
+
+    @property
+    @embedded_metadata(MetadataLabels.TIMELAPSE_INTERVAL.value)
+    def timelapse_interval(self) -> Optional[int]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.TOTAL_TIME_DURATION.value)
+    def total_time_duration(self) -> Optional[int]:
+        return None
+
+    @property
+    @embedded_metadata(MetadataLabels.WELL.value)
+    def well(self) -> Optional[str]:
+        return None
+
+    # -----------------------------------------------------------------------------
+    # Manifest property that dynamically builds a dictionary of embedded metadata.
+    # -----------------------------------------------------------------------------
+    @property
+    def manifest(self) -> dict[str, Any]:
+        """
+        Iterates over all properties decorated with @embedded_metadata and
+        builds a manifest dictionary. If a property returns None
+        (because no extraction logic was provided), that key will have a
+        value of None.
+        """
+        manifest_data: Dict[str, Any] = {}
+        for name, prop in inspect.getmembers(
+            type(self), lambda o: isinstance(o, property)
+        ):
+            label = getattr(prop.fget, "_embedded_metadata_label", None)
+            if label is not None:
+                manifest_data[label] = getattr(self, name)
+        return manifest_data
 
     def __str__(self) -> str:
         return (
