@@ -129,3 +129,8 @@ class ImageContainer(ABC):
     @abstractmethod
     def time_interval(self) -> TimeInterval:
         pass
+
+    @property
+    @abstractmethod
+    def manifest(self) -> Dict[str, Any]:
+        pass
