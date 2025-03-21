@@ -1148,19 +1148,22 @@ class Reader(ImageContainer, ABC):
         """
         Iterates over all properties decorated with @embedded_metadata, including those
         defined in subclasses, and builds a manifest dictionary.
-        If a property returns None, that key will be excluded from the resulting
-        dictionary.
+        If a property returns None or raises an exception, that key will be excluded
+        from the resulting dictionary.
         """
         manifest_data: Dict[str, Any] = {}
 
         # Inspect the current class (subclass) and all its parents
         for cls in inspect.getmro(self.__class__):
-            for name, prop in inspect.getmembers(
-                cls, lambda o: isinstance(o, property)
-            ):
+            for name, prop in inspect.getmembers(cls, lambda o: isinstance(o, property)):
                 label = getattr(prop.fget, "_embedded_metadata_label", None)
                 if label is not None and label not in manifest_data:
-                    value = getattr(self, name)
+                    try:
+                        value = getattr(self, name)
+                    except Exception:
+                        # If there's an error evaluating the property,
+                        # treat it as if it returned None (i.e., skip it)
+                        continue
                     if value is not None:
                         manifest_data[label] = value
 
