@@ -171,9 +171,10 @@ def run_image_file_checks(
     set_resolution_level: int = 0,
     expected_current_resolution_level: int = 0,
     expected_resolution_levels: Tuple[int, ...] = (0,),
+    reader_kwargs: dict = dict(fs_kwargs=dict(anon=True)),
 ) -> ImageContainer:
     # Init container
-    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, **reader_kwargs)
 
     # Check for file pointers
     check_local_file_not_open(image_container)
@@ -211,12 +212,13 @@ def run_multi_scene_image_read_checks(
     second_scene_shape: Tuple[int, ...],
     second_scene_dtype: np.dtype,
     allow_same_scene_data: bool = True,
+    reader_kwargs: dict = dict(fs_kwargs=dict(anon=True)),
 ) -> ImageContainer:
     """
     A suite of tests to ensure that data is reset when switching scenes.
     """
     # Read file
-    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, **reader_kwargs)
 
     check_local_file_not_open(image_container)
     check_can_serialize_image_container(image_container)
@@ -279,13 +281,14 @@ def run_no_scene_name_image_read_checks(
     second_scene_id: Union[str, int],
     second_scene_dtype: np.dtype,
     allow_same_scene_data: bool = True,
+    reader_kwargs: dict = dict(fs_kwargs=dict(anon=True)),
 ) -> ImageContainer:
     """
     A suite of tests to check that scene names are auto-filled when not present, and
     scene switching is reflected in current_scene_index.
     """
     # Read file
-    image_container = ImageContainer(image, fs_kwargs=dict(anon=True))
+    image_container = ImageContainer(image, **reader_kwargs)
 
     check_local_file_not_open(image_container)
     check_can_serialize_image_container(image_container)
