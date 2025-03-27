@@ -9,6 +9,7 @@ import numpy as np
 import xarray as xr
 
 from .dimensions import Dimensions
+from .embedded_metadata import EmbeddedMetadata
 from .types import ImageLike, PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
@@ -132,5 +133,5 @@ class ImageContainer(ABC):
 
     @property
     @abstractmethod
-    def manifest(self) -> Dict[str, Any]:
+    def embedded_metadata(self) -> EmbeddedMetadata:
         pass

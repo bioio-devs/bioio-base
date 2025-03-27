@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import inspect
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import dask.array as da
 import numpy as np
@@ -14,21 +13,12 @@ from ome_types import OME
 
 from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
+from .embedded_metadata import EmbeddedMetadata
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
-from .metadata_labels import MetadataLabels
 from .types import PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
-Func = Callable[..., Any]
-
-
-def embedded_metadata(label: str) -> Callable[[Func], Func]:
-    def decorator(func: Func) -> Func:
-        setattr(func, "_embedded_metadata_label", label)  # type: ignore[attr-defined]
-        return func
-
-    return decorator
 
 
 class Reader(ImageContainer, ABC):
@@ -198,7 +188,6 @@ class Reader(ImageContainer, ABC):
         return self.scenes[self._current_scene_index]
 
     @property
-    @embedded_metadata(MetadataLabels.SCENE_INDEX.value)
     def current_scene_index(self) -> int:
         """
         Returns
@@ -878,7 +867,6 @@ class Reader(ImageContainer, ABC):
         return PhysicalPixelSizes(None, None, None)
 
     @property
-    @embedded_metadata(MetadataLabels.TIMELAPSE_INTERVAL.value)
     def time_interval(self) -> TimeInterval:
         """
         Returns
@@ -1083,91 +1071,24 @@ class Reader(ImageContainer, ABC):
         """
         return transforms.generate_stack(self, mode="xarray_dask_data", **kwargs)
 
-    # --- New embedded metadata properties for the manifest ---
-    def _get_dim_size(self, dim: str) -> Optional[int]:
-        if dim in self.dims.order:
-            idx = self.dims.order.index(dim)
-            return self.shape[idx]
-        return None
-
-    @property
-    @embedded_metadata(MetadataLabels.DIMENSIONS_PRESENT.value)
-    def dimensions_present(self) -> Optional[str]:
-        return self.dims.order
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGE_SIZE_C.value)
-    def image_size_c(self) -> Optional[int]:
-        return self._get_dim_size("C")
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGE_SIZE_T.value)
-    def image_size_t(self) -> Optional[int]:
-        return self._get_dim_size("T")
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGE_SIZE_X.value)
-    def image_size_x(self) -> Optional[int]:
-        return self._get_dim_size("X")
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGE_SIZE_Y.value)
-    def image_size_y(self) -> Optional[int]:
-        return self._get_dim_size("Y")
-
-    @property
-    @embedded_metadata(MetadataLabels.IMAGE_SIZE_Z.value)
-    def image_size_z(self) -> Optional[int]:
-        return self._get_dim_size("Z")
-
-    @property
-    @embedded_metadata(MetadataLabels.PIXEL_SIZE_X.value)
-    def pixel_size_x(self) -> Optional[float]:
-        return self.physical_pixel_sizes.X
-
-    @property
-    @embedded_metadata(MetadataLabels.PIXEL_SIZE_Y.value)
-    def pixel_size_y(self) -> Optional[float]:
-        return self.physical_pixel_sizes.Y
-
-    @property
-    @embedded_metadata(MetadataLabels.PIXEL_SIZE_Z.value)
-    def pixel_size_z(self) -> Optional[float]:
-        return self.physical_pixel_sizes.Z
-
-    @property
-    @embedded_metadata(MetadataLabels.TIMELAPSE.value)
-    def timelapse(self) -> Optional[bool]:
-        return self.image_size_t > 0 if self.image_size_t is not None else None
-
-    # -----------------------------------------------------------------------------
-    # Manifest property that dynamically builds a dictionary of embedded metadata.
-    # -----------------------------------------------------------------------------
-    @property
-    def manifest(self) -> Dict[str, Any]:
+    def _build_embedded_metadata(self) -> EmbeddedMetadata:
         """
-        Iterates over all properties decorated with @embedded_metadata, including those
-        defined in subclasses, and builds a manifest dictionary.
-        If a property returns None or raises an exception, that key will be excluded
-        from the resulting dictionary.
+        Build the default embedded metadata from the reader.
+
+        To customize in a subclass, override this method. For example:
+
+            class MyReader(Reader):
+                def _build_embedded_metadata(self) -> EmbeddedMetadata:
+                    metadata = super()._build_embedded_metadata()
+                    metadata.objective = "40x Magnification"
+                    return metadata
         """
-        manifest_data: Dict[str, Any] = {}
+        return EmbeddedMetadata.from_reader(self)
 
-        # Inspect the current class (subclass) and all its parents
-        for cls in inspect.getmro(self.__class__):
-            for name, prop in inspect.getmembers(cls, lambda o: isinstance(o, property)):
-                label = getattr(prop.fget, "_embedded_metadata_label", None)
-                if label is not None and label not in manifest_data:
-                    try:
-                        value = getattr(self, name)
-                    except Exception:
-                        # If there's an error evaluating the property,
-                        # treat it as if it returned None (i.e., skip it)
-                        continue
-                    if value is not None:
-                        manifest_data[label] = value
-
-        return manifest_data
+    @property
+    def embedded_metadata(self) -> EmbeddedMetadata:
+        """Return the embedded metadata."""
+        return self._build_embedded_metadata()
 
     def __str__(self) -> str:
         return (
