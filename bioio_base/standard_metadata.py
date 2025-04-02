@@ -11,9 +11,6 @@ class StandardMetadata:
     The FIELD_LABELS mapping is used to produce readable output via the to_dict method.
     """
 
-    # Acquisition date.
-    acquisition_date: Optional[str] = None
-
     # Binning configuration.
     binning: Optional[str] = None
 
@@ -73,7 +70,6 @@ class StandardMetadata:
 
     # Mapping of internal attribute names to readable labels.
     FIELD_LABELS = {
-        "acquisition_date": "Acquisition Date",
         "binning": "Binning",
         "column": "Column",
         "dimensions_present": "Dimensions Present",

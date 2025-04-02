@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import typing
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, Tuple
-from xml.etree import ElementTree
 
 from fsspec.core import url_to_fs
 
@@ -64,38 +62,3 @@ def pathlike_to_fs(
     # any open file buffers _after_ any API call. API calls must themselves call
     # fs.open and complete their function during the context of the opened buffer.
     return fs, path
-
-
-def search_for_node(
-    parent: ElementTree.Element, tag: str, attributes: typing.Optional[dict] = None
-) -> typing.Optional[ElementTree.Element]:
-    """
-    Recursive utility method for searching down an XML tree for a specific node
-    that has the given tag and attributes.
-
-    Parameters
-    ----------
-    parent: ElementTree.Element
-        The parent node from which to begin the search.
-    tag: str
-        The XML tag to search for.
-    attributes: dict, optional
-        A dictionary of attributes to match. If provided, the node must match
-        these attributes exactly.
-
-    Returns
-    -------
-    ElementTree.Element or None
-        The matching XML node if found, otherwise None.
-    """
-    if parent.tag == tag and (
-        attributes is None or parent.attrib.items() >= attributes.items()
-    ):
-        return parent
-
-    for child in parent:
-        result = search_for_node(parent=child, tag=tag, attributes=attributes)
-        if result is not None:
-            return result
-
-    return None
