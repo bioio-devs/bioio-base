@@ -68,6 +68,14 @@ bioio\_base.reader\_metadata module
    :undoc-members:
    :show-inheritance:
 
+bioio\_base.standard\_metadata module
+-------------------------------------
+
+.. automodule:: bioio_base.standard_metadata
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bioio\_base.test\_utilities module
 ----------------------------------
 

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.exceptions - bioio-base 0.1.dev1+g06b90d4 documentation</title>
+        <title>bioio_base.standard_metadata - bioio-base 0.1.dev1+g06b90d4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -241,63 +241,117 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for bioio_base.exceptions</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+          <h1>Source code for bioio_base.standard_metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
 
-<div class="viewcode-block" id="ConflictingArgumentsError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.ConflictingArgumentsError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ConflictingArgumentsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardMetadata">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.StandardMetadata">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StandardMetadata</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is returned when 2 arguments to the same function are in conflict.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    A simple container for embedded metadata fields using dataclass.</span>
 
-
-
-<div class="viewcode-block" id="InvalidDimensionOrderingError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.InvalidDimensionOrderingError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">InvalidDimensionOrderingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling dimension ordering or</span>
-<span class="sd">    validation. Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="UnexpectedShapeError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.UnexpectedShapeError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">UnexpectedShapeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling shape validation.</span>
-<span class="sd">    Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="UnsupportedFileFormatError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.UnsupportedFileFormatError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">UnsupportedFileFormatError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is intended to communicate that the file extension is not one of</span>
-<span class="sd">    the supported file types and cannot be parsed with AICSImage.</span>
+<span class="sd">    Each metadata field is defined with an optional type.</span>
+<span class="sd">    The FIELD_LABELS mapping is used to produce readable output via the to_dict method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">msg_extra</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span> <span class="o">=</span> <span class="n">reader_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="o">=</span> <span class="n">msg_extra</span>
+    <span class="c1"># Binning configuration.</span>
+    <span class="n">binning</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span><span class="si">}</span><span class="s2"> does not support the image: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+    <span class="c1"># Column information.</span>
+    <span class="n">column</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># List or sequence of dimension names.</span>
+    <span class="n">dimensions_present</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">return</span> <span class="n">msg</span></div>
+    <span class="c1"># Channel dimension size.</span>
+    <span class="n">image_size_c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Time dimension size.</span>
+    <span class="n">image_size_t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Spatial X dimension size.</span>
+    <span class="n">image_size_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Spatial Y dimension size.</span>
+    <span class="n">image_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Spatial Z dimension size.</span>
+    <span class="n">image_size_z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># The experimentalist who produced this data.</span>
+    <span class="n">imaged_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Date this file was imaged.</span>
+    <span class="n">imaging_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Objective.</span>
+    <span class="n">objective</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Physical pixel size along X.</span>
+    <span class="n">pixel_size_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Physical pixel size along Y.</span>
+    <span class="n">pixel_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Physical pixel size along Z.</span>
+    <span class="n">pixel_size_z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Position index, if applicable.</span>
+    <span class="n">position_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Row information.</span>
+    <span class="n">row</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Is the data a timelapse?</span>
+    <span class="n">timelapse</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Time interval between frames.</span>
+    <span class="n">timelapse_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Total time duration of imaging.</span>
+    <span class="n">total_time_duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Mapping of internal attribute names to readable labels.</span>
+    <span class="n">FIELD_LABELS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;binning&quot;</span><span class="p">:</span> <span class="s2">&quot;Binning&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;Column&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dimensions_present&quot;</span><span class="p">:</span> <span class="s2">&quot;Dimensions Present&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_size_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size C&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_size_t&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size T&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_size_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size X&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_size_z&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;imaged_by&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaged By&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;imaging_date&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaging Date&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;objective&quot;</span><span class="p">:</span> <span class="s2">&quot;Objective&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pixel_size_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size X&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pixel_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size Y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pixel_size_z&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;position_index&quot;</span><span class="p">:</span> <span class="s2">&quot;Position Index&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="s2">&quot;Row&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;timelapse&quot;</span><span class="p">:</span> <span class="s2">&quot;Timelapse&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;timelapse_interval&quot;</span><span class="p">:</span> <span class="s2">&quot;Timelapse Interval&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total_time_duration&quot;</span><span class="p">:</span> <span class="s2">&quot;Total Time Duration&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="StandardMetadata.to_dict">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.StandardMetadata.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the metadata into a dictionary using readable labels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A mapping where keys are the readable labels defined in FIELD_LABELS,</span>
+<span class="sd">                  and values are the corresponding metadata values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FIELD_LABELS</span><span class="p">[</span><span class="n">field</span><span class="p">]:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIELD_LABELS</span>
+        <span class="p">}</span></div>
+</div>
 
 </pre></div>
         </article>
