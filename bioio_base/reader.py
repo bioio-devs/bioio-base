@@ -15,6 +15,7 @@ from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
+from .standard_metadata import StandardMetadata
 from .types import PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
@@ -1069,6 +1070,44 @@ class Reader(ImageContainer, ABC):
         are used for the returned xarray DataArray object coordinate planes.
         """
         return transforms.generate_stack(self, mode="xarray_dask_data", **kwargs)
+
+    @property
+    def standard_metadata(self) -> StandardMetadata:
+        """
+        Return the embedded metadata for this reader.
+
+        This property builds the default embedded metadata instance using
+        values from the reader. The metadata is constructed directly from
+        the reader's dimensions and physical pixel sizes.
+
+        To customize in a subclass, override this property. For example:
+
+            class MyReader(Reader):
+                @property
+                def standard_metadata(self) -> StandardMetadata:
+                    metadata = super().standard_metadata
+                    metadata.objective = "40x Magnification"
+                    return metadata
+        """
+        # Retrieve the dimensions information from the reader.
+        dims = self.dims
+        image_size_t = getattr(dims, DimensionNames.Time, None)
+        # Construct the StandardMetadata instance using the reader's attributes.
+        metadata = StandardMetadata(
+            dimensions_present=self.dims.order,
+            image_size_c=getattr(dims, DimensionNames.Channel, None),
+            image_size_t=image_size_t,
+            image_size_x=getattr(dims, DimensionNames.SpatialX, None),
+            image_size_y=getattr(dims, DimensionNames.SpatialY, None),
+            image_size_z=getattr(dims, DimensionNames.SpatialZ, None),
+            timelapse=image_size_t is not None and image_size_t > 0,
+            timelapse_interval=self.time_interval,
+            pixel_size_x=self.physical_pixel_sizes.X,
+            pixel_size_y=self.physical_pixel_sizes.Y,
+            pixel_size_z=self.physical_pixel_sizes.Z,
+        )
+
+        return metadata
 
     def __str__(self) -> str:
         return (
