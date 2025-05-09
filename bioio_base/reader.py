@@ -15,7 +15,13 @@ from . import constants, exceptions, transforms, types
 from .dimensions import DEFAULT_DIMENSION_ORDER, DimensionNames, Dimensions
 from .image_container import ImageContainer
 from .io import pathlike_to_fs
-from .standard_metadata import StandardMetadata
+from .standard_metadata import (
+    StandardMetadata,
+    binning,
+    imaged_by,
+    imaging_date,
+    objective,
+)
 from .types import PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
@@ -1096,33 +1102,26 @@ class Reader(ImageContainer, ABC):
             ome = None
 
         # Retrieve the dimensions information from the reader.
-        dims = self.dims
-        image_size_t = getattr(dims, DimensionNames.Time, None)
-
-        # helpers
-        from .standard_metadata import binning as _binning
-        from .standard_metadata import imaged_by as _imaged_by
-        from .standard_metadata import imaging_date as _imaging_date
-        from .standard_metadata import objective as _objective
+        image_size_t = getattr(self.dims, DimensionNames.Time, None)
 
         # Construct the StandardMetadata instance using the reader's attributes.
         metadata = StandardMetadata(
-            dimensions_present=dims.order,
-            image_size_c=getattr(dims, DimensionNames.Channel, None),
+            dimensions_present=self.dims.order,
+            image_size_c=getattr(self.dims, DimensionNames.Channel, None),
             image_size_t=image_size_t,
-            image_size_x=getattr(dims, DimensionNames.SpatialX, None),
-            image_size_y=getattr(dims, DimensionNames.SpatialY, None),
-            image_size_z=getattr(dims, DimensionNames.SpatialZ, None),
+            image_size_x=getattr(self.dims, DimensionNames.SpatialX, None),
+            image_size_y=getattr(self.dims, DimensionNames.SpatialY, None),
+            image_size_z=getattr(self.dims, DimensionNames.SpatialZ, None),
             timelapse=image_size_t is not None and image_size_t > 0,
             timelapse_interval=self.time_interval,
             pixel_size_x=self.physical_pixel_sizes.X,
             pixel_size_y=self.physical_pixel_sizes.Y,
             pixel_size_z=self.physical_pixel_sizes.Z,
             # OME-derived fields (None if no OME metadata)
-            binning=_binning(ome) if ome is not None else None,
-            imaged_by=_imaged_by(ome) if ome is not None else None,
-            imaging_date=_imaging_date(ome) if ome is not None else None,
-            objective=_objective(ome) if ome is not None else None,
+            binning=binning(ome) if ome is not None else None,
+            imaged_by=imaged_by(ome) if ome is not None else None,
+            imaging_date=imaging_date(ome) if ome is not None else None,
+            objective=objective(ome) if ome is not None else None,
         )
 
         return metadata
