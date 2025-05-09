@@ -1089,12 +1089,25 @@ class Reader(ImageContainer, ABC):
                     metadata.objective = "40x Magnification"
                     return metadata
         """
+        # Attempt to get OME metadata; ignore if not implemented
+        try:
+            ome = self.ome_metadata
+        except NotImplementedError:
+            ome = None
+
         # Retrieve the dimensions information from the reader.
         dims = self.dims
         image_size_t = getattr(dims, DimensionNames.Time, None)
+
+        # helpers
+        from .standard_metadata import binning as _binning
+        from .standard_metadata import imaged_by as _imaged_by
+        from .standard_metadata import imaging_date as _imaging_date
+        from .standard_metadata import objective as _objective
+
         # Construct the StandardMetadata instance using the reader's attributes.
         metadata = StandardMetadata(
-            dimensions_present=self.dims.order,
+            dimensions_present=dims.order,
             image_size_c=getattr(dims, DimensionNames.Channel, None),
             image_size_t=image_size_t,
             image_size_x=getattr(dims, DimensionNames.SpatialX, None),
@@ -1105,6 +1118,11 @@ class Reader(ImageContainer, ABC):
             pixel_size_x=self.physical_pixel_sizes.X,
             pixel_size_y=self.physical_pixel_sizes.Y,
             pixel_size_z=self.physical_pixel_sizes.Z,
+            # OME-derived fields (None if no OME metadata)
+            binning=_binning(ome) if ome is not None else None,
+            imaged_by=_imaged_by(ome) if ome is not None else None,
+            imaging_date=_imaging_date(ome) if ome is not None else None,
+            objective=_objective(ome) if ome is not None else None,
         )
 
         return metadata
