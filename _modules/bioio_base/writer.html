@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.exceptions - bioio-base 0.1.dev1+g051bb01 documentation</title>
+        <title>bioio_base.writer - bioio-base 0.1.dev1+g051bb01 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -241,64 +241,59 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for bioio_base.exceptions</h1><div class="highlight"><pre>
+          <h1>Source code for bioio_base.writer</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">types</span>
+
+<span class="c1">###############################################################################</span>
 
 
-<div class="viewcode-block" id="ConflictingArgumentsError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.ConflictingArgumentsError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ConflictingArgumentsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="Writer">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.writer.Writer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is returned when 2 arguments to the same function are in conflict.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="InvalidDimensionOrderingError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.InvalidDimensionOrderingError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">InvalidDimensionOrderingError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling dimension ordering or</span>
-<span class="sd">    validation. Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="UnexpectedShapeError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.UnexpectedShapeError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">UnexpectedShapeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A general exception that can be thrown when handling shape validation.</span>
-<span class="sd">    Should be provided with a message for the user to be given more context.</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="UnsupportedFileFormatError">
-<a class="viewcode-back" href="../../bioio_base.html#bioio_base.exceptions.UnsupportedFileFormatError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">UnsupportedFileFormatError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This exception is intended to communicate that the file extension is not one of</span>
-<span class="sd">    the supported file types and cannot be parsed with AICSImage.</span>
+<span class="sd">    A small class to build standardized image writer functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">msg_extra</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span> <span class="o">=</span> <span class="n">reader_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="o">=</span> <span class="n">msg_extra</span>
+<div class="viewcode-block" id="Writer.save">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.writer.Writer.save">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">uri</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
+        <span class="n">dim_order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write a data array to a file.</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reader_name</span><span class="si">}</span><span class="s2"> does not support the image: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: types.ArrayLike</span>
+<span class="sd">            The array of data to store.</span>
+<span class="sd">        uri: types.PathLike</span>
+<span class="sd">            The URI or local path for where to save the data.</span>
+<span class="sd">        dim_order: str</span>
+<span class="sd">            The dimension order of the data.</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">msg_extra</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; image = numpy.ndarray([1, 10, 3, 1024, 2048])</span>
+<span class="sd">        ... DerivedWriter.save(image, &quot;file.ome.tif&quot;, &quot;TCZYX&quot;)</span>
 
-        <span class="k">return</span> <span class="n">msg</span></div>
+<span class="sd">        &gt;&gt;&gt; image = dask.array.ones((4, 100, 100))</span>
+<span class="sd">        ... DerivedWriter.save(image, &quot;file.png&quot;, &quot;CYX&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</div>
 
+        <span class="c1"># There are no requirements for n-dimensions of data.</span>
+        <span class="c1"># The data provided can be 2D - ND.</span>
 </pre></div>
         </article>
       </div>
