@@ -100,14 +100,6 @@ bioio\_base.types module
    :undoc-members:
    :show-inheritance:
 
-bioio\_base.writer module
--------------------------
-
-.. automodule:: bioio_base.writer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
