@@ -4,6 +4,14 @@ bioio\_base package
 Submodules
 ----------
 
+bioio\_base.benchmark module
+----------------------------
+
+.. automodule:: bioio_base.benchmark
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bioio\_base.constants module
 ----------------------------
 
