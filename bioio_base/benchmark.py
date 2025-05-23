@@ -27,7 +27,7 @@ class BenchmarkDefinition(typing.TypedDict):
     test: typing.Callable[[pathlib.Path, typing.Type[Reader]], None]
 
 
-def _all_scenes_read(reader: typing.Type[Reader], test_file: pathlib.Path) -> None:
+def _all_scenes_read(test_file: pathlib.Path, reader: typing.Type[Reader]) -> None:
     """Read all scenes of the file"""
     image = reader(test_file)
     for scene in image.scenes:
@@ -36,7 +36,7 @@ def _all_scenes_read(reader: typing.Type[Reader], test_file: pathlib.Path) -> No
 
 
 def _all_scenes_delayed_read(
-    reader: typing.Type[Reader], test_file: pathlib.Path
+    test_file: pathlib.Path, reader: typing.Type[Reader]
 ) -> None:
     """Read all scenes of the file delayed"""
     image = reader(test_file)
@@ -45,7 +45,7 @@ def _all_scenes_delayed_read(
         image.get_image_dask_data()
 
 
-def _read_ome_metadata(reader: typing.Type[Reader], test_file: pathlib.Path) -> None:
+def _read_ome_metadata(test_file: pathlib.Path, reader: typing.Type[Reader]) -> None:
     """Read the OME metadata of the image"""
     try:
         reader(test_file).ome_metadata
@@ -98,7 +98,7 @@ BENCHMARK_DEFINITIONS: typing.List[BenchmarkDefinition] = [
     },
     {
         "prefix": "All Scenes Read",
-        "test": lambda file, reader: _all_scenes_read(reader, file),
+        "test": _all_scenes_read,
     },
     {
         "prefix": "First Scene Delayed Read",
@@ -106,7 +106,7 @@ BENCHMARK_DEFINITIONS: typing.List[BenchmarkDefinition] = [
     },
     {
         "prefix": "All Scenes Delayed Read",
-        "test": lambda file, reader: _all_scenes_delayed_read(reader, file),
+        "test": _all_scenes_delayed_read,
     },
     {
         "prefix": "Metadata Read",
@@ -114,7 +114,7 @@ BENCHMARK_DEFINITIONS: typing.List[BenchmarkDefinition] = [
     },
     {
         "prefix": "OME Metadata Read",
-        "test": lambda file, reader: _read_ome_metadata(reader, file),
+        "test": _read_ome_metadata,
     },
 ]
 
