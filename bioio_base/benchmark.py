@@ -16,6 +16,17 @@ import psutil
 from .reader import Reader
 
 
+class BenchmarkDefinition(typing.TypedDict):
+    """
+    Definition of a benchmark test
+    ran on each test file, prefix is used to
+    denote differences between tests
+    """
+
+    prefix: str
+    test: typing.Callable[[pathlib.Path, typing.Type[Reader]], None]
+
+
 def _all_scenes_read(reader: typing.Type[Reader], test_file: pathlib.Path) -> None:
     """Read all scenes of the file"""
     image = reader(test_file)
@@ -51,8 +62,11 @@ def _format_bytes(num: float, suffix: str = "B") -> str:
     return f"{num:.1f}Yi{suffix}"
 
 
-def _benchmark_function(
-    prefix: str, fn: typing.Callable
+def benchmark_test(
+    prefix: str,
+    test: typing.Callable[[pathlib.Path, typing.Type[Reader]], None],
+    test_file: pathlib.Path,
+    reader: typing.Type[Reader],
 ) -> typing.Dict[str, typing.Union[str, float]]:
     """
     Gets performance stats for calling the given function.
@@ -60,7 +74,7 @@ def _benchmark_function(
     """
     tracemalloc.start()
     start_time = time.perf_counter()
-    fn()
+    test(test_file, reader)
     end_time = time.perf_counter()
     _current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
@@ -75,7 +89,41 @@ def _benchmark_function(
     }
 
 
-def benchmark(reader: typing.Type[Reader], test_file_dir: pathlib.Path) -> None:
+# Definitions of benchmark tests
+# ran for each test file
+BENCHMARK_DEFINITIONS: typing.List[BenchmarkDefinition] = [
+    {
+        "prefix": "First Scene Read",
+        "test": lambda file, reader: reader(file).get_image_data(),
+    },
+    {
+        "prefix": "All Scenes Read",
+        "test": lambda file, reader: _all_scenes_read(reader, file),
+    },
+    {
+        "prefix": "First Scene Delayed Read",
+        "test": lambda file, reader: reader(file).get_image_dask_data(),
+    },
+    {
+        "prefix": "All Scenes Delayed Read",
+        "test": lambda file, reader: _all_scenes_delayed_read(reader, file),
+    },
+    {
+        "prefix": "Metadata Read",
+        "test": lambda file, reader: reader(file).metadata,
+    },
+    {
+        "prefix": "OME Metadata Read",
+        "test": lambda file, reader: _read_ome_metadata(reader, file),
+    },
+]
+
+
+def benchmark(
+    reader: typing.Type[Reader],
+    test_file_dir: pathlib.Path,
+    additional_test_definitions: typing.List[BenchmarkDefinition] = [],
+) -> None:
     """Perform actual benchmark test"""
     benchmark_start_time = time.perf_counter()
 
@@ -90,6 +138,7 @@ def benchmark(reader: typing.Type[Reader], test_file_dir: pathlib.Path) -> None:
     # Iterate the test resources capturing some performance metrics
     now_date_string = datetime.datetime.now().isoformat()
     output_rows: typing.List[typing.Dict[str, typing.Any]] = []
+    test_definitions = [*BENCHMARK_DEFINITIONS, *additional_test_definitions]
     for test_file in test_file_dir.iterdir():
         test_file = pathlib.Path(test_file)
 
@@ -100,33 +149,20 @@ def benchmark(reader: typing.Type[Reader], test_file_dir: pathlib.Path) -> None:
         image = reader(test_file)
 
         # Capture performance metrics
-        # TODO: Consider just printing?
+        tests_from_files: dict = {}
+        for test_definition in test_definitions:
+            tests_from_files = {
+                **tests_from_files,
+                **benchmark_test(
+                    prefix=test_definition["prefix"],
+                    test=test_definition["test"],
+                    test_file=test_file,
+                    reader=reader,
+                ),
+            }
         output_rows.append(
             {
-                **_benchmark_function(
-                    prefix="First Scene Read",
-                    fn=lambda: reader(test_file).get_image_data(),
-                ),
-                **_benchmark_function(
-                    prefix="All Scenes Read",
-                    fn=lambda: _all_scenes_read(reader, test_file),
-                ),
-                **_benchmark_function(
-                    prefix="First Scene Delayed Read",
-                    fn=lambda: reader(test_file).get_image_dask_data(),
-                ),
-                **_benchmark_function(
-                    prefix="All Scenes Delayed Read",
-                    fn=lambda: _all_scenes_delayed_read(reader, test_file),
-                ),
-                **_benchmark_function(
-                    prefix="Metadata Read",
-                    fn=lambda: reader(test_file).metadata,
-                ),
-                **_benchmark_function(
-                    prefix="OME Metadata Read",
-                    fn=lambda: _read_ome_metadata(reader, test_file),
-                ),
+                **tests_from_files,
                 "File Name": test_file.name,
                 "File Size": _format_bytes(test_file.stat().st_size),
                 "Shape": image.shape,
