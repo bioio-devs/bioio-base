@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="bioio_base" href="modules.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+ge01dd98 documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+gd6e902d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+ge01dd98 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gd6e902d documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+ge01dd98 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gd6e902d documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -1853,6 +1853,43 @@ specified in given_dims</p>
 </dd></dl>
 
 </section>
+<section id="module-bioio_base.writer">
+<span id="bioio-base-writer-module"></span><h2>bioio_base.writer module<a class="headerlink" href="#module-bioio_base.writer" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.writer.Writer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.writer.</span></span><span class="sig-name descname"><span class="pre">Writer</span></span><a class="reference internal" href="_modules/bioio_base/writer.html#Writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.writer.Writer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>A small class to build standardized image writer functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio_base.writer.Writer.save">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'TCZYX'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/writer.html#Writer.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.writer.Writer.save" title="Link to this definition">¶</a></dt>
+<dd><p>Write a data array to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data: types.ArrayLike</strong></dt><dd><p>The array of data to store.</p>
+</dd>
+<dt><strong>uri: types.PathLike</strong></dt><dd><p>The URI or local path for where to save the data.</p>
+</dd>
+<dt><strong>dim_order: str</strong></dt><dd><p>The dimension order of the data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">])</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.ome.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;TCZYX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.png&quot;</span><span class="p">,</span> <span class="s2">&quot;CYX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-bioio_base">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-bioio_base" title="Link to this heading">¶</a></h2>
 <p>Top-level package for bioio_base.</p>
@@ -2097,6 +2134,13 @@ specified in given_dims</p>
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-bioio_base.writer">bioio_base.writer module</a><ul>
+<li><a class="reference internal" href="#bioio_base.writer.Writer"><code class="docutils literal notranslate"><span class="pre">Writer</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.writer.Writer.save"><code class="docutils literal notranslate"><span class="pre">Writer.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-bioio_base">Module contents</a></li>
 </ul>
 </li>
@@ -2109,7 +2153,7 @@ specified in given_dims</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d6f2b55d"></script>
+</div><script src="_static/documentation_options.js?v=0b3877dc"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
