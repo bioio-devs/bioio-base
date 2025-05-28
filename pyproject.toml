@@ -53,6 +53,10 @@ test = [
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",
   "pytest-raises>=0.11",
+
+  # Necessary to test http files (like in test_benchmark)
+  "aiohttp",
+  "requests",
 ]
 docs = [
   # Sphinx + Doc Gen + Styling
