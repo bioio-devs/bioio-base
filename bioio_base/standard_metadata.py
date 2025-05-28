@@ -1,6 +1,5 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional, Sequence
 
 from ome_types import OME
@@ -173,21 +172,7 @@ def imaging_date(ome: OME) -> Optional[str]:
     try:
         img = ome.images[0]
         acq = img.acquisition_date
-        if acq is None:
-            return None
-        # If it's already a datetime, use it directly
-        if isinstance(acq, datetime):
-            dt = acq
-        elif isinstance(acq, str):
-            # Parse ISO strings; let fromisoformat handle Z if possible
-            try:
-                dt = datetime.fromisoformat(acq)
-            except ValueError:
-                dt = datetime.fromisoformat(acq.replace("Z", "+00:00"))
-        else:
-            return None
-        # Convert to local timezone and return date
-        local_time = dt.astimezone()
+        local_time = acq.astimezone()
         return local_time.date().isoformat()
     except Exception as exc:
         log.warning("Failed to extract Acquisition Date: %s", exc, exc_info=True)
