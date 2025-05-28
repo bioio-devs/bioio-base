@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="bioio_base" href="modules.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+gd6e902d documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+g7122c81 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gd6e902d documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g7122c81 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gd6e902d documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g7122c81 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -258,10 +258,36 @@
 <p>A simple benchmarking function (<cite>benchmark()</cite>) can be imported from
 this file to be used by individual readers to then performance test
 their individual readers</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.benchmark.BenchmarkDefinition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.benchmark.</span></span><span class="sig-name descname"><span class="pre">BenchmarkDefinition</span></span><a class="reference internal" href="_modules/bioio_base/benchmark.html#BenchmarkDefinition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.benchmark.BenchmarkDefinition" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<p>Definition of a benchmark test
+ran on each test file, prefix is used to
+denote differences between tests</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.benchmark.BenchmarkDefinition.prefix">
+<span class="sig-name descname"><span class="pre">prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio_base.benchmark.BenchmarkDefinition.prefix" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.benchmark.BenchmarkDefinition.test">
+<span class="sig-name descname"><span class="pre">test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio_base.benchmark.BenchmarkDefinition.test" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="bioio_base.benchmark.benchmark">
-<span class="sig-prename descclassname"><span class="pre">bioio_base.benchmark.</span></span><span class="sig-name descname"><span class="pre">benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_file_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/benchmark.html#benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.benchmark.benchmark" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bioio_base.benchmark.</span></span><span class="sig-name descname"><span class="pre">benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_file_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_test_definitions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.benchmark.BenchmarkDefinition" title="bioio_base.benchmark.BenchmarkDefinition"><span class="pre">BenchmarkDefinition</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio_base/benchmark.html#benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.benchmark.benchmark" title="Link to this definition">¶</a></dt>
 <dd><p>Perform actual benchmark test</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.benchmark.benchmark_test">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.benchmark.</span></span><span class="sig-name descname"><span class="pre">benchmark_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio_base.reader.Reader" title="bioio_base.reader.Reader"><span class="pre">Reader</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/benchmark.html#benchmark_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.benchmark.benchmark_test" title="Link to this definition">¶</a></dt>
+<dd><p>Gets performance stats for calling the given function.
+Prefixes the keys of the result by the prefix given.</p>
 </dd></dl>
 
 </section>
@@ -1954,7 +1980,13 @@ specified in given_dims</p>
 <li><a class="reference internal" href="#">bioio_base package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-bioio_base.benchmark">bioio_base.benchmark module</a><ul>
+<li><a class="reference internal" href="#bioio_base.benchmark.BenchmarkDefinition"><code class="docutils literal notranslate"><span class="pre">BenchmarkDefinition</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.benchmark.BenchmarkDefinition.prefix"><code class="docutils literal notranslate"><span class="pre">BenchmarkDefinition.prefix</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.benchmark.BenchmarkDefinition.test"><code class="docutils literal notranslate"><span class="pre">BenchmarkDefinition.test</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bioio_base.benchmark.benchmark"><code class="docutils literal notranslate"><span class="pre">benchmark()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.benchmark.benchmark_test"><code class="docutils literal notranslate"><span class="pre">benchmark_test()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.constants">bioio_base.constants module</a></li>
@@ -2153,7 +2185,7 @@ specified in given_dims</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=0b3877dc"></script>
+</div><script src="_static/documentation_options.js?v=3ec17150"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
