@@ -2,27 +2,10 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Sequence
-from zoneinfo import ZoneInfo
 
-from lxml.etree import XML, _Element
 from ome_types import OME
 
-# XML namespace for OME
-OME_NS = {"": "http://www.openmicroscopy.org/Schemas/OME/2016-06"}
-
 log = logging.getLogger(__name__)
-
-# Valid objectives for comparison when parsing Objective
-VALID_OBJECTIVES = [
-    "63x/1.2W",
-    "20x/0.8",
-    "40x/1.2W",
-    "100x/1.25W",
-    "100x/1.46Oil",
-    "44.83x/1.0W",
-    "5x/0.12",
-    "10x/0.45",
-]
 
 
 @dataclass
@@ -128,102 +111,116 @@ class StandardMetadata:
         }
 
 
-# Helper functions for OME metadata extraction
-
-
-def get_metadata_element(ome_metadata: OME, path: str) -> Optional[_Element]:
-    """
-    Gets the first occurrence of the given XML path if one exists.
-    """
-    xml = XML(ome_metadata.to_xml())
-    return xml.find(path, OME_NS)
-
-
-def binning(ome_metadata: OME) -> Optional[str]:
+def binning(ome: OME) -> Optional[str]:
     """
     Extracts the binning setting from the OME metadata.
+
     Returns
     -------
     Optional[str]
         The binning setting as a string. Returns None if not found.
     """
     try:
-        el = get_metadata_element(
-            ome_metadata, "./Image/Pixels/Channel/DetectorSettings"
-        )
-        if el is not None:
-            return el.get("Binning", None)
+        # DetectorSettings under each Channel holds the binning info
+        channels = ome.images[0].pixels.channels or []
+        for channel in channels:
+            ds = channel.detector_settings
+            if ds and ds.binning:
+                return str(ds.binning.value)
     except Exception as exc:
         log.warning("Failed to extract Binning setting: %s", exc, exc_info=True)
     return None
 
 
-def imaged_by(ome_metadata: OME) -> Optional[str]:
+def imaged_by(ome: OME) -> Optional[str]:
     """
     Extracts the name of the experimenter (user who imaged the sample).
+
     Returns
     -------
     Optional[str]
         The username of the experimenter. Returns None if not found.
     """
     try:
-        el = get_metadata_element(ome_metadata, "./Experimenter")
-        if el is not None:
-            return el.get("UserName", None)
+        img = ome.images[0]
+        # Prefer explicit ExperimenterRef if present
+        if img.experimenter_ref and ome.experimenters:
+            exp = next(
+                (e for e in ome.experimenters if e.id == img.experimenter_ref.id), None
+            )
+            if exp and exp.user_name:
+                return exp.user_name
+        # Fallback to first Experimenter
+        if ome.experimenters:
+            return ome.experimenters[0].user_name
     except Exception as exc:
         log.warning("Failed to extract Imaged By: %s", exc, exc_info=True)
     return None
 
 
-def imaging_date(ome_metadata: OME) -> Optional[str]:
+def imaging_date(ome: OME) -> Optional[str]:
     """
     Extracts the acquisition date from the OME metadata.
+
     Returns
     -------
     Optional[str]
-        The acquisition date in ISO format (YYYY-MM-DD) adjusted to Pacific Time.
-        Returns None if the acquisition date is not found or cannot be parsed.
+        The acquisition date in ISO format (YYYY-MM-DD) adjusted to the local
+        system timezone.
+
+        None: if the acquisition date is not found or cannot be parsed.
     """
     try:
-        el = get_metadata_element(ome_metadata, "./Image/AcquisitionDate")
-        if el is not None and el.text:
-            utc_time = datetime.fromisoformat(el.text.replace("Z", "+00:00"))
-            pacific_time = utc_time.astimezone(ZoneInfo("America/Los_Angeles"))
-            return pacific_time.date().isoformat()
-    except ValueError as exc:
-        log.warning("Failed to parse Acquisition Date: %s", exc, exc_info=True)
+        img = ome.images[0]
+        acq = img.acquisition_date
+        if acq is None:
+            return None
+        # If it's already a datetime, use it directly
+        if isinstance(acq, datetime):
+            dt = acq
+        elif isinstance(acq, str):
+            # Parse ISO strings; let fromisoformat handle Z if possible
+            try:
+                dt = datetime.fromisoformat(acq)
+            except ValueError:
+                dt = datetime.fromisoformat(acq.replace("Z", "+00:00"))
+        else:
+            return None
+        # Convert to local timezone and return date
+        local_time = dt.astimezone()
+        return local_time.date().isoformat()
     except Exception as exc:
         log.warning("Failed to extract Acquisition Date: %s", exc, exc_info=True)
     return None
 
 
-def objective(ome_metadata: OME) -> Optional[str]:
+def objective(ome: OME) -> Optional[str]:
     """
     Extracts the microscope objective details.
+
     Returns
     -------
     Optional[str]
         The formatted objective magnification and numerical aperture.
-        Returns None if not found.
+        Returns the raw string (e.g. "40x/1.2W").
     """
     try:
-        el = get_metadata_element(ome_metadata, "./Instrument/Objective")
-        if el is not None:
-            nominal = el.get("NominalMagnification")
-            lens_na = el.get("LensNA")
-            immersion = el.get("Immersion")
-            immersion_suffix = ""
-            if immersion == "Oil":
-                immersion_suffix = "Oil"
-            elif immersion == "Water":
-                immersion_suffix = "W"
-            if nominal is not None and lens_na is not None:
-                raw_obj = f"{round(float(nominal))}x/{float(lens_na)}{immersion_suffix}"
-                if raw_obj in VALID_OBJECTIVES:
-                    return raw_obj
-                for valid in VALID_OBJECTIVES:
-                    if raw_obj in valid:
-                        return valid
+        img = ome.images[0]
+        instrs = ome.instruments or []
+        instr = None
+        # Prefer explicit InstrumentRef
+        if img.instrument_ref:
+            instr = next((i for i in instrs if i.id == img.instrument_ref.id), None)
+        # Fallback to first Instrument
+        if not instr and instrs:
+            instr = instrs[0]
+        if instr and instr.objectives:
+            obj = instr.objectives[0]
+            mag = round(float(obj.nominal_magnification))
+            na = obj.lens_na
+            imm = obj.immersion.value if obj.immersion else ""
+            raw_obj = f"{mag}x/{na}{imm}"
+            return raw_obj
     except Exception as exc:
         log.warning("Failed to extract Objective: %s", exc, exc_info=True)
     return None
