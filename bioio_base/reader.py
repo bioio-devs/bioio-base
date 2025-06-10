@@ -76,7 +76,8 @@ class Reader(ImageContainer, ABC):
         Returns
         -------
         supported: bool
-            Boolean value indicating if the file is supported by the reader.
+            Boolean value indicating if the file is supported by the reader,
+            or an exception if not.
         """
 
     @classmethod
@@ -103,8 +104,7 @@ class Reader(ImageContainer, ABC):
         Returns
         -------
         supported: bool
-            Boolean indicated if the provided data is or is not supported by the
-            current Reader.
+            True if the image is supported by the reader, raises an exception if not.
 
         Raises
         ------
