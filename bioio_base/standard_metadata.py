@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional, Sequence
 
 from ome_types import OME
@@ -44,7 +45,7 @@ class StandardMetadata:
     imaged_by: Optional[str] = None
 
     # Date this file was imaged.
-    imaging_date: Optional[str] = None
+    imaging_datetime: Optional[datetime] = None
 
     # Objective.
     objective: Optional[str] = None
@@ -84,7 +85,7 @@ class StandardMetadata:
         "image_size_y": "Image Size Y",
         "image_size_z": "Image Size Z",
         "imaged_by": "Imaged By",
-        "imaging_date": "Imaging Date",
+        "imaging_datetime": "Imaging Datetime",
         "objective": "Objective",
         "pixel_size_x": "Pixel Size X",
         "pixel_size_y": "Pixel Size Y",
@@ -157,26 +158,25 @@ def imaged_by(ome: OME) -> Optional[str]:
     return None
 
 
-def imaging_date(ome: OME) -> Optional[str]:
+def imaging_datetime(ome: OME) -> Optional[datetime]:
     """
-    Extracts the acquisition date from the OME metadata.
+    Extracts the acquisition datetime from the OME metadata.
 
     Returns
     -------
-    Optional[str]
-        The acquisition date in ISO format (YYYY-MM-DD) adjusted to the local
-        system timezone.
+    Optional[datetime]
+        The acquisition datetime as provided in the metadata,
+        including its original timezone.
 
-        None: if the acquisition date is not found or cannot be parsed.
+        None: if the acquisition datetime is not found or cannot be parsed.
     """
     try:
         img = ome.images[0]
         acq = img.acquisition_date
-        local_time = acq.astimezone()
-        return local_time.date().isoformat()
+        return acq
     except Exception as exc:
-        log.warning("Failed to extract Acquisition Date: %s", exc, exc_info=True)
-    return None
+        log.warning("Failed to extract Acquisition Datetime: %s", exc, exc_info=True)
+        return None
 
 
 def objective(ome: OME) -> Optional[str]:

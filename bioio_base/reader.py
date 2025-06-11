@@ -19,7 +19,7 @@ from .standard_metadata import (
     StandardMetadata,
     binning,
     imaged_by,
-    imaging_date,
+    imaging_datetime,
     objective,
 )
 from .types import PhysicalPixelSizes, Scale, TimeInterval
@@ -1120,7 +1120,7 @@ class Reader(ImageContainer, ABC):
             # OME-derived fields (None if no OME metadata)
             binning=binning(ome) if ome is not None else None,
             imaged_by=imaged_by(ome) if ome is not None else None,
-            imaging_date=imaging_date(ome) if ome is not None else None,
+            imaging_datetime=imaging_datetime(ome) if ome is not None else None,
             objective=objective(ome) if ome is not None else None,
         )
 

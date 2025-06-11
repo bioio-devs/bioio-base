@@ -1,9 +1,10 @@
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
 from ome_types import OME
 
-from ..standard_metadata import binning, imaged_by, imaging_date, objective
+from ..standard_metadata import binning, imaged_by, imaging_datetime, objective
 
 
 @pytest.fixture
@@ -26,9 +27,10 @@ def test_imaged_by_with_explicit_ref(sample_ome: OME) -> None:
     assert result == "sara.carlson"
 
 
-def test_imaging_date(sample_ome: OME) -> None:
-    result = imaging_date(sample_ome)
-    assert result == "2020-01-17"
+def test_imaging_datetime(sample_ome: OME) -> None:
+    result = imaging_datetime(sample_ome)
+    expected = datetime(2020, 1, 18, 0, 16, 29, 771361, tzinfo=timezone.utc)
+    assert result == expected
 
 
 def test_objective(sample_ome: OME) -> None:
