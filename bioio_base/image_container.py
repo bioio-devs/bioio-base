@@ -9,6 +9,7 @@ import numpy as np
 import xarray as xr
 
 from .dimensions import Dimensions
+from .standard_metadata import StandardMetadata
 from .types import ImageLike, PhysicalPixelSizes, Scale, TimeInterval
 
 ###############################################################################
@@ -128,4 +129,9 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def time_interval(self) -> TimeInterval:
+        pass
+
+    @property
+    @abstractmethod
+    def standard_metadata(self) -> StandardMetadata:
         pass

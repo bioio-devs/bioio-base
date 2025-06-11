@@ -5,6 +5,7 @@ import fsspec
 import numpy as np
 import xarray as xr
 
+from .constants import METADATA_UNPROCESSED
 from .dimensions import DEFAULT_DIMENSION_ORDER_LIST
 from .reader import Reader
 
@@ -38,10 +39,12 @@ class NoopReader(Reader):
         return xr.DataArray(
             data=da.from_array(self._mock_data[self.current_scene_index]),
             dims=DEFAULT_DIMENSION_ORDER_LIST,
+            attrs={METADATA_UNPROCESSED: {}},
         )
 
     def _read_immediate(self) -> xr.DataArray:
         return xr.DataArray(
             data=self._mock_data[self.current_scene_index],
             dims=DEFAULT_DIMENSION_ORDER_LIST,
+            attrs={METADATA_UNPROCESSED: {}},
         )
