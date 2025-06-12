@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.standard_metadata - bioio-base 0.1.dev1+geb39182 documentation</title>
+        <title>bioio_base.standard_metadata - bioio-base 0.1.dev1+g10962bf documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+geb39182 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g10962bf documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+geb39182 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g10962bf documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -251,70 +251,93 @@
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StandardMetadata</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A simple container for embedded metadata fields using dataclass.</span>
+<span class="sd">    A simple container for embedded metadata fields.</span>
 
-<span class="sd">    Each metadata field is defined with an optional type.</span>
-<span class="sd">    The FIELD_LABELS mapping is used to produce readable output via the to_dict method.</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    binning: Optional[str]</span>
+<span class="sd">        Binning configuration.</span>
+
+<span class="sd">    column: Optional[str]</span>
+<span class="sd">        Column information.</span>
+
+<span class="sd">    dimensions_present: Optional[Sequence[str]]</span>
+<span class="sd">        List or sequence of dimension names.</span>
+
+<span class="sd">    image_size_c: Optional[int]</span>
+<span class="sd">        Channel dimension size.</span>
+
+<span class="sd">    image_size_t: Optional[int]</span>
+<span class="sd">        Time dimension size.</span>
+
+<span class="sd">    image_size_x: Optional[int]</span>
+<span class="sd">        Spatial X dimension size.</span>
+
+<span class="sd">    image_size_y: Optional[int]</span>
+<span class="sd">        Spatial Y dimension size.</span>
+
+<span class="sd">    image_size_z: Optional[int]</span>
+<span class="sd">        Spatial Z dimension size.</span>
+
+<span class="sd">    imaged_by: Optional[str]</span>
+<span class="sd">        The experimentalist who produced this data.</span>
+
+<span class="sd">    imaging_date: Optional[str]</span>
+<span class="sd">        Date this file was imaged.</span>
+
+<span class="sd">    objective: Optional[str]</span>
+<span class="sd">        Objective.</span>
+
+<span class="sd">    pixel_size_x: Optional[float]</span>
+<span class="sd">        Physical pixel size along X.</span>
+
+<span class="sd">    pixel_size_y: Optional[float]</span>
+<span class="sd">        Physical pixel size along Y.</span>
+
+<span class="sd">    pixel_size_z: Optional[float]</span>
+<span class="sd">        Physical pixel size along Z.</span>
+
+<span class="sd">    position_index: Optional[int]</span>
+<span class="sd">        Position index, if applicable.</span>
+
+<span class="sd">    row: Optional[str]</span>
+<span class="sd">        Row information.</span>
+
+<span class="sd">    timelapse: Optional[bool]</span>
+<span class="sd">        Is the data a timelapse?</span>
+
+<span class="sd">    timelapse_interval: Optional[float]</span>
+<span class="sd">        Time interval between frames, measured from the beginning of the first</span>
+<span class="sd">        time point to the beginning of the second timepoint.</span>
+
+<span class="sd">    total_time_duration: Optional[str]</span>
+<span class="sd">        Total time duration of imaging, measured from the beginning of the first</span>
+<span class="sd">        time point to the beginning of the final time point.</span>
+
+<span class="sd">    FIELD_LABELS: dict[str, str]</span>
+<span class="sd">        Mapping of the above attribute names to readable labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Binning configuration.</span>
     <span class="n">binning</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Column information.</span>
     <span class="n">column</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># List or sequence of dimension names.</span>
     <span class="n">dimensions_present</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Channel dimension size.</span>
     <span class="n">image_size_c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Time dimension size.</span>
     <span class="n">image_size_t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Spatial X dimension size.</span>
     <span class="n">image_size_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Spatial Y dimension size.</span>
     <span class="n">image_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Spatial Z dimension size.</span>
     <span class="n">image_size_z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># The experimentalist who produced this data.</span>
     <span class="n">imaged_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Date this file was imaged.</span>
     <span class="n">imaging_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Objective.</span>
     <span class="n">objective</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Physical pixel size along X.</span>
     <span class="n">pixel_size_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Physical pixel size along Y.</span>
     <span class="n">pixel_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Physical pixel size along Z.</span>
     <span class="n">pixel_size_z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Position index, if applicable.</span>
     <span class="n">position_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Row information.</span>
     <span class="n">row</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Is the data a timelapse?</span>
     <span class="n">timelapse</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Time interval between frames.</span>
     <span class="n">timelapse_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># Total time duration of imaging.</span>
     <span class="n">total_time_duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="c1"># Mapping of internal attribute names to readable labels.</span>
     <span class="n">FIELD_LABELS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;binning&quot;</span><span class="p">:</span> <span class="s2">&quot;Binning&quot;</span><span class="p">,</span>
         <span class="s2">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;Column&quot;</span><span class="p">,</span>
@@ -385,7 +408,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=00cc343c"></script>
+</div><script src="../../_static/documentation_options.js?v=7e191c36"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
