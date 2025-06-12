@@ -5,70 +5,93 @@ from typing import Optional, Sequence
 @dataclass
 class StandardMetadata:
     """
-    A simple container for embedded metadata fields using dataclass.
+    A simple container for embedded metadata fields.
 
-    Each metadata field is defined with an optional type.
-    The FIELD_LABELS mapping is used to produce readable output via the to_dict method.
+    Attributes
+    ----------
+    binning: Optional[str]
+        Binning configuration.
+
+    column: Optional[str]
+        Column information.
+
+    dimensions_present: Optional[Sequence[str]]
+        List or sequence of dimension names.
+
+    image_size_c: Optional[int]
+        Channel dimension size.
+
+    image_size_t: Optional[int]
+        Time dimension size.
+
+    image_size_x: Optional[int]
+        Spatial X dimension size.
+
+    image_size_y: Optional[int]
+        Spatial Y dimension size.
+
+    image_size_z: Optional[int]
+        Spatial Z dimension size.
+
+    imaged_by: Optional[str]
+        The experimentalist who produced this data.
+
+    imaging_date: Optional[str]
+        Date this file was imaged.
+
+    objective: Optional[str]
+        Objective.
+
+    pixel_size_x: Optional[float]
+        Physical pixel size along X.
+
+    pixel_size_y: Optional[float]
+        Physical pixel size along Y.
+
+    pixel_size_z: Optional[float]
+        Physical pixel size along Z.
+
+    position_index: Optional[int]
+        Position index, if applicable.
+
+    row: Optional[str]
+        Row information.
+
+    timelapse: Optional[bool]
+        Is the data a timelapse?
+
+    timelapse_interval: Optional[float]
+        Time interval between frames, measured from the beginning of the first
+        time point to the beginning of the second timepoint.
+
+    total_time_duration: Optional[str]
+        Total time duration of imaging, measured from the beginning of the first
+        time point to the beginning of the final time point.
+
+    FIELD_LABELS: dict[str, str]
+        Mapping of the above attribute names to readable labels.
     """
 
-    # Binning configuration.
     binning: Optional[str] = None
-
-    # Column information.
     column: Optional[str] = None
-
-    # List or sequence of dimension names.
     dimensions_present: Optional[Sequence[str]] = None
-
-    # Channel dimension size.
     image_size_c: Optional[int] = None
-
-    # Time dimension size.
     image_size_t: Optional[int] = None
-
-    # Spatial X dimension size.
     image_size_x: Optional[int] = None
-
-    # Spatial Y dimension size.
     image_size_y: Optional[int] = None
-
-    # Spatial Z dimension size.
     image_size_z: Optional[int] = None
-
-    # The experimentalist who produced this data.
     imaged_by: Optional[str] = None
-
-    # Date this file was imaged.
     imaging_date: Optional[str] = None
-
-    # Objective.
     objective: Optional[str] = None
-
-    # Physical pixel size along X.
     pixel_size_x: Optional[float] = None
-
-    # Physical pixel size along Y.
     pixel_size_y: Optional[float] = None
-
-    # Physical pixel size along Z.
     pixel_size_z: Optional[float] = None
-
-    # Position index, if applicable.
     position_index: Optional[int] = None
-
-    # Row information.
     row: Optional[str] = None
-
-    # Is the data a timelapse?
     timelapse: Optional[bool] = None
-
-    # Time interval between frames.
     timelapse_interval: Optional[float] = None
-
-    # Total time duration of imaging.
     total_time_duration: Optional[str] = None
 
-    # Mapping of internal attribute names to readable labels.
     FIELD_LABELS = {
         "binning": "Binning",
         "column": "Column",
