@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.standard_metadata - bioio-base 0.1.dev1+g10962bf documentation</title>
+        <title>bioio_base.standard_metadata - bioio-base 0.1.dev1+g912a264 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g10962bf documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g912a264 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g10962bf documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g912a264 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -242,8 +242,14 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for bioio_base.standard_metadata</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OME</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="StandardMetadata">
@@ -327,7 +333,7 @@
     <span class="n">image_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">image_size_z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">imaged_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">imaging_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">imaging_datetime</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">objective</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pixel_size_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pixel_size_y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -348,7 +354,7 @@
         <span class="s2">&quot;image_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Y&quot;</span><span class="p">,</span>
         <span class="s2">&quot;image_size_z&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Z&quot;</span><span class="p">,</span>
         <span class="s2">&quot;imaged_by&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaged By&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;imaging_date&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaging Date&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;imaging_datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaging Datetime&quot;</span><span class="p">,</span>
         <span class="s2">&quot;objective&quot;</span><span class="p">:</span> <span class="s2">&quot;Objective&quot;</span><span class="p">,</span>
         <span class="s2">&quot;pixel_size_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size X&quot;</span><span class="p">,</span>
         <span class="s2">&quot;pixel_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size Y&quot;</span><span class="p">,</span>
@@ -375,6 +381,118 @@
             <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIELD_LABELS</span>
         <span class="p">}</span></div>
 </div>
+
+
+
+<div class="viewcode-block" id="binning">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.binning">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">binning</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the binning setting from the OME metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Optional[str]</span>
+<span class="sd">        The binning setting as a string. Returns None if not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># DetectorSettings under each Channel holds the binning info</span>
+        <span class="n">channels</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">channels</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">detector_settings</span>
+            <span class="k">if</span> <span class="n">ds</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">binning</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">binning</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Binning setting: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="imaged_by">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.imaged_by">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">imaged_by</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the name of the experimenter (user who imaged the sample).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Optional[str]</span>
+<span class="sd">        The username of the experimenter. Returns None if not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Prefer explicit ExperimenterRef if present</span>
+        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">experimenter_ref</span> <span class="ow">and</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span><span class="p">:</span>
+            <span class="n">exp</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">img</span><span class="o">.</span><span class="n">experimenter_ref</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="kc">None</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">exp</span> <span class="ow">and</span> <span class="n">exp</span><span class="o">.</span><span class="n">user_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">exp</span><span class="o">.</span><span class="n">user_name</span>
+        <span class="c1"># Fallback to first Experimenter</span>
+        <span class="k">if</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">user_name</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Imaged By: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="imaging_datetime">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.imaging_datetime">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">imaging_datetime</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the acquisition datetime from the OME metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Optional[datetime]</span>
+<span class="sd">        The acquisition datetime as provided in the metadata,</span>
+<span class="sd">        including its original timezone.</span>
+
+<span class="sd">        None: if the acquisition datetime is not found or cannot be parsed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">acq</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">acquisition_date</span>
+        <span class="k">return</span> <span class="n">acq</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Acquisition Datetime: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="objective">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.standard_metadata.objective">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the microscope objective details.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Optional[str]</span>
+<span class="sd">        The formatted objective magnification and numerical aperture.</span>
+<span class="sd">        Returns the raw string (e.g. &quot;40x/1.2W&quot;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">instrs</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">instruments</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">instr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Prefer explicit InstrumentRef</span>
+        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">instrument_ref</span><span class="p">:</span>
+            <span class="n">instr</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">instrs</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">img</span><span class="o">.</span><span class="n">instrument_ref</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Fallback to first Instrument</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">instr</span> <span class="ow">and</span> <span class="n">instrs</span><span class="p">:</span>
+            <span class="n">instr</span> <span class="o">=</span> <span class="n">instrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">instr</span> <span class="ow">and</span> <span class="n">instr</span><span class="o">.</span><span class="n">objectives</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">instr</span><span class="o">.</span><span class="n">objectives</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">mag</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">nominal_magnification</span><span class="p">))</span>
+            <span class="n">na</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">lens_na</span>
+            <span class="n">imm</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">raw_obj</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mag</span><span class="si">}</span><span class="s2">x/</span><span class="si">{</span><span class="n">na</span><span class="si">}{</span><span class="n">imm</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="n">raw_obj</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Objective: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 </pre></div>
         </article>
@@ -408,7 +526,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=7e191c36"></script>
+</div><script src="../../_static/documentation_options.js?v=26b54054"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
