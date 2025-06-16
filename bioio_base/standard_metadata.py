@@ -1,5 +1,11 @@
+import logging
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional, Sequence
+
+from ome_types import OME
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -81,7 +87,7 @@ class StandardMetadata:
     image_size_y: Optional[int] = None
     image_size_z: Optional[int] = None
     imaged_by: Optional[str] = None
-    imaging_date: Optional[str] = None
+    imaging_datetime: Optional[datetime] = None
     objective: Optional[str] = None
     pixel_size_x: Optional[float] = None
     pixel_size_y: Optional[float] = None
@@ -102,7 +108,7 @@ class StandardMetadata:
         "image_size_y": "Image Size Y",
         "image_size_z": "Image Size Z",
         "imaged_by": "Imaged By",
-        "imaging_date": "Imaging Date",
+        "imaging_datetime": "Imaging Datetime",
         "objective": "Objective",
         "pixel_size_x": "Pixel Size X",
         "pixel_size_y": "Pixel Size Y",
@@ -126,3 +132,103 @@ class StandardMetadata:
             self.FIELD_LABELS[field]: getattr(self, field)
             for field in self.FIELD_LABELS
         }
+
+
+def binning(ome: OME) -> Optional[str]:
+    """
+    Extracts the binning setting from the OME metadata.
+
+    Returns
+    -------
+    Optional[str]
+        The binning setting as a string. Returns None if not found.
+    """
+    try:
+        # DetectorSettings under each Channel holds the binning info
+        channels = ome.images[0].pixels.channels or []
+        for channel in channels:
+            ds = channel.detector_settings
+            if ds and ds.binning:
+                return str(ds.binning.value)
+    except Exception as exc:
+        log.warning("Failed to extract Binning setting: %s", exc, exc_info=True)
+    return None
+
+
+def imaged_by(ome: OME) -> Optional[str]:
+    """
+    Extracts the name of the experimenter (user who imaged the sample).
+
+    Returns
+    -------
+    Optional[str]
+        The username of the experimenter. Returns None if not found.
+    """
+    try:
+        img = ome.images[0]
+        # Prefer explicit ExperimenterRef if present
+        if img.experimenter_ref and ome.experimenters:
+            exp = next(
+                (e for e in ome.experimenters if e.id == img.experimenter_ref.id), None
+            )
+            if exp and exp.user_name:
+                return exp.user_name
+        # Fallback to first Experimenter
+        if ome.experimenters:
+            return ome.experimenters[0].user_name
+    except Exception as exc:
+        log.warning("Failed to extract Imaged By: %s", exc, exc_info=True)
+    return None
+
+
+def imaging_datetime(ome: OME) -> Optional[datetime]:
+    """
+    Extracts the acquisition datetime from the OME metadata.
+
+    Returns
+    -------
+    Optional[datetime]
+        The acquisition datetime as provided in the metadata,
+        including its original timezone.
+
+        None: if the acquisition datetime is not found or cannot be parsed.
+    """
+    try:
+        img = ome.images[0]
+        acq = img.acquisition_date
+        return acq
+    except Exception as exc:
+        log.warning("Failed to extract Acquisition Datetime: %s", exc, exc_info=True)
+        return None
+
+
+def objective(ome: OME) -> Optional[str]:
+    """
+    Extracts the microscope objective details.
+
+    Returns
+    -------
+    Optional[str]
+        The formatted objective magnification and numerical aperture.
+        Returns the raw string (e.g. "40x/1.2W").
+    """
+    try:
+        img = ome.images[0]
+        instrs = ome.instruments or []
+        instr = None
+        # Prefer explicit InstrumentRef
+        if img.instrument_ref:
+            instr = next((i for i in instrs if i.id == img.instrument_ref.id), None)
+        # Fallback to first Instrument
+        if not instr and instrs:
+            instr = instrs[0]
+        if instr and instr.objectives:
+            obj = instr.objectives[0]
+            mag = round(float(obj.nominal_magnification))
+            na = obj.lens_na
+            imm = obj.immersion.value if obj.immersion else ""
+            raw_obj = f"{mag}x/{na}{imm}"
+            return raw_obj
+    except Exception as exc:
+        log.warning("Failed to extract Objective: %s", exc, exc_info=True)
+    return None

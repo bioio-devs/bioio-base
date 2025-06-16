@@ -112,6 +112,8 @@ ignore = [
   "Justfile",
   ".cookiecutter.yaml",
   "*docs/*",
+  "bioio_base/tests/*",
+  "bioio_base/tests/resources/*",
 ]
 
 [tool.mypy]
