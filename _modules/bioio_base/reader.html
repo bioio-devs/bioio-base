@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio_base.reader - bioio-base 0.1.dev1+g912a264 documentation</title>
+        <title>bioio_base.reader - bioio-base 0.1.dev1+g988cb09 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g912a264 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g988cb09 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g912a264 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g988cb09 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -329,7 +329,8 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        supported: bool</span>
-<span class="sd">            Boolean value indicating if the file is supported by the reader.</span>
+<span class="sd">            Boolean value indicating if the file is supported by the reader,</span>
+<span class="sd">            or an exception if not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Reader.is_supported_image">
@@ -358,8 +359,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        supported: bool</span>
-<span class="sd">            Boolean indicated if the provided data is or is not supported by the</span>
-<span class="sd">            current Reader.</span>
+<span class="sd">            True if the image is supported by the reader, raises an exception if not.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -1446,7 +1446,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=26b54054"></script>
+</div><script src="../../_static/documentation_options.js?v=897584b8"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
