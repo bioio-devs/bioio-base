@@ -21,6 +21,8 @@ from .standard_metadata import (
     imaged_by,
     imaging_datetime,
     objective,
+    timelapse_interval,
+    total_time_duration,
 )
 from .types import PhysicalPixelSizes, Scale, TimeInterval
 
@@ -904,7 +906,9 @@ class Reader(ImageContainer, ABC):
         """
 
         return Scale(
-            T=self.time_interval,
+            T=self.time_interval.total_seconds()
+            if self.time_interval is not None
+            else None,
             C=None,
             Z=self.physical_pixel_sizes.Z,
             Y=self.physical_pixel_sizes.Y,
@@ -1113,7 +1117,6 @@ class Reader(ImageContainer, ABC):
             image_size_y=getattr(self.dims, DimensionNames.SpatialY, None),
             image_size_z=getattr(self.dims, DimensionNames.SpatialZ, None),
             timelapse=image_size_t is not None and image_size_t > 0,
-            timelapse_interval=self.time_interval,
             pixel_size_x=self.physical_pixel_sizes.X,
             pixel_size_y=self.physical_pixel_sizes.Y,
             pixel_size_z=self.physical_pixel_sizes.Z,
@@ -1122,6 +1125,12 @@ class Reader(ImageContainer, ABC):
             imaged_by=imaged_by(ome) if ome is not None else None,
             imaging_datetime=imaging_datetime(ome) if ome is not None else None,
             objective=objective(ome) if ome is not None else None,
+            timelapse_interval=timelapse_interval(ome, self.current_scene_index)
+            if ome
+            else self.time_interval,
+            total_time_duration=total_time_duration(ome, self.current_scene_index)
+            if ome is not None
+            else None,
         )
 
         return metadata

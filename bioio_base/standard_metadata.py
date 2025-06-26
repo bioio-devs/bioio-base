@@ -1,9 +1,10 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, Sequence
 
 from ome_types import OME
+from ome_types.model import UnitsTime
 
 log = logging.getLogger(__name__)
 
@@ -66,11 +67,10 @@ class StandardMetadata:
     timelapse: Optional[bool]
         Is the data a timelapse?
 
-    timelapse_interval: Optional[float]
-        Time interval between frames, measured from the beginning of the first
-        time point to the beginning of the second timepoint.
+    timelapse_interval: Optional[timedelta]
+        Average time interval between timepoints.
 
-    total_time_duration: Optional[str]
+    total_time_duration: Optional[timedelta]
         Total time duration of imaging, measured from the beginning of the first
         time point to the beginning of the final time point.
 
@@ -95,8 +95,8 @@ class StandardMetadata:
     position_index: Optional[int] = None
     row: Optional[str] = None
     timelapse: Optional[bool] = None
-    timelapse_interval: Optional[float] = None
-    total_time_duration: Optional[str] = None
+    timelapse_interval: Optional[timedelta] = None
+    total_time_duration: Optional[timedelta] = None
 
     FIELD_LABELS = {
         "binning": "Binning",
@@ -232,3 +232,70 @@ def objective(ome: OME) -> Optional[str]:
     except Exception as exc:
         log.warning("Failed to extract Objective: %s", exc, exc_info=True)
     return None
+
+
+def _convert_to_timedelta(delta_t: float, unit: Optional[UnitsTime]) -> timedelta:
+    """
+    Converts delta_t to a timedelta object based on the provided unit.
+    """
+    if unit is None:
+        # Assume seconds if unit is None
+        return timedelta(seconds=delta_t)
+
+    unit_value = unit.value  # Access the string representation of the enum
+
+    if unit_value == "ms":
+        return timedelta(milliseconds=delta_t)
+    elif unit_value == "µs":
+        return timedelta(microseconds=delta_t)
+    elif unit_value == "ns":
+        return timedelta(microseconds=delta_t / 1000.0)
+    else:
+        # Default to seconds for unrecognized units
+        return timedelta(seconds=delta_t)
+
+
+def total_time_duration(ome: OME, scene_index: int) -> Optional[timedelta]:
+    """
+    Computes the total time duration from the beginning of the first
+    timepoint to the beginning of the final timepoint.
+    """
+    try:
+        image = ome.images[scene_index]
+        planes = image.pixels.planes
+
+        # Initialize variables to track the maximum the_t and corresponding plane
+        max_t = -1
+        target_plane = None
+
+        for p in planes:
+            if p.the_z == 0 and p.the_c == 0 and p.the_t is not None:
+                if p.the_t > max_t:
+                    max_t = p.the_t
+                    target_plane = p
+
+        if target_plane is None or target_plane.delta_t is None:
+            return None
+
+        return _convert_to_timedelta(target_plane.delta_t, target_plane.delta_t_unit)
+    except Exception:
+        return None
+
+
+def timelapse_interval(ome: OME, scene_index: int) -> Optional[timedelta]:
+    """
+    Computes the average time interval between consecutive timepoints.
+    """
+    try:
+        image = ome.images[scene_index]
+        size_t = image.pixels.size_t
+        if size_t is None or size_t < 2:
+            return None
+
+        total_duration = total_time_duration(ome, scene_index)
+        if total_duration is None:
+            return None
+
+        return total_duration / (size_t - 1)
+    except Exception:
+        return None
