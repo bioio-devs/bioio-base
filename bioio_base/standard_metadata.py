@@ -252,6 +252,7 @@ def _convert_to_timedelta(delta_t: float, unit: Optional[UnitsTime]) -> timedelt
         return timedelta(microseconds=delta_t / 1000.0)
     else:
         # Default to seconds for unrecognized units
+        log.warning("No units found for timedelta, defaulting to seconds.")
         return timedelta(seconds=delta_t)
 
 
