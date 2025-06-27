@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from datetime import timedelta
 from pathlib import Path
 from typing import List, NamedTuple, Optional, Union
 
@@ -26,7 +27,7 @@ class PhysicalPixelSizes(NamedTuple):
     X: Optional[float]
 
 
-TimeInterval = Optional[float]
+TimeInterval = Optional[timedelta]
 
 
 class Scale(NamedTuple):
