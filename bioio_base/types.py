@@ -36,3 +36,34 @@ class Scale(NamedTuple):
     Z: Optional[float]
     Y: Optional[float]
     X: Optional[float]
+
+
+class DimensionProperty(NamedTuple):
+    """
+    Per-dimension descriptor for dimension metadata.
+
+    value:
+        The numeric value for this dimension (e.g. from Scale or PhysicalPixelSizes).
+    type:
+        Semantic meaning of the dimension (e.g. "spatial", "temporal", "channel").
+    unit:
+        Unit string associated with the value (e.g. "micrometer", "second", "index").
+    """
+
+    value: Optional[float]
+    type: Optional[str]
+    unit: Optional[str]
+
+
+class DimensionProperties(NamedTuple):
+    """
+    Container for dimension properties for all supported dims.
+
+    These align with the standard bioio dimension order (T, C, Z, Y, X).
+    """
+
+    T: DimensionProperty
+    C: DimensionProperty
+    Z: DimensionProperty
+    Y: DimensionProperty
+    X: DimensionProperty

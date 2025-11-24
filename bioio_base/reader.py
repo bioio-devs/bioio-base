@@ -24,7 +24,13 @@ from .standard_metadata import (
     timelapse_interval,
     total_time_duration,
 )
-from .types import PhysicalPixelSizes, Scale, TimeInterval
+from .types import (
+    DimensionProperties,
+    DimensionProperty,
+    PhysicalPixelSizes,
+    Scale,
+    TimeInterval,
+)
 
 ###############################################################################
 
@@ -913,6 +919,49 @@ class Reader(ImageContainer, ABC):
             Z=self.physical_pixel_sizes.Z,
             Y=self.physical_pixel_sizes.Y,
             X=self.physical_pixel_sizes.X,
+        )
+
+    @property
+    def dimension_properties(self) -> DimensionProperties:
+        """
+        Returns
+        -------
+        dimension_properties: DimensionProperties
+            Per-dimension properties.
+
+            Each dimension stores:
+            * value: The numeric scaling value.
+            * type: A semantic label for the dimension (e.g. "temporal", "spatial").
+            * unit: The unit associated with the value.
+        """
+        s = self.scale
+
+        return DimensionProperties(
+            T=DimensionProperty(
+                value=s.T,
+                type="temporal" if s.T is not None else None,
+                unit=None,
+            ),
+            C=DimensionProperty(
+                value=s.C,
+                type="channel" if s.C is not None else None,
+                unit=None,
+            ),
+            Z=DimensionProperty(
+                value=s.Z,
+                type="spatial" if s.Z is not None else None,
+                unit=None,
+            ),
+            Y=DimensionProperty(
+                value=s.Y,
+                type="spatial" if s.Y is not None else None,
+                unit=None,
+            ),
+            X=DimensionProperty(
+                value=s.X,
+                type="spatial" if s.X is not None else None,
+                unit=None,
+            ),
         )
 
     def get_mosaic_tile_position(
