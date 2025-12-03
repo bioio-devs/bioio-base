@@ -3,25 +3,46 @@
 
 from datetime import timedelta
 from pathlib import Path
-from typing import List, NamedTuple, Optional, Union
+from typing import List, NamedTuple, Optional, TypeAlias, Union
 
 import dask.array as da
 import numpy as np
+import pint
 import xarray as xr
+from ome_types.units import ureg as ome_ureg
 
 ###############################################################################
-
 # IO Types
+###############################################################################
+
 PathLike = Union[str, Path]
 ArrayLike = Union[np.ndarray, da.Array]
 MetaArrayLike = Union[ArrayLike, xr.DataArray]
 ImageLike = Union[
-    PathLike, ArrayLike, MetaArrayLike, List[MetaArrayLike], List[PathLike]
+    PathLike,
+    ArrayLike,
+    MetaArrayLike,
+    List[MetaArrayLike],
+    List[PathLike],
 ]
 
+# Public type aliases for units
+UnitRegistry: TypeAlias = pint.UnitRegistry
+Unit: TypeAlias = pint.Unit
 
+# Canonical global registry for BioIO, shared with OME-types
+ureg: UnitRegistry = ome_ureg
+
+###############################################################################
 # Image Utility Types
+###############################################################################
+
+
 class PhysicalPixelSizes(NamedTuple):
+    """
+    Physical pixel sizes along the Z, Y, and X axes.
+    """
+
     Z: Optional[float]
     Y: Optional[float]
     X: Optional[float]
@@ -31,6 +52,10 @@ TimeInterval = Optional[timedelta]
 
 
 class Scale(NamedTuple):
+    """
+    Per-dimension scale factors for T, C, Z, Y, X.
+    """
+
     T: Optional[float]
     C: Optional[float]
     Z: Optional[float]
@@ -40,19 +65,21 @@ class Scale(NamedTuple):
 
 class DimensionProperty(NamedTuple):
     """
-    Per-dimension descriptor for dimension metadata.
+    Per-dimension metadata descriptor.
 
-    value:
-        The numeric value for this dimension (e.g. from Scale or PhysicalPixelSizes).
+    Parameters
+    ----------
     type:
-        Semantic meaning of the dimension (e.g. "spatial", "temporal", "channel").
+        Semantic meaning of the dimension (e.g. "space", "time", "channel").
+        This module does not enforce a fixed vocabulary.
+
     unit:
-        Unit string associated with the value (e.g. "micrometer", "second", "index").
+        A `pint.Unit` from the shared OME/BioIO unit registry (`ureg`),
+        or None if the dimension unknown.
     """
 
-    value: Optional[float]
     type: Optional[str]
-    unit: Optional[str]
+    unit: Optional[Unit]
 
 
 class DimensionProperties(NamedTuple):

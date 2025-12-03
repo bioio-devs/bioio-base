@@ -924,42 +924,36 @@ class Reader(ImageContainer, ABC):
     @property
     def dimension_properties(self) -> DimensionProperties:
         """
-        Returns
-        -------
-        dimension_properties: DimensionProperties
-            Per-dimension properties.
+        Per-dimension metadata describing semantic meaning and units.
 
-            Each dimension stores:
-            * value: The numeric scaling value.
-            * type: A semantic label for the dimension (e.g. "temporal", "spatial").
-            * unit: The unit associated with the value.
+        Units
+        -----
+        The base Reader does *not* assign units. All units are
+        left as None. Reader implementations (e.g. OME-Zarr,
+        BioFormats, TIFF) are responsible for attaching pint.Unit
+        instances via the shared registry `bioio_base.types.ureg`.
         """
         s = self.scale
 
         return DimensionProperties(
             T=DimensionProperty(
-                value=s.T,
-                type="temporal" if s.T is not None else None,
+                type="time" if s.T is not None else None,
                 unit=None,
             ),
             C=DimensionProperty(
-                value=s.C,
                 type="channel" if s.C is not None else None,
                 unit=None,
             ),
             Z=DimensionProperty(
-                value=s.Z,
-                type="spatial" if s.Z is not None else None,
+                type="space" if s.Z is not None else None,
                 unit=None,
             ),
             Y=DimensionProperty(
-                value=s.Y,
-                type="spatial" if s.Y is not None else None,
+                type="space" if s.Y is not None else None,
                 unit=None,
             ),
             X=DimensionProperty(
-                value=s.X,
-                type="spatial" if s.X is not None else None,
+                type="space" if s.X is not None else None,
                 unit=None,
             ),
         )
