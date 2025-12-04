@@ -43,7 +43,7 @@ class StandardMetadata:
     imaged_by: Optional[str]
         The experimentalist who produced this data.
 
-    imaging_date: Optional[str]
+    imaging_datetime: Optional[datetime]
         Date this file was imaged.
 
     objective: Optional[str]

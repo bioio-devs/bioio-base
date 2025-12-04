@@ -10,7 +10,13 @@ import xarray as xr
 
 from .dimensions import Dimensions
 from .standard_metadata import StandardMetadata
-from .types import ImageLike, PhysicalPixelSizes, Scale, TimeInterval
+from .types import (
+    DimensionProperties,
+    ImageLike,
+    PhysicalPixelSizes,
+    Scale,
+    TimeInterval,
+)
 
 ###############################################################################
 
@@ -124,6 +130,11 @@ class ImageContainer(ABC):
     @property
     @abstractmethod
     def scale(self) -> Scale:
+        pass
+
+    @property
+    @abstractmethod
+    def dimension_properties(self) -> DimensionProperties:
         pass
 
     @property
