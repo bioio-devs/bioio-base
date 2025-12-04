@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing" href="contributing.html"><link rel="prev" title="bioio_base" href="modules.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.09.25 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+gf85ed1db9 documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+g9f5e15cca documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gf85ed1db9 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g9f5e15cca documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gf85ed1db9 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g9f5e15cca documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -458,6 +458,11 @@ the supported file types and cannot be parsed with AICSImage.</p>
 <dd></dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.dimension_properties">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimension_properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperties" title="bioio_base.types.DimensionProperties"><span class="pre">DimensionProperties</span></a></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.dimension_properties" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="bioio_base.image_container.ImageContainer.dims">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.dimensions.Dimensions" title="bioio_base.dimensions.Dimensions"><span class="pre">Dimensions</span></a></em><a class="headerlink" href="#bioio_base.image_container.ImageContainer.dims" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -711,6 +716,12 @@ If no channel dimension present in the data, returns None.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.dimension_properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimension_properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperties" title="bioio_base.types.DimensionProperties"><span class="pre">DimensionProperties</span></a></em><a class="headerlink" href="#bioio_base.reader.Reader.dimension_properties" title="Link to this definition">¶</a></dt>
+<dd><p>Per-dimension metadata describing semantic meaning and units.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1483,7 +1494,7 @@ metadata for unit information.</p>
 </dd>
 <dt><strong>imaged_by: Optional[str]</strong></dt><dd><p>The experimentalist who produced this data.</p>
 </dd>
-<dt><strong>imaging_date: Optional[str]</strong></dt><dd><p>Date this file was imaged.</p>
+<dt><strong>imaging_datetime: Optional[datetime]</strong></dt><dd><p>Date this file was imaged.</p>
 </dd>
 <dt><strong>objective: Optional[str]</strong></dt><dd><p>Objective.</p>
 </dd>
@@ -1928,9 +1939,81 @@ specified in given_dims</p>
 <section id="module-bioio_base.types">
 <span id="bioio-base-types-module"></span><h2>bioio_base.types module<a class="headerlink" href="#module-bioio_base.types" title="Link to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">PhysicalPixelSizes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#PhysicalPixelSizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">DimensionProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#DimensionProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.DimensionProperties" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Container for dimension properties for all supported dims.</p>
+<p>These align with the standard bioio dimension order (T, C, Z, Y, X).</p>
+<p>Create new instance of DimensionProperties(T, C, Z, Y, X)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties.C">
+<span class="sig-name descname"><span class="pre">C</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></em><a class="headerlink" href="#bioio_base.types.DimensionProperties.C" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties.T">
+<span class="sig-name descname"><span class="pre">T</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></em><a class="headerlink" href="#bioio_base.types.DimensionProperties.T" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></em><a class="headerlink" href="#bioio_base.types.DimensionProperties.X" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties.Y">
+<span class="sig-name descname"><span class="pre">Y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></em><a class="headerlink" href="#bioio_base.types.DimensionProperties.Y" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperties.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#bioio_base.types.DimensionProperty" title="bioio_base.types.DimensionProperty"><span class="pre">DimensionProperty</span></a></em><a class="headerlink" href="#bioio_base.types.DimensionProperties.Z" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">DimensionProperty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Unit</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#DimensionProperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.DimensionProperty" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Per-dimension metadata descriptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>type:</strong></dt><dd><p>Semantic meaning of the dimension (e.g. “space”, “time”, “channel”).
+This module does not enforce a fixed vocabulary.</p>
+</dd>
+<dt><strong>unit:</strong></dt><dd><p>A <cite>pint.Unit</cite> from the shared OME/BioIO unit registry (<cite>ureg</cite>),
+or None if the dimension unknown.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Create new instance of DimensionProperty(type, unit)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperty.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.types.DimensionProperty.type" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.types.DimensionProperty.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Unit</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.types.DimensionProperty.unit" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">PhysicalPixelSizes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#PhysicalPixelSizes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.PhysicalPixelSizes" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Physical pixel sizes along the Z, Y, and X axes.</p>
 <p>Create new instance of PhysicalPixelSizes(Z, Y, X)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="bioio_base.types.PhysicalPixelSizes.X">
@@ -1954,8 +2037,9 @@ specified in given_dims</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bioio_base.types.Scale">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.Scale" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio_base.types.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio_base/types.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.types.Scale" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Per-dimension scale factors for T, C, Z, Y, X.</p>
 <p>Create new instance of Scale(T, C, Z, Y, X)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="bioio_base.types.Scale.C">
@@ -2136,6 +2220,7 @@ specified in given_dims</p>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.current_scene_index"><code class="docutils literal notranslate"><span class="pre">ImageContainer.current_scene_index</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dask_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dask_data</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dimension_properties"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dimension_properties</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dims"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dims</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.dtype"><code class="docutils literal notranslate"><span class="pre">ImageContainer.dtype</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.image_container.ImageContainer.get_image_dask_data"><code class="docutils literal notranslate"><span class="pre">ImageContainer.get_image_dask_data()</span></code></a></li>
@@ -2175,6 +2260,7 @@ specified in given_dims</p>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.current_scene_index"><code class="docutils literal notranslate"><span class="pre">Reader.current_scene_index</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.dask_data</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.data"><code class="docutils literal notranslate"><span class="pre">Reader.data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.dimension_properties"><code class="docutils literal notranslate"><span class="pre">Reader.dimension_properties</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.dims"><code class="docutils literal notranslate"><span class="pre">Reader.dims</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.dtype"><code class="docutils literal notranslate"><span class="pre">Reader.dtype</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.get_dask_stack"><code class="docutils literal notranslate"><span class="pre">Reader.get_dask_stack()</span></code></a></li>
@@ -2268,6 +2354,19 @@ specified in given_dims</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.types">bioio_base.types module</a><ul>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties"><code class="docutils literal notranslate"><span class="pre">DimensionProperties</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties.C"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.C</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties.T"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.T</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties.X"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.X</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties.Y"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.Y</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperties.Z"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.Z</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperty"><code class="docutils literal notranslate"><span class="pre">DimensionProperty</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperty.type"><code class="docutils literal notranslate"><span class="pre">DimensionProperty.type</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.types.DimensionProperty.unit"><code class="docutils literal notranslate"><span class="pre">DimensionProperty.unit</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes</span></code></a><ul>
 <li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.X"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.X</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.types.PhysicalPixelSizes.Y"><code class="docutils literal notranslate"><span class="pre">PhysicalPixelSizes.Y</span></code></a></li>
@@ -2303,7 +2402,7 @@ specified in given_dims</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=e3dd85f6"></script>
+</div><script src="_static/documentation_options.js?v=6258b46c"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.09.25 -->
-        <title>bioio_base.types - bioio-base 0.1.dev1+gf85ed1db9 documentation</title>
+        <title>bioio_base.types - bioio-base 0.1.dev1+g9f5e15cca documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gf85ed1db9 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g9f5e15cca documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gf85ed1db9 documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g9f5e15cca documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -237,27 +237,48 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pint</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_types.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">ureg</span> <span class="k">as</span> <span class="n">ome_ureg</span>
 
 <span class="c1">###############################################################################</span>
-
 <span class="c1"># IO Types</span>
+<span class="c1">###############################################################################</span>
+
 <span class="n">PathLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 <span class="n">ArrayLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">]</span>
 <span class="n">MetaArrayLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span>
 <span class="n">ImageLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">PathLike</span><span class="p">,</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">MetaArrayLike</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">MetaArrayLike</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">PathLike</span><span class="p">]</span>
+    <span class="n">PathLike</span><span class="p">,</span>
+    <span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">MetaArrayLike</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">[</span><span class="n">MetaArrayLike</span><span class="p">],</span>
+    <span class="n">List</span><span class="p">[</span><span class="n">PathLike</span><span class="p">],</span>
 <span class="p">]</span>
 
+<span class="c1"># Public type aliases for units</span>
+<span class="n">UnitRegistry</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">UnitRegistry</span>
+<span class="n">Unit</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">Unit</span>
 
+<span class="c1"># Canonical global registry for BioIO, shared with OME-types</span>
+<span class="n">ureg</span><span class="p">:</span> <span class="n">UnitRegistry</span> <span class="o">=</span> <span class="n">ome_ureg</span>
+
+<span class="c1">###############################################################################</span>
 <span class="c1"># Image Utility Types</span>
+<span class="c1">###############################################################################</span>
+
+
 <div class="viewcode-block" id="PhysicalPixelSizes">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.types.PhysicalPixelSizes">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhysicalPixelSizes</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Physical pixel sizes along the Z, Y, and X axes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">Z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">Y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></div>
@@ -270,11 +291,54 @@
 <div class="viewcode-block" id="Scale">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.types.Scale">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Scale</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Per-dimension scale factors for T, C, Z, Y, X.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">T</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">C</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">Z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">Y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="DimensionProperty">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.types.DimensionProperty">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DimensionProperty</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Per-dimension metadata descriptor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type:</span>
+<span class="sd">        Semantic meaning of the dimension (e.g. &quot;space&quot;, &quot;time&quot;, &quot;channel&quot;).</span>
+<span class="sd">        This module does not enforce a fixed vocabulary.</span>
+
+<span class="sd">    unit:</span>
+<span class="sd">        A `pint.Unit` from the shared OME/BioIO unit registry (`ureg`),</span>
+<span class="sd">        or None if the dimension unknown.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Unit</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="DimensionProperties">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.types.DimensionProperties">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DimensionProperties</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Container for dimension properties for all supported dims.</span>
+
+<span class="sd">    These align with the standard bioio dimension order (T, C, Z, Y, X).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">T</span><span class="p">:</span> <span class="n">DimensionProperty</span>
+    <span class="n">C</span><span class="p">:</span> <span class="n">DimensionProperty</span>
+    <span class="n">Z</span><span class="p">:</span> <span class="n">DimensionProperty</span>
+    <span class="n">Y</span><span class="p">:</span> <span class="n">DimensionProperty</span>
+    <span class="n">X</span><span class="p">:</span> <span class="n">DimensionProperty</span></div>
 
 </pre></div>
         </article>
@@ -308,7 +372,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=e3dd85f6"></script>
+</div><script src="../../_static/documentation_options.js?v=6258b46c"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
