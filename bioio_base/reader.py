@@ -24,7 +24,13 @@ from .standard_metadata import (
     timelapse_interval,
     total_time_duration,
 )
-from .types import PhysicalPixelSizes, Scale, TimeInterval
+from .types import (
+    DimensionProperties,
+    DimensionProperty,
+    PhysicalPixelSizes,
+    Scale,
+    TimeInterval,
+)
 
 ###############################################################################
 
@@ -937,6 +943,43 @@ class Reader(ImageContainer, ABC):
             Z=self.physical_pixel_sizes.Z,
             Y=self.physical_pixel_sizes.Y,
             X=self.physical_pixel_sizes.X,
+        )
+
+    @property
+    def dimension_properties(self) -> DimensionProperties:
+        """
+        Per-dimension metadata describing semantic meaning and units.
+
+        Units
+        -----
+        The base Reader does *not* assign units. All units are
+        left as None. Reader implementations (e.g. OME-Zarr,
+        BioFormats, TIFF) are responsible for attaching pint.Unit
+        instances via the shared registry `bioio_base.types.ureg`.
+        """
+        s = self.scale
+
+        return DimensionProperties(
+            T=DimensionProperty(
+                type="time" if s.T is not None else None,
+                unit=None,
+            ),
+            C=DimensionProperty(
+                type="channel" if s.C is not None else None,
+                unit=None,
+            ),
+            Z=DimensionProperty(
+                type="space" if s.Z is not None else None,
+                unit=None,
+            ),
+            Y=DimensionProperty(
+                type="space" if s.Y is not None else None,
+                unit=None,
+            ),
+            X=DimensionProperty(
+                type="space" if s.X is not None else None,
+                unit=None,
+            ),
         )
 
     def get_mosaic_tile_position(
