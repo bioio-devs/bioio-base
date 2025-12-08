@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing" href="contributing.html"><link rel="prev" title="bioio_base" href="modules.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.09.25 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+g9f5e15cca documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+g47018cde7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g9f5e15cca documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g47018cde7 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g9f5e15cca documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g47018cde7 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -637,8 +637,17 @@ Default: {}</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>It is up to the implementer of the Reader to decide which types they would like to
-accept (certain readers may not support buffers for example).</p>
+<ul class="simple">
+<li><p>It is up to the implementer of the Reader to decide which types they would like to</p></li>
+</ul>
+<p>accept (certain readers may not support buffers for example).
+* Readers should implement their own NAME string for ease of debugging
+and identification.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.reader.Reader.NAME" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="bioio_base.reader.Reader.channel_names">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bioio_base.reader.Reader.channel_names" title="Link to this definition">¶</a></dt>
@@ -1212,6 +1221,22 @@ that each tile is a dask array chunk.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Very large images should use <cite>mosaic_xarray_dask_data</cite> to avoid seg-faults.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio_base.reader.Reader.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio_base.reader.Reader.name" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Human-readable identifier for this Reader implementation.</p>
+<p>Priority:
+1. If the subclass defines <cite>NAME</cite>, that value is returned.
+2. Otherwise, the module path is used</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -2254,6 +2279,7 @@ or None if the dimension unknown.</p>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.reader">bioio_base.reader module</a><ul>
 <li><a class="reference internal" href="#bioio_base.reader.Reader"><code class="docutils literal notranslate"><span class="pre">Reader</span></code></a><ul>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.NAME"><code class="docutils literal notranslate"><span class="pre">Reader.NAME</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.channel_names"><code class="docutils literal notranslate"><span class="pre">Reader.channel_names</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.current_resolution_level"><code class="docutils literal notranslate"><span class="pre">Reader.current_resolution_level</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.current_scene"><code class="docutils literal notranslate"><span class="pre">Reader.current_scene</span></code></a></li>
@@ -2278,6 +2304,7 @@ or None if the dimension unknown.</p>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_tile_dims"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_tile_dims</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_xarray_dask_data</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.mosaic_xarray_data"><code class="docutils literal notranslate"><span class="pre">Reader.mosaic_xarray_data</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.reader.Reader.name"><code class="docutils literal notranslate"><span class="pre">Reader.name</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.ome_metadata"><code class="docutils literal notranslate"><span class="pre">Reader.ome_metadata</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">Reader.physical_pixel_sizes</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.reader.Reader.resolution_level_dims"><code class="docutils literal notranslate"><span class="pre">Reader.resolution_level_dims</span></code></a></li>
@@ -2402,7 +2429,7 @@ or None if the dimension unknown.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6258b46c"></script>
+</div><script src="_static/documentation_options.js?v=e10af545"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
