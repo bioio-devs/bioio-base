@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
 
 import dask.array as da
 import numpy as np
@@ -50,9 +50,14 @@ class Reader(ImageContainer, ABC):
 
     Notes
     -----
-    It is up to the implementer of the Reader to decide which types they would like to
+    * It is up to the implementer of the Reader to decide which types they would like to
     accept (certain readers may not support buffers for example).
+    * Readers should implement their own NAME string for ease of debugging
+    and identification.
+
     """
+
+    NAME: ClassVar[Optional[str]] = None
 
     _xarray_dask_data: Optional[xr.DataArray] = None
     _xarray_data: Optional[xr.DataArray] = None
@@ -250,6 +255,28 @@ class Reader(ImageContainer, ABC):
         self.set_resolution_level(initial_resolution_level)
 
         return resolution_level_dims
+
+    @property
+    def name(self) -> str:
+        """
+        Returns
+        -------
+        name : str
+            Human-readable identifier for this Reader implementation.
+
+            Priority:
+            1. If the subclass defines `NAME`, that value is returned.
+            2. Otherwise, the module path is used
+        """
+        if self.NAME is not None:
+            return self.NAME
+
+        module_name = self.__class__.__module__
+
+        if module_name.endswith(".reader"):
+            module_name = module_name[: -len(".reader")]
+
+        return module_name
 
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
