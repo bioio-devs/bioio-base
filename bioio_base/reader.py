@@ -50,8 +50,10 @@ class Reader(ImageContainer, ABC):
 
     Notes
     -----
-    It is up to the implementer of the Reader to decide which types they would like to
+    * It is up to the implementer of the Reader to decide which types they would like to
     accept (certain readers may not support buffers for example).
+    * Please update the `NAME` field for subsequent Readers.
+
     """
 
     NAME: ClassVar[Optional[str]] = None
@@ -268,12 +270,12 @@ class Reader(ImageContainer, ABC):
         if self.NAME is not None:
             return self.NAME
 
-        module = self.__class__.__module__
+        module_name = self.__class__.__module__
 
-        if module.endswith(".reader"):
-            module = module[: -len(".reader")]
+        if module_name.endswith(".reader"):
+            module_name = module_name[: -len(".reader")]
 
-        return module
+        return module_name
 
     def _reset_self(self) -> None:
         # Reset the data stored in the Reader object
