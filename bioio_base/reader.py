@@ -52,7 +52,8 @@ class Reader(ImageContainer, ABC):
     -----
     * It is up to the implementer of the Reader to decide which types they would like to
     accept (certain readers may not support buffers for example).
-    * Please update the `NAME` field for subsequent Readers.
+    * Readers should implement their own NAME string for ease of debugging
+    and identification.
 
     """
 
