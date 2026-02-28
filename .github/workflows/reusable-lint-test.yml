@@ -1,0 +1,94 @@
+name: Reusable Lint and Test
+
+on:
+  workflow_call:
+    inputs:
+      test-os:
+        description: JSON array of OS values for test matrix
+        required: false
+        default: '["ubuntu-latest", "macOS-latest", "windows-latest"]'
+        type: string
+      install-just:
+        description: Whether to install just via extractions/setup-just
+        required: false
+        default: true
+        type: boolean
+      run-just-lint:
+        description: Lint command to execute
+        required: false
+        default: "just lint"
+        type: string
+      run-just-test:
+        description: Test command to execute
+        required: false
+        default: "just test"
+        type: string
+      install-ffmpeg-macos:
+        description: Install ffmpeg on macOS before tests
+        required: false
+        default: false
+        type: boolean
+      upload-codecov:
+        description: Upload coverage to Codecov after tests
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: extractions/setup-just@v3
+        if: ${{ inputs.install-just }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[lint]
+      - name: Lint
+        run: ${{ inputs.run-just-lint }}
+
+  test:
+    runs-on: ${{ matrix.os }}
+    needs: [lint]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        os: ${{ fromJSON(inputs.test-os) }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: extractions/setup-just@v3
+        if: ${{ inputs.install-just }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[test]
+      - name: Ensure ffmpeg on macOS
+        if: ${{ inputs.install-ffmpeg-macos && runner.os == 'macOS' }}
+        run: brew install ffmpeg
+      - name: Run Tests
+        run: ${{ inputs.run-just-test }}
+      - name: Upload Codecov
+        if: ${{ inputs.upload-codecov }}
+        uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
