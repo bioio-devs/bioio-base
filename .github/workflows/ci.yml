@@ -34,6 +34,8 @@ jobs:
   # Shared lint + test workflow
   lint-test:
     uses: ./.github/workflows/reusable-lint-test.yml
+    with:
+      lint-python-version: "3.11"
 
   # Publish to PyPI if test, lint, and manifest checks passed
   publish:

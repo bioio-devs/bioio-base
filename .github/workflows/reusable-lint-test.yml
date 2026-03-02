@@ -3,6 +3,16 @@ name: Reusable Lint and Test
 on:
   workflow_call:
     inputs:
+      lint-python-version:
+        description: Python version for lint job
+        required: false
+        default: "3.13"
+        type: string
+      test-python-versions:
+        description: JSON array of Python versions for test matrix
+        required: false
+        default: '["3.10", "3.11", "3.12", "3.13"]'
+        type: string
       test-os:
         description: JSON array of OS values for test matrix
         required: false
@@ -37,17 +47,13 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - uses: actions/checkout@v6
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.lint-python-version }}
       - uses: extractions/setup-just@v3
         if: ${{ inputs.install-just }}
         env:
@@ -65,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ${{ fromJSON(inputs.test-python-versions) }}
         os: ${{ fromJSON(inputs.test-os) }}
 
     steps:
