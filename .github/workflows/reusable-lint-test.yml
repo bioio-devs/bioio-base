@@ -3,92 +3,92 @@ name: Reusable Lint and Test
 on:
   workflow_call:
     inputs:
-      lint-python-version:
+      lint_python_version:
         description: Python version for lint job
         required: false
         default: "3.13"
         type: string
-      lint-checkout-submodules:
+      lint_checkout_submodules:
         description: "Checkout submodules mode for lint job (for example: recursive)"
         required: false
         default: ""
         type: string
-      lint-install-command:
+      lint_install_command:
         description: Dependency install command for lint job
         required: false
         default: "python -m pip install --upgrade pip && pip install .[lint]"
         type: string
-      test-python-versions:
+      test_python_versions:
         description: JSON array of Python versions for test matrix
         required: false
         default: '["3.10", "3.11", "3.12", "3.13"]'
         type: string
-      test-os:
+      test_os:
         description: JSON array of OS values for test matrix
         required: false
         default: '["ubuntu-latest", "macOS-latest", "windows-latest"]'
         type: string
-      install-just:
+      install_just:
         description: Whether to install just via extractions/setup-just
         required: false
         default: true
         type: boolean
-      run-just-lint:
+      run_just_lint:
         description: Lint command to execute
         required: false
         default: "just lint"
         type: string
-      run-just-test:
+      run_just_test:
         description: Test command to execute
         required: false
         default: "just test"
         type: string
-      test-checkout-submodules:
+      test_checkout_submodules:
         description: "Checkout submodules mode for test job (for example: recursive)"
         required: false
         default: ""
         type: string
-      test-checkout-lfs:
+      test_checkout_lfs:
         description: Whether to enable Git LFS checkout in test job
         required: false
         default: false
         type: boolean
-      test-install-command:
+      test_install_command:
         description: Dependency install command for test job
         required: false
         default: "python -m pip install --upgrade pip && pip install .[test]"
         type: string
-      test-shell-bash:
+      test_shell_bash:
         description: Run tests using bash shell
         required: false
         default: false
         type: boolean
-      setup-java-windows:
+      setup_java_windows:
         description: Set up Java on Windows in test job
         required: false
         default: false
         type: boolean
-      java-distribution:
+      java_distribution:
         description: Java distribution for setup-java action
         required: false
         default: "temurin"
         type: string
-      java-version:
+      java_version:
         description: Java version for setup-java action
         required: false
         default: "17"
         type: string
-      install-ffmpeg-macos:
+      install_ffmpeg_macos:
         description: Install ffmpeg on macOS before tests
         required: false
         default: false
         type: boolean
-      upload-codecov:
+      upload_codecov:
         description: Upload coverage to Codecov after tests
         required: false
         default: true
         type: boolean
-      codecov-use-oidc:
+      codecov_use_oidc:
         description: Use OIDC authentication for Codecov upload
         required: false
         default: false
@@ -100,23 +100,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-        if: ${{ inputs.lint-checkout-submodules == '' }}
+        if: ${{ inputs.lint_checkout_submodules == '' }}
       - uses: actions/checkout@v6
-        if: ${{ inputs.lint-checkout-submodules != '' }}
+        if: ${{ inputs.lint_checkout_submodules != '' }}
         with:
-          submodules: ${{ inputs.lint-checkout-submodules }}
+          submodules: ${{ inputs.lint_checkout_submodules }}
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ inputs.lint-python-version }}
+          python-version: ${{ inputs.lint_python_version }}
       - uses: extractions/setup-just@v3
-        if: ${{ inputs.install-just }}
+        if: ${{ inputs.install_just }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
-        run: ${{ inputs.lint-install-command }}
+        run: ${{ inputs.lint_install_command }}
       - name: Lint
-        run: ${{ inputs.run-just-lint }}
+        run: ${{ inputs.run_just_lint }}
 
   test:
     runs-on: ${{ matrix.os }}
@@ -124,56 +124,56 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ${{ fromJSON(inputs.test-python-versions) }}
-        os: ${{ fromJSON(inputs.test-os) }}
+        python-version: ${{ fromJSON(inputs.test_python_versions) }}
+        os: ${{ fromJSON(inputs.test_os) }}
 
     steps:
       - uses: actions/checkout@v6
-        if: ${{ inputs.test-checkout-submodules == '' && !inputs.test-checkout-lfs }}
+        if: ${{ inputs.test_checkout_submodules == '' && !inputs.test_checkout_lfs }}
       - uses: actions/checkout@v6
-        if: ${{ inputs.test-checkout-submodules != '' && !inputs.test-checkout-lfs }}
+        if: ${{ inputs.test_checkout_submodules != '' && !inputs.test_checkout_lfs }}
         with:
-          submodules: ${{ inputs.test-checkout-submodules }}
+          submodules: ${{ inputs.test_checkout_submodules }}
       - uses: actions/checkout@v6
-        if: ${{ inputs.test-checkout-submodules == '' && inputs.test-checkout-lfs }}
+        if: ${{ inputs.test_checkout_submodules == '' && inputs.test_checkout_lfs }}
         with:
           lfs: true
       - uses: actions/checkout@v6
-        if: ${{ inputs.test-checkout-submodules != '' && inputs.test-checkout-lfs }}
+        if: ${{ inputs.test_checkout_submodules != '' && inputs.test_checkout_lfs }}
         with:
-          submodules: ${{ inputs.test-checkout-submodules }}
+          submodules: ${{ inputs.test_checkout_submodules }}
           lfs: true
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up Java (Windows only)
-        if: ${{ inputs.setup-java-windows && runner.os == 'Windows' }}
+        if: ${{ inputs.setup_java_windows && runner.os == 'Windows' }}
         uses: actions/setup-java@v5
         with:
-          distribution: ${{ inputs.java-distribution }}
-          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java_distribution }}
+          java-version: ${{ inputs.java_version }}
       - uses: extractions/setup-just@v3
-        if: ${{ inputs.install-just }}
+        if: ${{ inputs.install_just }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
-        run: ${{ inputs.test-install-command }}
+        run: ${{ inputs.test_install_command }}
       - name: Ensure ffmpeg on macOS
-        if: ${{ inputs.install-ffmpeg-macos && runner.os == 'macOS' }}
+        if: ${{ inputs.install_ffmpeg_macos && runner.os == 'macOS' }}
         run: brew install ffmpeg
       - name: Run Tests
-        if: ${{ !inputs.test-shell-bash }}
-        run: ${{ inputs.run-just-test }}
+        if: ${{ !inputs.test_shell_bash }}
+        run: ${{ inputs.run_just_test }}
       - name: Run Tests (bash)
-        if: ${{ inputs.test-shell-bash }}
+        if: ${{ inputs.test_shell_bash }}
         shell: bash
-        run: ${{ inputs.run-just-test }}
+        run: ${{ inputs.run_just_test }}
       - name: Upload Codecov
-        if: ${{ inputs.upload-codecov && !inputs.codecov-use-oidc }}
+        if: ${{ inputs.upload_codecov && !inputs.codecov_use_oidc }}
         uses: codecov/codecov-action@v5
       - name: Upload Codecov (OIDC)
-        if: ${{ inputs.upload-codecov && inputs.codecov-use-oidc }}
+        if: ${{ inputs.upload_codecov && inputs.codecov_use_oidc }}
         uses: codecov/codecov-action@v5
         with:
           use_oidc: true
