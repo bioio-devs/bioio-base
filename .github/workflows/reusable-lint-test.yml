@@ -8,6 +8,16 @@ on:
         required: false
         default: "3.13"
         type: string
+      lint-checkout-submodules:
+        description: "Checkout submodules mode for lint job (for example: recursive)"
+        required: false
+        default: ""
+        type: string
+      lint-install-command:
+        description: Dependency install command for lint job
+        required: false
+        default: "python -m pip install --upgrade pip && pip install .[lint]"
+        type: string
       test-python-versions:
         description: JSON array of Python versions for test matrix
         required: false
@@ -33,6 +43,41 @@ on:
         required: false
         default: "just test"
         type: string
+      test-checkout-submodules:
+        description: "Checkout submodules mode for test job (for example: recursive)"
+        required: false
+        default: ""
+        type: string
+      test-checkout-lfs:
+        description: Whether to enable Git LFS checkout in test job
+        required: false
+        default: false
+        type: boolean
+      test-install-command:
+        description: Dependency install command for test job
+        required: false
+        default: "python -m pip install --upgrade pip && pip install .[test]"
+        type: string
+      test-shell-bash:
+        description: Run tests using bash shell
+        required: false
+        default: false
+        type: boolean
+      setup-java-windows:
+        description: Set up Java on Windows in test job
+        required: false
+        default: false
+        type: boolean
+      java-distribution:
+        description: Java distribution for setup-java action
+        required: false
+        default: "temurin"
+        type: string
+      java-version:
+        description: Java version for setup-java action
+        required: false
+        default: "17"
+        type: string
       install-ffmpeg-macos:
         description: Install ffmpeg on macOS before tests
         required: false
@@ -43,6 +88,11 @@ on:
         required: false
         default: true
         type: boolean
+      codecov-use-oidc:
+        description: Use OIDC authentication for Codecov upload
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   lint:
@@ -50,6 +100,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        if: ${{ inputs.lint-checkout-submodules == '' }}
+      - uses: actions/checkout@v6
+        if: ${{ inputs.lint-checkout-submodules != '' }}
+        with:
+          submodules: ${{ inputs.lint-checkout-submodules }}
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -59,9 +114,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install .[lint]
+        run: ${{ inputs.lint-install-command }}
       - name: Lint
         run: ${{ inputs.run-just-lint }}
 
@@ -76,23 +129,51 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        if: ${{ inputs.test-checkout-submodules == '' && !inputs.test-checkout-lfs }}
+      - uses: actions/checkout@v6
+        if: ${{ inputs.test-checkout-submodules != '' && !inputs.test-checkout-lfs }}
+        with:
+          submodules: ${{ inputs.test-checkout-submodules }}
+      - uses: actions/checkout@v6
+        if: ${{ inputs.test-checkout-submodules == '' && inputs.test-checkout-lfs }}
+        with:
+          lfs: true
+      - uses: actions/checkout@v6
+        if: ${{ inputs.test-checkout-submodules != '' && inputs.test-checkout-lfs }}
+        with:
+          submodules: ${{ inputs.test-checkout-submodules }}
+          lfs: true
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Set up Java (Windows only)
+        if: ${{ inputs.setup-java-windows && runner.os == 'Windows' }}
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{ inputs.java-distribution }}
+          java-version: ${{ inputs.java-version }}
       - uses: extractions/setup-just@v3
         if: ${{ inputs.install-just }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install .[test]
+        run: ${{ inputs.test-install-command }}
       - name: Ensure ffmpeg on macOS
         if: ${{ inputs.install-ffmpeg-macos && runner.os == 'macOS' }}
         run: brew install ffmpeg
       - name: Run Tests
+        if: ${{ !inputs.test-shell-bash }}
+        run: ${{ inputs.run-just-test }}
+      - name: Run Tests (bash)
+        if: ${{ inputs.test-shell-bash }}
+        shell: bash
         run: ${{ inputs.run-just-test }}
       - name: Upload Codecov
-        if: ${{ inputs.upload-codecov }}
+        if: ${{ inputs.upload-codecov && !inputs.codecov-use-oidc }}
         uses: codecov/codecov-action@v5
+      - name: Upload Codecov (OIDC)
+        if: ${{ inputs.upload-codecov && inputs.codecov-use-oidc }}
+        uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
