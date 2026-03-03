@@ -96,5 +96,3 @@ jobs:
       - name: Upload Codecov
         if: ${{ inputs.upload-codecov }}
         uses: codecov/codecov-action@v5
-        with:
-          use_oidc: true
