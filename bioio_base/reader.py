@@ -1169,10 +1169,10 @@ class Reader(ImageContainer, ABC):
                     metadata.objective = "40x Magnification"
                     return metadata
         """
-        # Attempt to get OME metadata; ignore if not implemented
+        # Attempt to get OME metadata; ignore if not implemented or malformed
         try:
             ome = self.ome_metadata
-        except NotImplementedError:
+        except Exception:
             ome = None
 
         # Retrieve the dimensions information from the reader.
