@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
@@ -33,6 +34,8 @@ from .types import (
 )
 
 ###############################################################################
+
+log = logging.getLogger(__name__)
 
 
 class Reader(ImageContainer, ABC):
@@ -1169,10 +1172,13 @@ class Reader(ImageContainer, ABC):
                     metadata.objective = "40x Magnification"
                     return metadata
         """
-        # Attempt to get OME metadata; ignore if not implemented
+        # Attempt to get OME metadata; ignore if not implemented or malformed
         try:
             ome = self.ome_metadata
         except NotImplementedError:
+            ome = None
+        except Exception as err:
+            log.warning(f"While trying to get OME metadata: {err}")
             ome = None
 
         # Retrieve the dimensions information from the reader.
