@@ -33,7 +33,7 @@ class NoopReader(Reader):
 
     @property
     def scenes(self) -> typing.Tuple[str, ...]:
-        return tuple(f"Image:{idx}" for idx in range(self._NUM_SCENES))
+        return tuple(f"Image: {idx}" for idx in range(self._NUM_SCENES))
 
     def _read_delayed(self) -> xr.DataArray:
         return xr.DataArray(

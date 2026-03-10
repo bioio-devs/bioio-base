@@ -65,9 +65,9 @@ def _format_bytes(num: float, suffix: str = "B") -> str:
     """Formats the bytes given into a human readable format"""
     for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
         if abs(num) < 1024.0:
-            return f"{num:3.1f}{unit}{suffix}"
+            return f"{num:3.1f}{unit}{suffix}"  # noqa: E231
         num /= 1024.0
-    return f"{num:.1f}Yi{suffix}"
+    return f"{num:.1f}Yi{suffix}"  # noqa: E231
 
 
 def benchmark_test(
