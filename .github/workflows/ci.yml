@@ -41,6 +41,8 @@ jobs:
   test:
     needs: [lint]
     uses: ./.github/workflows/shared_test.yml
+    with:
+        test_checkout_lfs: true
 
   # Publish to PyPI if test, lint, and manifest checks passed
   publish:
