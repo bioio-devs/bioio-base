@@ -2,17 +2,6 @@ name: Shared Lint
 
 on:
   workflow_call:
-    inputs:
-      lint_python_version:
-        description: Python version for lint job
-        required: false
-        default: "3.13"
-        type: string
-      lint_checkout_submodules:
-        description: "Checkout submodules mode for lint job (for example: recursive)"
-        required: false
-        default: ""
-        type: string
 
 jobs:
   lint:
@@ -20,15 +9,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-        if: ${{ inputs.lint_checkout_submodules == '' }}
-      - uses: actions/checkout@v6
-        if: ${{ inputs.lint_checkout_submodules != '' }}
-        with:
-          submodules: ${{ inputs.lint_checkout_submodules }}
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ inputs.lint_python_version }}
+          python-version: "3.13"
       - uses: extractions/setup-just@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

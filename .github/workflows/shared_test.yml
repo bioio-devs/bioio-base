@@ -8,11 +8,6 @@ on:
         required: false
         default: ""
         type: string
-      test_checkout_lfs:
-        description: Whether to enable Git LFS checkout in test job
-        required: false
-        default: false
-        type: boolean
       test_install_command:
         description: Dependency install command for test job
         required: false
@@ -84,21 +79,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
         run: ${{ inputs.test_install_command }}
-      - name: Ensure ffmpeg on macOS
-        if: ${{ inputs.install_ffmpeg_macos && runner.os == 'macOS' }}
-        run: brew install ffmpeg
       - name: Run Tests
-        if: ${{ !inputs.test_shell_bash }}
         run: just test
-      - name: Run Tests (bash)
-        if: ${{ inputs.test_shell_bash }}
-        shell: bash
-        run: just test
-      - name: Upload Codecov
-        if: ${{ !inputs.codecov_use_oidc }}
-        uses: codecov/codecov-action@v5
-      - name: Upload Codecov (OIDC)
-        if: ${{ inputs.codecov_use_oidc }}
-        uses: codecov/codecov-action@v5
-        with:
-          use_oidc: true
