@@ -34,8 +34,6 @@ jobs:
   # Shared lint workflow
   lint:
     uses: ./.github/workflows/shared_lint.yml
-    with:
-      lint_python_version: "3.11"
 
   # Shared test workflow
   test:
