@@ -55,7 +55,7 @@ def pathlike_to_fs(
     # Check file exists
     if enforce_exists:
         if not fs.exists(path):
-            raise FileNotFoundError(f"{fs.protocol}://{path}")
+            raise FileNotFoundError(f"{fs.protocol}://{path}")  # noqa: E231
 
     # Get and store details
     # We do not return an AbstractBufferedFile (i.e. fs.open) as we do not want to have
