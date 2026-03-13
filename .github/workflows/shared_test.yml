@@ -3,33 +3,8 @@ name: Shared Test
 on:
   workflow_call:
     inputs:
-      test_checkout_submodules:
-        description: "Checkout submodules mode for test job (for example: recursive)"
-        required: false
-        default: ""
-        type: string
-      test_install_command:
-        description: Dependency install command for test job
-        required: false
-        default: "python -m pip install --upgrade pip && pip install .[test]"
-        type: string
-      test_shell_bash:
-        description: Run tests using bash shell
-        required: false
-        default: false
-        type: boolean
-      setup_java_windows:
-        description: Set up Java on Windows in test job
-        required: false
-        default: false
-        type: boolean
-      install_ffmpeg_macos:
-        description: Install ffmpeg on macOS before tests
-        required: false
-        default: false
-        type: boolean
-      codecov_use_oidc:
-        description: Use OIDC authentication for Codecov upload
+      bioformats_test:
+        description: Is this run for bioio-bioformats?  Special case handling
         required: false
         default: false
         type: boolean
@@ -69,7 +44,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up Java (Windows only)
-        if: ${{ inputs.setup_java_windows && runner.os == 'Windows' }}
+        if: ${{ inputs.bioformats_test && runner.os == 'Windows' }}
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -77,7 +52,11 @@ jobs:
       - uses: extractions/setup-just@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Dependencies (bioformats)
+        if: ${{ inputs.bioformats_test }}
+        run: python -m pip install --upgrade pip && pip install uv && uv pip install --system .[test]
       - name: Install Dependencies
-        run: ${{ inputs.test_install_command }}
+        if: ${{ !inputs.bioformats_test }}
+        run: python -m pip install --upgrade pip && pip install .[test]
       - name: Run Tests
         run: just test
