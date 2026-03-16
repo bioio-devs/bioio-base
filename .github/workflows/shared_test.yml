@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          submodules: ${{ inputs.test_checkout_submodules }}
+          submodules: "recursive"
           lfs: true
       - name: Set up Python
         uses: actions/setup-python@v6
