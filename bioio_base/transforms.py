@@ -335,7 +335,7 @@ def generate_stack(
     mode_check = ["data", "dask_data", "xarray_data", "xarray_dask_data"]
     if mode not in mode_check:
         raise ValueError(
-            f"Invalid mode kwarg. Found {mode} but should be one of:"
+            f"Invalid mode kwarg. Found {mode} but should be one of: "
             f"{', '.join(mode_check)}."
         )
 
