@@ -1204,7 +1204,7 @@ class Reader(ImageContainer, ABC):
             imaging_datetime=imaging_datetime(ome) if ome is not None else None,
             objective=objective(ome) if ome is not None else None,
             timelapse_interval=timelapse_interval(ome, self.current_scene_index)
-            if ome
+            if ome is not None
             else self.time_interval,
             total_time_duration=total_time_duration(ome, self.current_scene_index)
             if ome is not None
