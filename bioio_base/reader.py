@@ -1184,6 +1184,7 @@ class Reader(ImageContainer, ABC):
         # Retrieve the dimensions information from the reader.
         dims = self.dims
         image_size_t = getattr(dims, DimensionNames.Time, None)
+        pps = self.physical_pixel_sizes
 
         # Construct the StandardMetadata instance using the reader's attributes.
         metadata = StandardMetadata(
@@ -1194,9 +1195,9 @@ class Reader(ImageContainer, ABC):
             image_size_y=getattr(dims, DimensionNames.SpatialY, None),
             image_size_z=getattr(dims, DimensionNames.SpatialZ, None),
             timelapse=image_size_t is not None and image_size_t > 0,
-            pixel_size_x=self.physical_pixel_sizes.X,
-            pixel_size_y=self.physical_pixel_sizes.Y,
-            pixel_size_z=self.physical_pixel_sizes.Z,
+            pixel_size_x=pps.X,
+            pixel_size_y=pps.Y,
+            pixel_size_z=pps.Z,
             # OME-derived fields (None if no OME metadata)
             binning=binning(ome) if ome is not None else None,
             imaged_by=imaged_by(ome) if ome is not None else None,
