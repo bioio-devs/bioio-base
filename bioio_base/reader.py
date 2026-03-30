@@ -1194,7 +1194,7 @@ class Reader(ImageContainer, ABC):
             image_size_x=getattr(dims, DimensionNames.SpatialX, None),
             image_size_y=getattr(dims, DimensionNames.SpatialY, None),
             image_size_z=getattr(dims, DimensionNames.SpatialZ, None),
-            timelapse=image_size_t is not None and image_size_t > 0,
+            timelapse=image_size_t is not None and image_size_t > 1,
             pixel_size_x=pps.X,
             pixel_size_y=pps.Y,
             pixel_size_z=pps.Z,
