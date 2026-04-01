@@ -1192,7 +1192,7 @@ class Reader(ImageContainer, ABC):
             image_size_x=getattr(self.dims, DimensionNames.SpatialX, None),
             image_size_y=getattr(self.dims, DimensionNames.SpatialY, None),
             image_size_z=getattr(self.dims, DimensionNames.SpatialZ, None),
-            timelapse=image_size_t is not None and image_size_t > 0,
+            timelapse=image_size_t is not None and image_size_t > 1,
             pixel_size_x=self.physical_pixel_sizes.X,
             pixel_size_y=self.physical_pixel_sizes.Y,
             pixel_size_z=self.physical_pixel_sizes.Z,
@@ -1202,7 +1202,7 @@ class Reader(ImageContainer, ABC):
             imaging_datetime=imaging_datetime(ome) if ome is not None else None,
             objective=objective(ome) if ome is not None else None,
             timelapse_interval=timelapse_interval(ome, self.current_scene_index)
-            if ome
+            if ome is not None
             else self.time_interval,
             total_time_duration=total_time_duration(ome, self.current_scene_index)
             if ome is not None
