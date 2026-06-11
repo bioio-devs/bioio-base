@@ -8,9 +8,7 @@ from bioio_base import noop_reader, transforms
 def test_get_image_data_matches_full_read_then_slice() -> None:
     # NoopReader exposes mock data with dims TCZYX (shape 4, 5, 6, 7, 8).
     reader = noop_reader.NoopReader("anything")
-    expected = transforms.reshape_data(
-        reader.data, reader.dims.order, "ZYX", T=0, C=1
-    )
+    expected = transforms.reshape_data(reader.data, reader.dims.order, "ZYX", T=0, C=1)
     actual = reader.get_image_data("ZYX", T=0, C=1)
     np.testing.assert_array_equal(actual, expected)
 

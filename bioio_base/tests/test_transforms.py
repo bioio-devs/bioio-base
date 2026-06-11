@@ -523,9 +523,7 @@ def test_convert_list_to_slice(
 
 
 def test_compute_dim_specs_fixed_integer_drops_axis() -> None:
-    specs, new_dims = transforms.compute_dim_specs(
-        (10, 100, 100), "ZYX", "YX", Z=1
-    )
+    specs, new_dims = transforms.compute_dim_specs((10, 100, 100), "ZYX", "YX", Z=1)
     # Z is fixed and not in return_dims -> integer spec, axis dropped from new_dims
     assert specs == [1, slice(None, None, None), slice(None, None, None)]
     assert new_dims == "YX"
@@ -553,7 +551,5 @@ def test_reshape_data_still_matches_helpers() -> None:
     data = np.random.rand(10, 100, 100)
     direct = transforms.reshape_data(data, "ZYX", "YX", Z=3)
     specs, new_dims = transforms.compute_dim_specs(data.shape, "ZYX", "YX", Z=3)
-    via_helpers = transforms.finalize_dims(
-        data[tuple(specs)], new_dims, "ZYX", "YX"
-    )
+    via_helpers = transforms.finalize_dims(data[tuple(specs)], new_dims, "ZYX", "YX")
     np.testing.assert_array_equal(direct, via_helpers)
