@@ -727,6 +727,33 @@ class Reader(ImageContainer, ABC):
             **kwargs,
         )
 
+    def _read_indexed(self, given_dims: str, dim_specs: list) -> np.ndarray:
+        """
+        Return the native-order array with ``dim_specs`` applied.
+
+        This is the seam that lets ``get_image_data`` read only the requested
+        sub-region. The default implementation materializes the full image and
+        slices it; readers that can read sub-regions cheaply should override it.
+
+        The result MUST equal ``self.data[tuple(dim_specs)]`` — i.e. integer specs
+        drop their axis while slice/list specs keep theirs, and the remaining axes
+        stay in ``given_dims`` order.
+
+        Parameters
+        ----------
+        given_dims: str
+            The native dimension ordering of the image (``self.dims.order``).
+        dim_specs: list
+            One getitem operation per dimension in ``given_dims``, as produced by
+            ``transforms.compute_dim_specs``.
+
+        Returns
+        -------
+        data: np.ndarray
+            The indexed image data in native (reduced) dimension order.
+        """
+        return self.data[tuple(dim_specs)]
+
     def get_image_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any
     ) -> np.ndarray:
@@ -789,20 +816,26 @@ class Reader(ImageContainer, ABC):
         -----
         * If a requested dimension is not present in the data the dimension is
           added with a depth of 1.
-        * This will preload the entire image before returning the requested data.
+        * Only the requested sub-region is read when the reader supports it (see
+          ``_read_indexed``); otherwise the full image is read then sliced.
 
         See `aicsimageio.transforms.reshape_data` for more details.
         """
-        # If no out orientation, simply return current data as dask array
+        # If no out orientation, simply return current data
         if dimension_order_out is None:
             return self.data
 
-        # Transform and return
-        return transforms.reshape_data(
-            data=self.data,
-            given_dims=self.dims.order,
-            return_dims=dimension_order_out,
+        # Compute the indexer (reads no pixels), let the reader materialize only
+        # the requested sub-region, then pad/transpose to the requested order.
+        dim_specs, new_dims = transforms.compute_dim_specs(
+            self.shape,
+            self.dims.order,
+            dimension_order_out,
             **kwargs,
+        )
+        indexed = self._read_indexed(self.dims.order, dim_specs)
+        return transforms.finalize_dims(
+            indexed, new_dims, self.dims.order, dimension_order_out
         )
 
     @property
