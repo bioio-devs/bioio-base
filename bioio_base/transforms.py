@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import annotations
 
 from collections import Counter
 from numbers import Integral
-from typing import Any, List, Literal, Optional, Tuple, Union
+from typing import List, Literal, Optional, Tuple, Union, cast
 
 import dask.array as da
 import numpy as np
@@ -83,8 +82,11 @@ def transpose_to_dims(
 
 
 def compute_dim_specs(
-    shape: Tuple[int, ...], given_dims: str, return_dims: str, **kwargs: Any
-) -> Tuple[List[Any], str]:
+    shape: Tuple[int, ...],
+    given_dims: str,
+    return_dims: str,
+    **kwargs: types.DimSelection,
+) -> Tuple[List[types.DimSpec], str]:
     """
     Compute the per-dimension getitem spec and the resulting dim string.
 
@@ -92,24 +94,20 @@ def compute_dim_specs(
     selection into a list of getitem operations (one per dimension in
     ``given_dims``) plus the dimension string that results after the getitem.
 
-    Integer specs (a dimension fixed to one index and NOT present in
-    ``return_dims``) drop their axis under numpy/dask getitem; slice/list specs
-    keep their axis. Reading no pixels, this can be computed from ``shape`` alone.
-
     Parameters
     ----------
     shape: Tuple[int, ...]
         The shape of the data the specs will be applied to.
     given_dims: str
-        The dimension ordering of the data, "CZYX", "VBTCXZY" etc.
+        The dimension ordering of the data, "CZYX", "MSTCZYX" etc.
     return_dims: str
         The dimension ordering of the return data.
-    kwargs: Any
+    kwargs: types.DimSelection
         Per-dimension selections (see ``reshape_data``).
 
     Returns
     -------
-    dim_specs: List[Any]
+    dim_specs: List[types.DimSpec]
         One getitem operation per dimension in ``given_dims``.
     new_dims: str
         The dimension ordering after applying ``dim_specs`` (integer-selected,
@@ -133,7 +131,7 @@ def compute_dim_specs(
 
     # Process each dimension available
     new_dims = given_dims
-    dim_specs: List[Any] = []
+    dim_specs: List[types.DimSpec] = []
     for dim in given_dims:
         # Store index of the dim as it is in given data
         dim_index = given_dims.index(dim)
@@ -204,8 +202,10 @@ def compute_dim_specs(
                 f"but Dimension shape is {shape[dim_index]}."
             )
 
-        # All checks and operations passed, append dim operation to getitem ops
-        dim_specs.append(dim_spec)
+        # All checks and operations passed, append dim operation to getitem ops.
+        # The branches above narrow dim_spec to an int, slice, or List[int], but
+        # that can't be proven statically through the reassignments, so cast.
+        dim_specs.append(cast(types.DimSpec, dim_spec))
 
     return dim_specs, new_dims
 
@@ -252,7 +252,10 @@ def finalize_dims(
 
 
 def reshape_data(
-    data: types.ArrayLike, given_dims: str, return_dims: str, **kwargs: Any
+    data: types.ArrayLike,
+    given_dims: str,
+    return_dims: str,
+    **kwargs: types.DimSelection,
 ) -> types.ArrayLike:
     """
     Reshape the data into return_dims, pad missing dimensions, and prune extra

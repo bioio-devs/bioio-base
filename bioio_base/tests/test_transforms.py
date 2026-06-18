@@ -522,29 +522,63 @@ def test_convert_list_to_slice(
     assert transforms.reduce_to_slice(list_to_test) == expected
 
 
-def test_compute_dim_specs_fixed_integer_drops_axis() -> None:
-    specs, new_dims = transforms.compute_dim_specs((10, 100, 100), "ZYX", "YX", Z=1)
-    # Z is fixed and not in return_dims -> integer spec, axis dropped from new_dims
-    assert specs == [1, slice(None, None, None), slice(None, None, None)]
-    assert new_dims == "YX"
+# slice(None, None, None) is the "select everything" spec for an untouched axis.
+_ALL = slice(None, None, None)
 
 
-def test_compute_dim_specs_slice_kept() -> None:
+@pytest.mark.parametrize(
+    "shape, given_dims, return_dims, kwargs, expected_specs, expected_new_dims",
+    [
+        # Fixed integer not in return_dims -> bare-int spec, axis dropped.
+        ((10, 100, 100), "ZYX", "YX", {"Z": 1}, [1, _ALL, _ALL], "YX"),
+        # Slice in return_dims is kept as-is, axis stays.
+        (
+            (10, 100, 100),
+            "ZYX",
+            "ZYX",
+            {"Z": slice(0, 4, 2)},
+            [slice(0, 4, 2), _ALL, _ALL],
+            "ZYX",
+        ),
+        # Evenly-spaced list collapses to an equivalent slice.
+        (
+            (6, 100, 100),
+            "CYX",
+            "CYX",
+            {"C": [0, 2, 4]},
+            [slice(0, 5, 2), _ALL, _ALL],
+            "CYX",
+        ),
+        # Unevenly-spaced list cannot reduce, so it is kept as a list.
+        ((6, 100, 100), "CYX", "CYX", {"C": [0, 3, 1]}, [[0, 3, 1], _ALL, _ALL], "CYX"),
+    ],
+    ids=[
+        "fixed_integer_drops_axis",
+        "slice_kept",
+        "list_reduced_to_slice",
+        "list_kept",
+    ],
+)
+def test_compute_dim_specs(
+    shape: Tuple[int, ...],
+    given_dims: str,
+    return_dims: str,
+    kwargs: Mapping[str, Any],
+    expected_specs: List[Any],
+    expected_new_dims: str,
+) -> None:
     specs, new_dims = transforms.compute_dim_specs(
-        (10, 100, 100), "ZYX", "ZYX", Z=slice(0, 4, 2)
+        shape, given_dims, return_dims, **kwargs
     )
-    assert specs == [
-        slice(0, 4, 2),
-        slice(None, None, None),
-        slice(None, None, None),
-    ]
-    assert new_dims == "ZYX"
+    assert specs == expected_specs
+    assert new_dims == expected_new_dims
 
 
 def test_finalize_dims_pads_and_transposes() -> None:
-    data = np.zeros((100, 100))  # YX after indexing
-    out = transforms.finalize_dims(data, "YX", "YX", "TYX")
-    assert out.shape == (1, 100, 100)
+    data = np.arange(12).reshape(3, 4)  # YX after indexing
+    out = transforms.finalize_dims(data, "YX", "YX", "TXY")
+    assert out.shape == (1, 4, 3)
+    np.testing.assert_array_equal(out[0], data.T)
 
 
 def test_reshape_data_still_matches_helpers() -> None:

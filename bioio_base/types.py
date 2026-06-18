@@ -3,7 +3,7 @@
 
 from datetime import timedelta
 from pathlib import Path
-from typing import List, NamedTuple, Optional, TypeAlias, Union
+from typing import List, NamedTuple, Optional, Tuple, TypeAlias, Union
 
 import dask.array as da
 import numpy as np
@@ -25,6 +25,12 @@ ImageLike = Union[
     List[MetaArrayLike],
     List[PathLike],
 ]
+
+# A per-dimension selection (e.g. C=1, C=[0, 2], Z=slice(0, 4, 2)).
+DimSelection: TypeAlias = Union[int, List[int], Tuple[int, ...], range, slice]
+
+# A single getitem op applied to one dimension, as produced by compute_dim_specs.
+DimSpec: TypeAlias = Union[int, slice, List[int]]
 
 # Public type aliases for units
 UnitRegistry: TypeAlias = pint.UnitRegistry

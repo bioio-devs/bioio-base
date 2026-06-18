@@ -727,23 +727,21 @@ class Reader(ImageContainer, ABC):
             **kwargs,
         )
 
-    def _read_indexed(self, given_dims: str, dim_specs: list) -> np.ndarray:
+    def _read_indexed(
+        self, given_dims: str, dim_specs: List[types.DimSpec]
+    ) -> np.ndarray:
         """
         Return the native-order array with ``dim_specs`` applied.
 
-        This is the seam that lets ``get_image_data`` read only the requested
-        sub-region. The default implementation materializes the full image and
-        slices it; readers that can read sub-regions cheaply should override it.
-
-        The result MUST equal ``self.data[tuple(dim_specs)]`` — i.e. integer specs
-        drop their axis while slice/list specs keep theirs, and the remaining axes
-        stay in ``given_dims`` order.
+        This lets ``get_image_data`` read only the requested sub-region.
+        The default implementation materializes the full image and slices it;
+        readers that can read sub-regions cheaply should override it.
 
         Parameters
         ----------
         given_dims: str
             The native dimension ordering of the image (``self.dims.order``).
-        dim_specs: list
+        dim_specs: List[types.DimSpec]
             One getitem operation per dimension in ``given_dims``, as produced by
             ``transforms.compute_dim_specs``.
 
