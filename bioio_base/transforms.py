@@ -203,8 +203,6 @@ def compute_dim_specs(
             )
 
         # All checks and operations passed, append dim operation to getitem ops.
-        # The branches above narrow dim_spec to an int, slice, or List[int], but
-        # that can't be proven statically through the reassignments, so cast.
         dim_specs.append(cast(types.DimSpec, dim_spec))
 
     return dim_specs, new_dims
