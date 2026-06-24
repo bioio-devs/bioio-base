@@ -733,9 +733,10 @@ class Reader(ImageContainer, ABC):
         """
         Return the native-order array with ``dim_specs`` applied.
 
-        This lets ``get_image_data`` read only the requested sub-region.
-        The default implementation materializes the full image and slices it;
-        readers that can read sub-regions cheaply should override it.
+        The default behavior here is to call ``self.data`` which can cause a
+        delayed-load of the whole image. Readers should override this function
+        in order to do more optimal finegrained data reads based on the
+        ``dim_specs``.
 
         Parameters
         ----------
