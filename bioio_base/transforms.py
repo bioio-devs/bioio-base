@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import annotations
 
 from collections import Counter
 from numbers import Integral
-from typing import Any, List, Literal, Optional, Tuple, Union
+from typing import List, Literal, Optional, Tuple, Union, cast
 
 import dask.array as da
 import numpy as np
@@ -82,8 +81,179 @@ def transpose_to_dims(
     return data
 
 
+def compute_dim_specs(
+    shape: Tuple[int, ...],
+    given_dims: str,
+    return_dims: str,
+    **kwargs: types.DimSelection,
+) -> Tuple[List[types.DimSpec], str]:
+    """
+    Compute the per-dimension getitem spec and the resulting dim string.
+
+    This is the indexer-building half of ``reshape_data``: it turns the kwargs
+    selection into a list of getitem operations (one per dimension in
+    ``given_dims``) plus the dimension string that results after the getitem.
+
+    Parameters
+    ----------
+    shape: Tuple[int, ...]
+        The shape of the data the specs will be applied to.
+    given_dims: str
+        The dimension ordering of the data, "CZYX", "MSTCZYX" etc.
+    return_dims: str
+        The dimension ordering of the return data.
+    kwargs: types.DimSelection
+        Per-dimension selections (see ``reshape_data``).
+
+    Returns
+    -------
+    dim_specs: List[types.DimSpec]
+        One getitem operation per dimension in ``given_dims``.
+    new_dims: str
+        The dimension ordering after applying ``dim_specs`` (integer-selected,
+        non-return dimensions removed).
+    """
+    # Check for parameter conflicts
+    for dim in given_dims:
+        # return_dims='CZYX' and iterable dimensions 'T=range(10)'
+        # Dimension is in kwargs
+        # Dimension is an iterable
+        # Dimension is not in return dimensions
+        if (
+            isinstance(kwargs.get(dim), (list, tuple, range, slice))
+            and dim not in return_dims
+        ):
+            raise ConflictingArgumentsError(
+                f"When selecting a multiple dimension indices, the specified "
+                f"dimension must be provided in return_dims. "
+                f"return_dims={return_dims}, dimension {dim} = {kwargs.get(dim)}"
+            )
+
+    # Process each dimension available
+    new_dims = given_dims
+    dim_specs: List[types.DimSpec] = []
+    for dim in given_dims:
+        # Store index of the dim as it is in given data
+        dim_index = given_dims.index(dim)
+
+        # Handle dim in return_dims which means that it is
+        # an iterable or None selection
+        if dim in return_dims:
+            # Specific iterable requested
+            if dim in kwargs:
+                # Actual dim specification
+                # The specification provided for this dimension in the kwargs
+                dim_spec = kwargs.get(dim)
+                display_dim_spec = dim_spec
+
+                if isinstance(dim_spec, int):
+                    dim_spec = slice(dim_spec, dim_spec + 1)
+
+                # Convert operator to standard list or slice
+                # dask.Array and numpy.ndarray both natively support
+                # List[int] and slices being passed to getitem so no need to cast them
+                # to anything different
+                if isinstance(dim_spec, (tuple, range)):
+                    dim_spec = list(dim_spec)
+
+                # Get the largest absolute value index in the list using min and max
+                if isinstance(dim_spec, list):
+                    check_selection_max = max([abs(min(dim_spec)), max(dim_spec)])
+                    # try to convert to slice if possible
+                    dim_spec = reduce_to_slice(dim_spec)
+
+                # Get the largest absolute value index from start and stop of slice
+                if isinstance(dim_spec, slice):
+                    check_selection_max = max([abs(dim_spec.stop), abs(dim_spec.start)])
+            else:
+                # Nothing was requested from this dimension
+                dim_spec = slice(None, None, None)
+                display_dim_spec = dim_spec
+
+                # No op means that it doesn't matter how much data is in this dimension
+                check_selection_max = 0
+
+        # Not in return_dims means that it is a fixed integer selection
+        else:
+            if dim in kwargs:
+                # Integer requested
+                dim_spec = kwargs.get(dim)
+                display_dim_spec = dim_spec
+
+                # Check that integer
+                if not isinstance(dim_spec, Integral):
+                    raise TypeError(
+                        "Dimensions not in output must be integers. "
+                        f"Got {type(dim_spec).__name__} for {dim}."
+                    )
+                check_selection_max = dim_spec
+            else:
+                dim_spec = 0
+                display_dim_spec = dim_spec
+                check_selection_max = 0
+
+            # Remove dim from new dims as it is fixed size
+            new_dims = new_dims.replace(dim, "")
+
+        # Check that fixed integer request isn't outside of request
+        if check_selection_max > shape[dim_index]:
+            raise IndexError(
+                f"Dimension specified with {dim}={display_dim_spec} "
+                f"but Dimension shape is {shape[dim_index]}."
+            )
+
+        # All checks and operations passed, append dim operation to getitem ops.
+        dim_specs.append(cast(types.DimSpec, dim_spec))
+
+    return dim_specs, new_dims
+
+
+def finalize_dims(
+    data: types.ArrayLike, new_dims: str, given_dims: str, return_dims: str
+) -> types.ArrayLike:
+    """
+    Pad missing return dimensions with depth-1 axes, then transpose to
+    ``return_dims``.
+
+    This is the reshape/transpose half of ``reshape_data``, applied after a
+    getitem has already selected the requested data.
+
+    Parameters
+    ----------
+    data: types.ArrayLike
+        The already-indexed data (in ``new_dims`` order).
+    new_dims: str
+        The dimension ordering of ``data`` (the output of ``compute_dim_specs``).
+    given_dims: str
+        The original dimension ordering, used to detect which return dimensions
+        were not present in the source data and must be padded in.
+    return_dims: str
+        The desired output dimension ordering.
+
+    Returns
+    -------
+    data: types.ArrayLike
+        The data with the specified dimension ordering.
+    """
+    # Add empty dims where dimensions were requested but data doesn't exist
+    # Add dimensions to new dims where empty dims are added
+    for i, dim in enumerate(return_dims):
+        # This dimension wasn't processed
+        if dim not in given_dims:
+            new_dims = f"{new_dims[:i]}{dim}{new_dims[i:]}"
+            data = data.reshape(*data.shape[:i], 1, *data.shape[i:])
+
+    # Any extra dimensions have been removed, only a problem if the depth is > 1
+    return transpose_to_dims(
+        data, given_dims=new_dims, return_dims=return_dims
+    )  # don't pass kwargs or 2 copies
+
+
 def reshape_data(
-    data: types.ArrayLike, given_dims: str, return_dims: str, **kwargs: Any
+    data: types.ArrayLike,
+    given_dims: str,
+    return_dims: str,
+    **kwargs: types.DimSelection,
 ) -> types.ArrayLike:
     """
     Reshape the data into return_dims, pad missing dimensions, and prune extra
@@ -171,113 +341,12 @@ def reshape_data(
     >>> data = np.random.rand((10, 100, 100))
     ... example = reshape_data(data, "CYX", "BSTCZYX", C=slice(0, -1, 3))
     """
-    # Check for parameter conflicts
-    for dim in given_dims:
-        # return_dims='CZYX' and iterable dimensions 'T=range(10)'
-        # Dimension is in kwargs
-        # Dimension is an iterable
-        # Dimension is not in return dimensions
-        if (
-            isinstance(kwargs.get(dim), (list, tuple, range, slice))
-            and dim not in return_dims
-        ):
-            raise ConflictingArgumentsError(
-                f"When selecting a multiple dimension indices, the specified "
-                f"dimension must be provided in return_dims. "
-                f"return_dims={return_dims}, dimension {dim} = {kwargs.get(dim)}"
-            )
-
-    # Process each dimension available
-    new_dims = given_dims
-    dim_specs = []
-    for dim in given_dims:
-        # Store index of the dim as it is in given data
-        dim_index = given_dims.index(dim)
-
-        # Handle dim in return_dims which means that it is
-        # an iterable or None selection
-        if dim in return_dims:
-            # Specific iterable requested
-            if dim in kwargs:
-                # Actual dim specification
-                # The specification provided for this dimension in the kwargs
-                dim_spec = kwargs.get(dim)
-                display_dim_spec = dim_spec
-
-                if isinstance(dim_spec, int):
-                    dim_spec = slice(dim_spec, dim_spec + 1)
-
-                # Convert operator to standard list or slice
-                # dask.Array and numpy.ndarray both natively support
-                # List[int] and slices being passed to getitem so no need to cast them
-                # to anything different
-                if isinstance(dim_spec, (tuple, range)):
-                    dim_spec = list(dim_spec)
-
-                # Get the largest absolute value index in the list using min and max
-                if isinstance(dim_spec, list):
-                    check_selection_max = max([abs(min(dim_spec)), max(dim_spec)])
-                    # try to convert to slice if possible
-                    dim_spec = reduce_to_slice(dim_spec)
-
-                # Get the largest absolute value index from start and stop of slice
-                if isinstance(dim_spec, slice):
-                    check_selection_max = max([abs(dim_spec.stop), abs(dim_spec.start)])
-            else:
-                # Nothing was requested from this dimension
-                dim_spec = slice(None, None, None)
-                display_dim_spec = dim_spec
-
-                # No op means that it doesn't matter how much data is in this dimension
-                check_selection_max = 0
-
-        # Not in return_dims means that it is a fixed integer selection
-        else:
-            if dim in kwargs:
-                # Integer requested
-                dim_spec = kwargs.get(dim)
-                display_dim_spec = dim_spec
-
-                # Check that integer
-                if not isinstance(dim_spec, Integral):
-                    raise TypeError(
-                        "Dimensions not in output must be integers. "
-                        f"Got {type(dim_spec).__name__} for {dim}."
-                    )
-                check_selection_max = dim_spec
-            else:
-                dim_spec = 0
-                display_dim_spec = dim_spec
-                check_selection_max = 0
-
-            # Remove dim from new dims as it is fixed size
-            new_dims = new_dims.replace(dim, "")
-
-        # Check that fixed integer request isn't outside of request
-        if check_selection_max > data.shape[dim_index]:
-            raise IndexError(
-                f"Dimension specified with {dim}={display_dim_spec} "
-                f"but Dimension shape is {data.shape[dim_index]}."
-            )
-
-        # All checks and operations passed, append dim operation to getitem ops
-        dim_specs.append(dim_spec)
-
-    # Run getitems
+    # Compute the per-dimension getitem ops, run them, then pad/transpose.
+    dim_specs, new_dims = compute_dim_specs(
+        data.shape, given_dims, return_dims, **kwargs
+    )
     data = data[tuple(dim_specs)]
-
-    # Add empty dims where dimensions were requested but data doesn't exist
-    # Add dimensions to new dims where empty dims are added
-    for i, dim in enumerate(return_dims):
-        # This dimension wasn't processed
-        if dim not in given_dims:
-            new_dims = f"{new_dims[:i]}{dim}{new_dims[i:]}"
-            data = data.reshape(*data.shape[:i], 1, *data.shape[i:])
-
-    # Any extra dimensions have been removed, only a problem if the depth is > 1
-    return transpose_to_dims(
-        data, given_dims=new_dims, return_dims=return_dims
-    )  # don't pass kwargs or 2 copies
+    return finalize_dims(data, new_dims, given_dims, return_dims)
 
 
 def generate_stack(
