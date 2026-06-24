@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base.reader - bioio-base 0.1.dev1+gd56920e2f documentation</title>
+        <title>bioio_base.reader - bioio-base 0.1.dev1+g00ea97e7b documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gd56920e2f documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g00ea97e7b documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gd56920e2f documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g00ea97e7b documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -975,6 +975,32 @@
         <span class="p">)</span></div>
 
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_indexed</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dim_specs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">DimSpec</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the native-order array with ``dim_specs`` applied.</span>
+
+<span class="sd">        The default behavior here is to call ``self.data`` which can cause a</span>
+<span class="sd">        delayed-load of the whole image. Readers should override this function</span>
+<span class="sd">        in order to do more optimal finegrained data reads based on the</span>
+<span class="sd">        ``dim_specs``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        given_dims: str</span>
+<span class="sd">            The native dimension ordering of the image (``self.dims.order``).</span>
+<span class="sd">        dim_specs: List[types.DimSpec]</span>
+<span class="sd">            One getitem operation per dimension in ``given_dims``, as produced by</span>
+<span class="sd">            ``transforms.compute_dim_specs``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data: np.ndarray</span>
+<span class="sd">            The indexed image data in native (reduced) dimension order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">dim_specs</span><span class="p">)]</span>
+
 <div class="viewcode-block" id="Reader.get_image_data">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.reader.Reader.get_image_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_image_data</span><span class="p">(</span>
@@ -1039,20 +1065,26 @@
 <span class="sd">        -----</span>
 <span class="sd">        * If a requested dimension is not present in the data the dimension is</span>
 <span class="sd">          added with a depth of 1.</span>
-<span class="sd">        * This will preload the entire image before returning the requested data.</span>
+<span class="sd">        * Only the requested sub-region is read when the reader supports it (see</span>
+<span class="sd">          ``_read_indexed``); otherwise the full image is read then sliced.</span>
 
 <span class="sd">        See `aicsimageio.transforms.reshape_data` for more details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># If no out orientation, simply return current data as dask array</span>
+        <span class="c1"># If no out orientation, simply return current data</span>
         <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
-        <span class="c1"># Transform and return</span>
-        <span class="k">return</span> <span class="n">transforms</span><span class="o">.</span><span class="n">reshape_data</span><span class="p">(</span>
-            <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">given_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
-            <span class="n">return_dims</span><span class="o">=</span><span class="n">dimension_order_out</span><span class="p">,</span>
+        <span class="c1"># Compute the indexer (reads no pixels), let the reader materialize only</span>
+        <span class="c1"># the requested sub-region, then pad/transpose to the requested order.</span>
+        <span class="n">dim_specs</span><span class="p">,</span> <span class="n">new_dims</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">compute_dim_specs</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+            <span class="n">dimension_order_out</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">indexed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_indexed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">dim_specs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transforms</span><span class="o">.</span><span class="n">finalize_dims</span><span class="p">(</span>
+            <span class="n">indexed</span><span class="p">,</span> <span class="n">new_dims</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">dimension_order_out</span>
         <span class="p">)</span></div>
 
 
@@ -1521,7 +1553,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=7ecb2257"></script>
+</div><script src="../../_static/documentation_options.js?v=58ce9d9a"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

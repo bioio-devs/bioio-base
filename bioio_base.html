@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing" href="contributing.html"><link rel="prev" title="bioio_base" href="modules.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+gd56920e2f documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+g00ea97e7b documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gd56920e2f documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g00ea97e7b documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gd56920e2f documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g00ea97e7b documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -888,7 +888,8 @@ slice function. D should be present in the dimension_order_out.</p></li>
 <ul class="simple">
 <li><p>If a requested dimension is not present in the data the dimension is
 added with a depth of 1.</p></li>
-<li><p>This will preload the entire image before returning the requested data.</p></li>
+<li><p>Only the requested sub-region is read when the reader supports it (see
+<code class="docutils literal notranslate"><span class="pre">_read_indexed</span></code>); otherwise the full image is read then sliced.</p></li>
 </ul>
 <p>See <cite>aicsimageio.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
@@ -1781,6 +1782,68 @@ fit into memory.</p>
 <section id="module-bioio_base.transforms">
 <span id="bioio-base-transforms-module"></span><h2>bioio_base.transforms module<a class="headerlink" href="#module-bioio_base.transforms" title="Link to this heading">¶</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.transforms.compute_dim_specs">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">compute_dim_specs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">range</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">slice</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">slice</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#compute_dim_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.compute_dim_specs" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the per-dimension getitem spec and the resulting dim string.</p>
+<p>This is the indexer-building half of <code class="docutils literal notranslate"><span class="pre">reshape_data</span></code>: it turns the kwargs
+selection into a list of getitem operations (one per dimension in
+<code class="docutils literal notranslate"><span class="pre">given_dims</span></code>) plus the dimension string that results after the getitem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>shape: Tuple[int, …]</strong></dt><dd><p>The shape of the data the specs will be applied to.</p>
+</dd>
+<dt><strong>given_dims: str</strong></dt><dd><p>The dimension ordering of the data, “CZYX”, “MSTCZYX” etc.</p>
+</dd>
+<dt><strong>return_dims: str</strong></dt><dd><p>The dimension ordering of the return data.</p>
+</dd>
+<dt><strong>kwargs: types.DimSelection</strong></dt><dd><p>Per-dimension selections (see <code class="docutils literal notranslate"><span class="pre">reshape_data</span></code>).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dim_specs: List[types.DimSpec]</dt><dd><p>One getitem operation per dimension in <code class="docutils literal notranslate"><span class="pre">given_dims</span></code>.</p>
+</dd>
+<dt>new_dims: str</dt><dd><p>The dimension ordering after applying <code class="docutils literal notranslate"><span class="pre">dim_specs</span></code> (integer-selected,
+non-return dimensions removed).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.transforms.finalize_dims">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">finalize_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#finalize_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.finalize_dims" title="Link to this definition">¶</a></dt>
+<dd><p>Pad missing return dimensions with depth-1 axes, then transpose to
+<code class="docutils literal notranslate"><span class="pre">return_dims</span></code>.</p>
+<p>This is the reshape/transpose half of <code class="docutils literal notranslate"><span class="pre">reshape_data</span></code>, applied after a
+getitem has already selected the requested data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data: types.ArrayLike</strong></dt><dd><p>The already-indexed data (in <code class="docutils literal notranslate"><span class="pre">new_dims</span></code> order).</p>
+</dd>
+<dt><strong>new_dims: str</strong></dt><dd><p>The dimension ordering of <code class="docutils literal notranslate"><span class="pre">data</span></code> (the output of <code class="docutils literal notranslate"><span class="pre">compute_dim_specs</span></code>).</p>
+</dd>
+<dt><strong>given_dims: str</strong></dt><dd><p>The original dimension ordering, used to detect which return dimensions
+were not present in the source data and must be padded in.</p>
+</dd>
+<dt><strong>return_dims: str</strong></dt><dd><p>The desired output dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>data: types.ArrayLike</dt><dd><p>The data with the specified dimension ordering.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bioio_base.transforms.generate_stack">
 <span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">generate_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio_base.image_container.ImageContainer" title="bioio_base.image_container.ImageContainer"><span class="pre">ImageContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dask_data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xarray_data'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xarray_dask_data'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_non_matching_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_character</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'I'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_coord_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'index'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#generate_stack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.generate_stack" title="Link to this definition">¶</a></dt>
 <dd><p>Stack each scene contained in the reader into a
@@ -1836,7 +1899,7 @@ the first dimension.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="bioio_base.transforms.reshape_data">
-<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">reshape_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#reshape_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.reshape_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bioio_base.transforms.</span></span><span class="sig-name descname"><span class="pre">reshape_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">range</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">slice</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio_base/transforms.html#reshape_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.transforms.reshape_data" title="Link to this definition">¶</a></dt>
 <dd><p>Reshape the data into return_dims, pad missing dimensions, and prune extra
 dimensions. Warns the user to use the base reader if the depth of the Dimension
 being removed is not 1.</p>
@@ -2374,6 +2437,8 @@ or None if the dimension unknown.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.transforms">bioio_base.transforms module</a><ul>
+<li><a class="reference internal" href="#bioio_base.transforms.compute_dim_specs"><code class="docutils literal notranslate"><span class="pre">compute_dim_specs()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.transforms.finalize_dims"><code class="docutils literal notranslate"><span class="pre">finalize_dims()</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.transforms.generate_stack"><code class="docutils literal notranslate"><span class="pre">generate_stack()</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.transforms.reduce_to_slice"><code class="docutils literal notranslate"><span class="pre">reduce_to_slice()</span></code></a></li>
 <li><a class="reference internal" href="#bioio_base.transforms.reshape_data"><code class="docutils literal notranslate"><span class="pre">reshape_data()</span></code></a></li>
@@ -2429,7 +2494,7 @@ or None if the dimension unknown.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=7ecb2257"></script>
+</div><script src="_static/documentation_options.js?v=58ce9d9a"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

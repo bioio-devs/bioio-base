@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base.transforms - bioio-base 0.1.dev1+gd56920e2f documentation</title>
+        <title>bioio_base.transforms - bioio-base 0.1.dev1+g00ea97e7b documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gd56920e2f documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g00ea97e7b documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gd56920e2f documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g00ea97e7b documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -234,11 +234,10 @@
           <h1>Source code for bioio_base.transforms</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Integral</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -322,10 +321,187 @@
 
 
 
+<div class="viewcode-block" id="compute_dim_specs">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.compute_dim_specs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_dim_specs</span><span class="p">(</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">DimSelection</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">DimSpec</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the per-dimension getitem spec and the resulting dim string.</span>
+
+<span class="sd">    This is the indexer-building half of ``reshape_data``: it turns the kwargs</span>
+<span class="sd">    selection into a list of getitem operations (one per dimension in</span>
+<span class="sd">    ``given_dims``) plus the dimension string that results after the getitem.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: Tuple[int, ...]</span>
+<span class="sd">        The shape of the data the specs will be applied to.</span>
+<span class="sd">    given_dims: str</span>
+<span class="sd">        The dimension ordering of the data, &quot;CZYX&quot;, &quot;MSTCZYX&quot; etc.</span>
+<span class="sd">    return_dims: str</span>
+<span class="sd">        The dimension ordering of the return data.</span>
+<span class="sd">    kwargs: types.DimSelection</span>
+<span class="sd">        Per-dimension selections (see ``reshape_data``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dim_specs: List[types.DimSpec]</span>
+<span class="sd">        One getitem operation per dimension in ``given_dims``.</span>
+<span class="sd">    new_dims: str</span>
+<span class="sd">        The dimension ordering after applying ``dim_specs`` (integer-selected,</span>
+<span class="sd">        non-return dimensions removed).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check for parameter conflicts</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+        <span class="c1"># return_dims=&#39;CZYX&#39; and iterable dimensions &#39;T=range(10)&#39;</span>
+        <span class="c1"># Dimension is in kwargs</span>
+        <span class="c1"># Dimension is an iterable</span>
+        <span class="c1"># Dimension is not in return dimensions</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dims</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;When selecting a multiple dimension indices, the specified &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;dimension must be provided in return_dims. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Process each dimension available</span>
+    <span class="n">new_dims</span> <span class="o">=</span> <span class="n">given_dims</span>
+    <span class="n">dim_specs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">DimSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+        <span class="c1"># Store index of the dim as it is in given data</span>
+        <span class="n">dim_index</span> <span class="o">=</span> <span class="n">given_dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="c1"># Handle dim in return_dims which means that it is</span>
+        <span class="c1"># an iterable or None selection</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
+            <span class="c1"># Specific iterable requested</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Actual dim specification</span>
+                <span class="c1"># The specification provided for this dimension in the kwargs</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">dim_spec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># Convert operator to standard list or slice</span>
+                <span class="c1"># dask.Array and numpy.ndarray both natively support</span>
+                <span class="c1"># List[int] and slices being passed to getitem so no need to cast them</span>
+                <span class="c1"># to anything different</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">)):</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
+
+                <span class="c1"># Get the largest absolute value index in the list using min and max</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)),</span> <span class="nb">max</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)])</span>
+                    <span class="c1"># try to convert to slice if possible</span>
+                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">reduce_to_slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
+
+                <span class="c1"># Get the largest absolute value index from start and stop of slice</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">stop</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">start</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Nothing was requested from this dimension</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="c1"># No op means that it doesn&#39;t matter how much data is in this dimension</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Not in return_dims means that it is a fixed integer selection</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Integer requested</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+
+                <span class="c1"># Check that integer</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s2">&quot;Dimensions not in output must be integers. &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="n">dim_spec</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dim_spec</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
+                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Remove dim from new dims as it is fixed size</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that fixed integer request isn&#39;t outside of request</span>
+        <span class="k">if</span> <span class="n">check_selection_max</span> <span class="o">&gt;</span> <span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Dimension specified with </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">display_dim_spec</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but Dimension shape is </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># All checks and operations passed, append dim operation to getitem ops.</span>
+        <span class="n">dim_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">DimSpec</span><span class="p">,</span> <span class="n">dim_spec</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dim_specs</span><span class="p">,</span> <span class="n">new_dims</span></div>
+
+
+
+<div class="viewcode-block" id="finalize_dims">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.finalize_dims">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">finalize_dims</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">new_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pad missing return dimensions with depth-1 axes, then transpose to</span>
+<span class="sd">    ``return_dims``.</span>
+
+<span class="sd">    This is the reshape/transpose half of ``reshape_data``, applied after a</span>
+<span class="sd">    getitem has already selected the requested data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        The already-indexed data (in ``new_dims`` order).</span>
+<span class="sd">    new_dims: str</span>
+<span class="sd">        The dimension ordering of ``data`` (the output of ``compute_dim_specs``).</span>
+<span class="sd">    given_dims: str</span>
+<span class="sd">        The original dimension ordering, used to detect which return dimensions</span>
+<span class="sd">        were not present in the source data and must be padded in.</span>
+<span class="sd">    return_dims: str</span>
+<span class="sd">        The desired output dimension ordering.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data: types.ArrayLike</span>
+<span class="sd">        The data with the specified dimension ordering.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Add empty dims where dimensions were requested but data doesn&#39;t exist</span>
+    <span class="c1"># Add dimensions to new dims where empty dims are added</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">return_dims</span><span class="p">):</span>
+        <span class="c1"># This dimension wasn&#39;t processed</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="n">dim</span><span class="si">}{</span><span class="n">new_dims</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+
+    <span class="c1"># Any extra dimensions have been removed, only a problem if the depth is &gt; 1</span>
+    <span class="k">return</span> <span class="n">transpose_to_dims</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">given_dims</span><span class="o">=</span><span class="n">new_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="o">=</span><span class="n">return_dims</span>
+    <span class="p">)</span>  <span class="c1"># don&#39;t pass kwargs or 2 copies</span></div>
+
+
+
 <div class="viewcode-block" id="reshape_data">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.reshape_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reshape_data</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">DimSelection</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reshape the data into return_dims, pad missing dimensions, and prune extra</span>
@@ -413,113 +589,12 @@
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
 <span class="sd">    ... example = reshape_data(data, &quot;CYX&quot;, &quot;BSTCZYX&quot;, C=slice(0, -1, 3))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check for parameter conflicts</span>
-    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-        <span class="c1"># return_dims=&#39;CZYX&#39; and iterable dimensions &#39;T=range(10)&#39;</span>
-        <span class="c1"># Dimension is in kwargs</span>
-        <span class="c1"># Dimension is an iterable</span>
-        <span class="c1"># Dimension is not in return dimensions</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">))</span>
-            <span class="ow">and</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dims</span>
-        <span class="p">):</span>
-            <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;When selecting a multiple dimension indices, the specified &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;dimension must be provided in return_dims. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-    <span class="c1"># Process each dimension available</span>
-    <span class="n">new_dims</span> <span class="o">=</span> <span class="n">given_dims</span>
-    <span class="n">dim_specs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-        <span class="c1"># Store index of the dim as it is in given data</span>
-        <span class="n">dim_index</span> <span class="o">=</span> <span class="n">given_dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-
-        <span class="c1"># Handle dim in return_dims which means that it is</span>
-        <span class="c1"># an iterable or None selection</span>
-        <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">return_dims</span><span class="p">:</span>
-            <span class="c1"># Specific iterable requested</span>
-            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="c1"># Actual dim specification</span>
-                <span class="c1"># The specification provided for this dimension in the kwargs</span>
-                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
-
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">dim_spec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-
-                <span class="c1"># Convert operator to standard list or slice</span>
-                <span class="c1"># dask.Array and numpy.ndarray both natively support</span>
-                <span class="c1"># List[int] and slices being passed to getitem so no need to cast them</span>
-                <span class="c1"># to anything different</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">range</span><span class="p">)):</span>
-                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
-
-                <span class="c1"># Get the largest absolute value index in the list using min and max</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)),</span> <span class="nb">max</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)])</span>
-                    <span class="c1"># try to convert to slice if possible</span>
-                    <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">reduce_to_slice</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
-
-                <span class="c1"># Get the largest absolute value index from start and stop of slice</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                    <span class="n">check_selection_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">stop</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dim_spec</span><span class="o">.</span><span class="n">start</span><span class="p">)])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Nothing was requested from this dimension</span>
-                <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
-
-                <span class="c1"># No op means that it doesn&#39;t matter how much data is in this dimension</span>
-                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="c1"># Not in return_dims means that it is a fixed integer selection</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="c1"># Integer requested</span>
-                <span class="n">dim_spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
-
-                <span class="c1"># Check that integer</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                        <span class="s2">&quot;Dimensions not in output must be integers. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span>
-                    <span class="p">)</span>
-                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="n">dim_spec</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">dim_spec</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
-                <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
-
-            <span class="c1"># Remove dim from new dims as it is fixed size</span>
-            <span class="n">new_dims</span> <span class="o">=</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Check that fixed integer request isn&#39;t outside of request</span>
-        <span class="k">if</span> <span class="n">check_selection_max</span> <span class="o">&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dimension specified with </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">display_dim_spec</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;but Dimension shape is </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span>
-
-        <span class="c1"># All checks and operations passed, append dim operation to getitem ops</span>
-        <span class="n">dim_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span>
-
-    <span class="c1"># Run getitems</span>
+    <span class="c1"># Compute the per-dimension getitem ops, run them, then pad/transpose.</span>
+    <span class="n">dim_specs</span><span class="p">,</span> <span class="n">new_dims</span> <span class="o">=</span> <span class="n">compute_dim_specs</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">dim_specs</span><span class="p">)]</span>
-
-    <span class="c1"># Add empty dims where dimensions were requested but data doesn&#39;t exist</span>
-    <span class="c1"># Add dimensions to new dims where empty dims are added</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">return_dims</span><span class="p">):</span>
-        <span class="c1"># This dimension wasn&#39;t processed</span>
-        <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-            <span class="n">new_dims</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="n">dim</span><span class="si">}{</span><span class="n">new_dims</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
-
-    <span class="c1"># Any extra dimensions have been removed, only a problem if the depth is &gt; 1</span>
-    <span class="k">return</span> <span class="n">transpose_to_dims</span><span class="p">(</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">given_dims</span><span class="o">=</span><span class="n">new_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="o">=</span><span class="n">return_dims</span>
-    <span class="p">)</span>  <span class="c1"># don&#39;t pass kwargs or 2 copies</span></div>
+    <span class="k">return</span> <span class="n">finalize_dims</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">new_dims</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">)</span></div>
 
 
 
@@ -683,7 +758,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=7ecb2257"></script>
+</div><script src="../../_static/documentation_options.js?v=58ce9d9a"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
