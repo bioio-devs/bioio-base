@@ -1,12 +1,110 @@
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Optional, Sequence
+from typing import Any, Optional, Sequence
 
 from ome_types import OME
 from ome_types.model import UnitsTime
 
 log = logging.getLogger(__name__)
+
+
+@dataclass
+class ChannelMetadata:
+    """
+    Per-channel acquisition metadata.
+
+    Attributes
+    ----------
+    channel_id: Optional[str]
+        The channel identifier (e.g. "Channel:0").
+    name: Optional[str]
+        The channel name (e.g. "EGFP").
+    track: Optional[str]
+        The acquisition track this channel belongs to (e.g. "Track:1"). Channels
+        acquired together share a track; channels acquired individually have
+        distinct tracks.
+    dye_name: Optional[str]
+        The dye / fluorophore name (e.g. "EGFP").
+    channel_color: Optional[str]
+        The display color as a hex ARGB string (e.g. "#FF00FF5B").
+    contrast_method: Optional[str]
+        The contrast method (e.g. "Fluorescence", "Brightfield").
+    illumination_wavelength: Optional[str]
+        The illumination wavelength range or peak in nm (e.g. "487-489").
+    scan_direction: Optional[str]
+        The scan direction for the acquisition (e.g. "Unidirectional"). This is an
+        acquisition-wide value repeated for each channel.
+    excitation_wavelength: Optional[str]
+        The excitation wavelength in nm (e.g. "488").
+    emission_wavelength: Optional[str]
+        The emission wavelength in nm (e.g. "509").
+    effective_na: Optional[str]
+        The effective numerical aperture (e.g. "0.125").
+    exposure_time: Optional[str]
+        The raw exposure time as recorded by the format, unformatted. Units are
+        format-specific (e.g. nanoseconds for CZI).
+    imaging_device: Optional[str]
+        The detector / camera used to acquire this channel (e.g. "Camera 1 (Back)").
+    camera_adapter: Optional[str]
+        The camera adapter of the imaging device (e.g. "1x Camera Adapter").
+    section_thickness: Optional[str]
+        The optical section thickness in micrometers.
+    light_source_intensity: Optional[str]
+        The light source intensity for this channel (e.g. "9.78 %"). When a channel
+        uses multiple light sources the values are comma-joined.
+    light_source: Optional[str]
+        The light source(s) used for this channel (e.g. "LED1"). When a channel uses
+        multiple light sources the names are comma-joined.
+
+    FIELD_LABELS: dict[str, str]
+        Mapping of the above attribute names to readable labels.
+    """
+
+    channel_id: Optional[str] = None
+    name: Optional[str] = None
+    track: Optional[str] = None
+    dye_name: Optional[str] = None
+    channel_color: Optional[str] = None
+    contrast_method: Optional[str] = None
+    illumination_wavelength: Optional[str] = None
+    scan_direction: Optional[str] = None
+    excitation_wavelength: Optional[str] = None
+    emission_wavelength: Optional[str] = None
+    effective_na: Optional[str] = None
+    exposure_time: Optional[str] = None
+    imaging_device: Optional[str] = None
+    camera_adapter: Optional[str] = None
+    section_thickness: Optional[str] = None
+    light_source_intensity: Optional[str] = None
+    light_source: Optional[str] = None
+
+    FIELD_LABELS = {
+        "channel_id": "Channel Id",
+        "name": "Channel Name",
+        "track": "Track",
+        "dye_name": "Dye Name",
+        "channel_color": "Channel Color",
+        "contrast_method": "Contrast Method",
+        "illumination_wavelength": "Illumination Wavelength",
+        "scan_direction": "Scan Direction",
+        "excitation_wavelength": "Excitation Wavelength",
+        "emission_wavelength": "Emission Wavelength",
+        "effective_na": "Effective NA",
+        "exposure_time": "Exposure Time",
+        "imaging_device": "Imaging Device",
+        "camera_adapter": "Camera Adapter",
+        "section_thickness": "Section Thickness",
+        "light_source_intensity": "Light Source Intensity",
+        "light_source": "Light Source",
+    }
+
+    def to_dict(self) -> dict:
+        """Convert to a dictionary keyed by readable labels."""
+        return {
+            self.FIELD_LABELS[field]: getattr(self, field)
+            for field in self.FIELD_LABELS
+        }
 
 
 @dataclass
@@ -18,6 +116,10 @@ class StandardMetadata:
     ----------
     binning: Optional[str]
         Binning configuration.
+
+    channels: Optional[Sequence[ChannelMetadata]]
+        Per-channel metadata. Each entry describes a single channel; when
+        serialized via to_dict, entries are expanded into nested dictionaries.
 
     column: Optional[str]
         Column information.
@@ -44,7 +146,7 @@ class StandardMetadata:
         The experimentalist who produced this data.
 
     imaging_datetime: Optional[datetime]
-        Date this file was imaged.
+        Date and time this file was imaged.
 
     objective: Optional[str]
         Objective.
@@ -60,6 +162,9 @@ class StandardMetadata:
 
     position_index: Optional[int]
         Position index, if applicable.
+
+    reflectors: Optional[Sequence[str]]
+        Names of the reflectors installed on the microscope's turret.
 
     row: Optional[str]
         Row information.
@@ -79,6 +184,7 @@ class StandardMetadata:
     """
 
     binning: Optional[str] = None
+    channels: Optional[Sequence[ChannelMetadata]] = None
     column: Optional[str] = None
     dimensions_present: Optional[Sequence[str]] = None
     image_size_c: Optional[int] = None
@@ -93,6 +199,7 @@ class StandardMetadata:
     pixel_size_y: Optional[float] = None
     pixel_size_z: Optional[float] = None
     position_index: Optional[int] = None
+    reflectors: Optional[Sequence[str]] = None
     row: Optional[str] = None
     timelapse: Optional[bool] = None
     timelapse_interval: Optional[timedelta] = None
@@ -100,6 +207,7 @@ class StandardMetadata:
 
     FIELD_LABELS = {
         "binning": "Binning",
+        "channels": "Channels",
         "column": "Column",
         "dimensions_present": "Dimensions Present",
         "image_size_c": "Image Size C",
@@ -114,22 +222,39 @@ class StandardMetadata:
         "pixel_size_y": "Pixel Size Y",
         "pixel_size_z": "Pixel Size Z",
         "position_index": "Position Index",
+        "reflectors": "Reflectors",
         "row": "Row",
         "timelapse": "Timelapse",
         "timelapse_interval": "Timelapse Interval",
         "total_time_duration": "Total Time Duration",
     }
 
+    @staticmethod
+    def _serialize(value: Any) -> Any:
+        """
+        Recursively serialize a value, expanding nested objects that expose their
+        own to_dict (and lists/tuples of them) into plain dictionaries.
+        """
+        to_dict = getattr(value, "to_dict", None)
+        if callable(to_dict):
+            return to_dict()
+        if isinstance(value, (list, tuple)):
+            return [StandardMetadata._serialize(item) for item in value]
+        return value
+
     def to_dict(self) -> dict:
         """
         Convert the metadata into a dictionary using readable labels.
+
+        Nested metadata objects (e.g. per-channel entries in ``channels``) that
+        expose their own to_dict are expanded into nested dictionaries.
 
         Returns:
             dict: A mapping where keys are the readable labels defined in FIELD_LABELS,
                   and values are the corresponding metadata values.
         """
         return {
-            self.FIELD_LABELS[field]: getattr(self, field)
+            self.FIELD_LABELS[field]: self._serialize(getattr(self, field))
             for field in self.FIELD_LABELS
         }
 
