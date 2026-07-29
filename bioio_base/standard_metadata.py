@@ -64,6 +64,12 @@ class StandardMetadata:
     row: Optional[str]
         Row information.
 
+    stage_position_x: Optional[float]
+        Physical X position of the scene center on the microscope stage, in microns.
+
+    stage_position_y: Optional[float]
+        Physical Y position of the scene center on the microscope stage, in microns.
+
     timelapse: Optional[bool]
         Is the data a timelapse?
 
@@ -94,6 +100,8 @@ class StandardMetadata:
     pixel_size_z: Optional[float] = None
     position_index: Optional[int] = None
     row: Optional[str] = None
+    stage_position_x: Optional[float] = None
+    stage_position_y: Optional[float] = None
     timelapse: Optional[bool] = None
     timelapse_interval: Optional[timedelta] = None
     total_time_duration: Optional[timedelta] = None
@@ -115,6 +123,8 @@ class StandardMetadata:
         "pixel_size_z": "Pixel Size Z",
         "position_index": "Position Index",
         "row": "Row",
+        "stage_position_x": "Stage Position X",
+        "stage_position_y": "Stage Position Y",
         "timelapse": "Timelapse",
         "timelapse_interval": "Timelapse Interval",
         "total_time_duration": "Total Time Duration",
