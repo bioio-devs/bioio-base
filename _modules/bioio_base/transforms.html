@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base.transforms - bioio-base 0.1.dev1+g012dce03b documentation</title>
+        <title>bioio_base.transforms - bioio-base 0.1.dev1+gf4774f939 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g012dce03b documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gf4774f939 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g012dce03b documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gf4774f939 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -264,7 +264,7 @@
     <span class="c1"># 2. check if all the deltas are equal and positive</span>
     <span class="k">if</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">steps</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="c1"># if we can&#39;t convert to a slice, then just return the list unmodified</span>
+    <span class="c1"># if we can't convert to a slice, then just return the list unmodified</span>
     <span class="k">return</span> <span class="n">L</span></div>
 
 
@@ -276,7 +276,7 @@
     <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This shuffles the data dimensions from given_dims to return_dims. Each dimension</span>
 <span class="sd">    must be present in given_dims must be used in return_dims</span>
 
@@ -286,7 +286,7 @@
 <span class="sd">        Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions</span>
 <span class="sd">        specified in given_dims</span>
 <span class="sd">    given_dims: str</span>
-<span class="sd">        The dimension ordering of data, &quot;CZYX&quot;, &quot;VBTCXZY&quot; etc</span>
+<span class="sd">        The dimension ordering of data, "CZYX", "VBTCXZY" etc</span>
 <span class="sd">    return_dims: str</span>
 <span class="sd">        The dimension ordering of the return data</span>
 
@@ -299,7 +299,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ConflictingArgumentsError</span>
 <span class="sd">        given_dims and return_dims are incompatible.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Use a counter to track that the contents are composed of the same letters</span>
     <span class="c1"># and that no letter is repeated</span>
     <span class="k">if</span> <span class="p">(</span>
@@ -307,7 +307,7 @@
         <span class="ow">or</span> <span class="nb">max</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">given_dims</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">1</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;given_dims=</span><span class="si">{</span><span class="n">given_dims</span><span class="si">}</span><span class="s2"> and return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2"> are incompatible.&quot;</span>
+            <span class="sa">f</span><span class="s2">"given_dims=</span><span class="si">{</span><span class="n">given_dims</span><span class="si">}</span><span class="s2"> and return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2"> are incompatible."</span>
         <span class="p">)</span>
 
     <span class="c1"># Resort the data into return_dims order</span>
@@ -329,7 +329,7 @@
     <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">DimSelection</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">DimSpec</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute the per-dimension getitem spec and the resulting dim string.</span>
 
 <span class="sd">    This is the indexer-building half of ``reshape_data``: it turns the kwargs</span>
@@ -341,7 +341,7 @@
 <span class="sd">    shape: Tuple[int, ...]</span>
 <span class="sd">        The shape of the data the specs will be applied to.</span>
 <span class="sd">    given_dims: str</span>
-<span class="sd">        The dimension ordering of the data, &quot;CZYX&quot;, &quot;MSTCZYX&quot; etc.</span>
+<span class="sd">        The dimension ordering of the data, "CZYX", "MSTCZYX" etc.</span>
 <span class="sd">    return_dims: str</span>
 <span class="sd">        The dimension ordering of the return data.</span>
 <span class="sd">    kwargs: types.DimSelection</span>
@@ -354,10 +354,10 @@
 <span class="sd">    new_dims: str</span>
 <span class="sd">        The dimension ordering after applying ``dim_specs`` (integer-selected,</span>
 <span class="sd">        non-return dimensions removed).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Check for parameter conflicts</span>
     <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-        <span class="c1"># return_dims=&#39;CZYX&#39; and iterable dimensions &#39;T=range(10)&#39;</span>
+        <span class="c1"># return_dims='CZYX' and iterable dimensions 'T=range(10)'</span>
         <span class="c1"># Dimension is in kwargs</span>
         <span class="c1"># Dimension is an iterable</span>
         <span class="c1"># Dimension is not in return dimensions</span>
@@ -366,9 +366,9 @@
             <span class="ow">and</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">return_dims</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;When selecting a multiple dimension indices, the specified &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;dimension must be provided in return_dims. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"When selecting a multiple dimension indices, the specified "</span>
+                <span class="sa">f</span><span class="s2">"dimension must be provided in return_dims. "</span>
+                <span class="sa">f</span><span class="s2">"return_dims=</span><span class="si">{</span><span class="n">return_dims</span><span class="si">}</span><span class="s2">, dimension </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
     <span class="c1"># Process each dimension available</span>
@@ -412,7 +412,7 @@
                 <span class="n">dim_spec</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="n">display_dim_spec</span> <span class="o">=</span> <span class="n">dim_spec</span>
 
-                <span class="c1"># No op means that it doesn&#39;t matter how much data is in this dimension</span>
+                <span class="c1"># No op means that it doesn't matter how much data is in this dimension</span>
                 <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Not in return_dims means that it is a fixed integer selection</span>
@@ -425,8 +425,8 @@
                 <span class="c1"># Check that integer</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                        <span class="s2">&quot;Dimensions not in output must be integers. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span>
+                        <span class="s2">"Dimensions not in output must be integers. "</span>
+                        <span class="sa">f</span><span class="s2">"Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dim_spec</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">."</span>
                     <span class="p">)</span>
                 <span class="n">check_selection_max</span> <span class="o">=</span> <span class="n">dim_spec</span>
             <span class="k">else</span><span class="p">:</span>
@@ -435,13 +435,13 @@
                 <span class="n">check_selection_max</span> <span class="o">=</span> <span class="mi">0</span>
 
             <span class="c1"># Remove dim from new dims as it is fixed size</span>
-            <span class="n">new_dims</span> <span class="o">=</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="n">new_dims</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
 
-        <span class="c1"># Check that fixed integer request isn&#39;t outside of request</span>
+        <span class="c1"># Check that fixed integer request isn't outside of request</span>
         <span class="k">if</span> <span class="n">check_selection_max</span> <span class="o">&gt;</span> <span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Dimension specified with </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">display_dim_spec</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;but Dimension shape is </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Dimension specified with </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">display_dim_spec</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"but Dimension shape is </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="n">dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="c1"># All checks and operations passed, append dim operation to getitem ops.</span>
@@ -456,7 +456,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">finalize_dims</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">new_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Pad missing return dimensions with depth-1 axes, then transpose to</span>
 <span class="sd">    ``return_dims``.</span>
 
@@ -479,19 +479,19 @@
 <span class="sd">    -------</span>
 <span class="sd">    data: types.ArrayLike</span>
 <span class="sd">        The data with the specified dimension ordering.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Add empty dims where dimensions were requested but data doesn&#39;t exist</span>
+<span class="sd">    """</span>
+    <span class="c1"># Add empty dims where dimensions were requested but data doesn't exist</span>
     <span class="c1"># Add dimensions to new dims where empty dims are added</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">return_dims</span><span class="p">):</span>
-        <span class="c1"># This dimension wasn&#39;t processed</span>
+        <span class="c1"># This dimension wasn't processed</span>
         <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">given_dims</span><span class="p">:</span>
-            <span class="n">new_dims</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="n">dim</span><span class="si">}{</span><span class="n">new_dims</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">new_dims</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">new_dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="si">}{</span><span class="n">dim</span><span class="si">}{</span><span class="n">new_dims</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
 
     <span class="c1"># Any extra dimensions have been removed, only a problem if the depth is &gt; 1</span>
     <span class="k">return</span> <span class="n">transpose_to_dims</span><span class="p">(</span>
         <span class="n">data</span><span class="p">,</span> <span class="n">given_dims</span><span class="o">=</span><span class="n">new_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="o">=</span><span class="n">return_dims</span>
-    <span class="p">)</span>  <span class="c1"># don&#39;t pass kwargs or 2 copies</span></div>
+    <span class="p">)</span>  <span class="c1"># don't pass kwargs or 2 copies</span></div>
 
 
 
@@ -503,7 +503,7 @@
     <span class="n">return_dims</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">DimSelection</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Reshape the data into return_dims, pad missing dimensions, and prune extra</span>
 <span class="sd">    dimensions. Warns the user to use the base reader if the depth of the Dimension</span>
 <span class="sd">    being removed is not 1.</span>
@@ -514,7 +514,7 @@
 <span class="sd">        Either a dask array or numpy.ndarray of arbitrary shape but with the dimensions</span>
 <span class="sd">        specified in given_dims</span>
 <span class="sd">    given_dims: str</span>
-<span class="sd">        The dimension ordering of data, &quot;CZYX&quot;, &quot;VBTCXZY&quot; etc</span>
+<span class="sd">        The dimension ordering of data, "CZYX", "VBTCXZY" etc</span>
 <span class="sd">    return_dims: str</span>
 <span class="sd">        The dimension ordering of the return data</span>
 <span class="sd">    kwargs:</span>
@@ -552,43 +552,43 @@
 <span class="sd">    Specific index selection</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... z1 = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=1)</span>
+<span class="sd">    ... z1 = reshape_data(data, "ZYX", "YX", Z=1)</span>
 
 <span class="sd">    List of index selection</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... first_and_second = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=[0, 1])</span>
+<span class="sd">    ... first_and_second = reshape_data(data, "ZYX", "YX", Z=[0, 1])</span>
 
 <span class="sd">    Tuple of index selection</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... first_and_last = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=(0, -1))</span>
+<span class="sd">    ... first_and_last = reshape_data(data, "ZYX", "YX", Z=(0, -1))</span>
 
 <span class="sd">    Range of index selection</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... first_three = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=range(3))</span>
+<span class="sd">    ... first_three = reshape_data(data, "ZYX", "YX", Z=range(3))</span>
 
 <span class="sd">    Slice selection</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... every_other = reshape_data(data, &quot;ZYX&quot;, &quot;YX&quot;, Z=slice(0, -1, 2))</span>
+<span class="sd">    ... every_other = reshape_data(data, "ZYX", "YX", Z=slice(0, -1, 2))</span>
 
 <span class="sd">    Empty dimension expansion</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... with_time = reshape_data(data, &quot;ZYX&quot;, &quot;TZYX&quot;)</span>
+<span class="sd">    ... with_time = reshape_data(data, "ZYX", "TZYX")</span>
 
 <span class="sd">    Dimension order shuffle</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... as_zx_base = reshape_data(data, &quot;ZYX&quot;, &quot;YZX&quot;)</span>
+<span class="sd">    ... as_zx_base = reshape_data(data, "ZYX", "YZX")</span>
 
 <span class="sd">    Selections, empty dimension expansions, and dimension order shuffle</span>
 
 <span class="sd">    &gt;&gt;&gt; data = np.random.rand((10, 100, 100))</span>
-<span class="sd">    ... example = reshape_data(data, &quot;CYX&quot;, &quot;BSTCZYX&quot;, C=slice(0, -1, 3))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    ... example = reshape_data(data, "CYX", "BSTCZYX", C=slice(0, -1, 3))</span>
+<span class="sd">    """</span>
     <span class="c1"># Compute the per-dimension getitem ops, run them, then pad/transpose.</span>
     <span class="n">dim_specs</span><span class="p">,</span> <span class="n">new_dims</span> <span class="o">=</span> <span class="n">compute_dim_specs</span><span class="p">(</span>
         <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">given_dims</span><span class="p">,</span> <span class="n">return_dims</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -602,15 +602,15 @@
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.transforms.generate_stack">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_stack</span><span class="p">(</span>
     <span class="n">image_container</span><span class="p">:</span> <span class="n">ImageContainer</span><span class="p">,</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">],</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"data"</span><span class="p">,</span> <span class="s2">"dask_data"</span><span class="p">,</span> <span class="s2">"xarray_data"</span><span class="p">,</span> <span class="s2">"xarray_dask_data"</span><span class="p">],</span>
     <span class="n">drop_non_matching_scenes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">select_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
         <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">scene_character</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
-    <span class="n">scene_coord_values</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
+    <span class="n">scene_character</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"I"</span><span class="p">,</span>
+    <span class="n">scene_coord_values</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"index"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">MetaArrayLike</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Stack each scene contained in the reader into a</span>
 <span class="sd">    single array. This method handles the logic of determining which</span>
 <span class="sd">    stack function to use (dask or numpy) and whether or not to return a</span>
@@ -620,9 +620,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    mode: Literal[&quot;data&quot;, &quot;dask_data&quot;, &quot;xarray_data&quot;, &quot;xarray_dask_data&quot;]</span>
+<span class="sd">    mode: Literal["data", "dask_data", "xarray_data", "xarray_dask_data"]</span>
 <span class="sd">        String describing the style of data to return. Should be one of:</span>
-<span class="sd">        &quot;data&quot;, &quot;dask_data&quot;, &quot;xarray_data&quot;, &quot;xarray_dask_data&quot;.</span>
+<span class="sd">        "data", "dask_data", "xarray_data", "xarray_dask_data".</span>
 <span class="sd">    drop_non_matching_scenes: bool</span>
 <span class="sd">        During the scene iteration process, if the next scene to be added</span>
 <span class="sd">        to the stack has different shape or dtype, should it be dropped or</span>
@@ -636,13 +636,13 @@
 <span class="sd">        Default: None (stack all scenes)</span>
 <span class="sd">    scene_character: str</span>
 <span class="sd">        Character to use as the name of the scene dimension on the output</span>
-<span class="sd">        array. Default &quot;I&quot;</span>
+<span class="sd">        array. Default "I"</span>
 <span class="sd">    scene_coord_values : str</span>
 <span class="sd">        How to assign coordinates to the scene dimension of the final</span>
-<span class="sd">        array. If scene_coord_values=&quot;names&quot; use the scene name from</span>
-<span class="sd">        the reader object. If scene_coord_values=&quot;index&quot; don&#39;t attach any</span>
+<span class="sd">        array. If scene_coord_values="names" use the scene name from</span>
+<span class="sd">        the reader object. If scene_coord_values="index" don't attach any</span>
 <span class="sd">        coordinates and fall back to integer values.</span>
-<span class="sd">        Default: &quot;index&quot;</span>
+<span class="sd">        Default: "index"</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -650,13 +650,13 @@
 <span class="sd">        The fully stacked array. This can be 6+ dimensions with Scene being</span>
 <span class="sd">        the first dimension.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">mode_check</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">]</span>
+    <span class="n">mode_check</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"data"</span><span class="p">,</span> <span class="s2">"dask_data"</span><span class="p">,</span> <span class="s2">"xarray_data"</span><span class="p">,</span> <span class="s2">"xarray_dask_data"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode_check</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid mode kwarg. Found </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> but should be one of: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode_check</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"Invalid mode kwarg. Found </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> but should be one of: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mode_check</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="n">scene_stacks</span> <span class="o">=</span> <span class="p">[]</span>
@@ -676,14 +676,14 @@
             <span class="n">shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
             <span class="n">dtype</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
 
-            <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"xarray"</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
                 <span class="n">coords</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
                 <span class="n">dims</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dims</span>
 
                 <span class="k">if</span> <span class="n">scene_character</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided scene dimension character &#39;</span><span class="si">{</span><span class="n">scene_character</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;was found in the existing dimensions of the data </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Provided scene dimension character '</span><span class="si">{</span><span class="n">scene_character</span><span class="si">}</span><span class="s2">' "</span>
+                        <span class="sa">f</span><span class="s2">"was found in the existing dimensions of the data </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
 
         <span class="c1"># Check other scenes against the first scene</span>
@@ -691,18 +691,18 @@
             <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">shape</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">drop_non_matching_scenes</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">UnexpectedShapeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;All scenes must have same shape. Found shape&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"All scenes must have same shape. Found shape"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
             <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">dtype</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">drop_non_matching_scenes</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;All scenes must have the same dtype. Found data&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;with dtype </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"All scenes must have the same dtype. Found data"</span>
+                        <span class="sa">f</span><span class="s2">"with dtype </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> in scene </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> but expected"</span>
+                        <span class="sa">f</span><span class="s2">"dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> based on scene </span><span class="si">{</span><span class="n">select_scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
@@ -710,11 +710,11 @@
         <span class="n">scene_stacks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">scene_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image_container</span><span class="o">.</span><span class="n">current_scene</span><span class="p">)</span>
 
-    <span class="n">stack</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">stack</span> <span class="k">if</span> <span class="s2">&quot;dask&quot;</span> <span class="ow">in</span> <span class="n">mode</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">stack</span> <span class="k">if</span> <span class="s2">"dask"</span> <span class="ow">in</span> <span class="n">mode</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span>
 
-    <span class="k">if</span> <span class="s2">&quot;xarray&quot;</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"xarray"</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
         <span class="n">all_data</span> <span class="o">=</span> <span class="n">stack</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scene_stacks</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">scene_coord_values</span> <span class="o">==</span> <span class="s2">&quot;names&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scene_coord_values</span> <span class="o">==</span> <span class="s2">"names"</span><span class="p">:</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">scene_character</span><span class="p">:</span> <span class="n">scene_names</span><span class="p">,</span> <span class="o">**</span><span class="n">coords</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
@@ -758,7 +758,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=a2446c64"></script>
+</div><script src="../../_static/documentation_options.js?v=eca3b50f"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

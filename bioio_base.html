@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing" href="contributing.html"><link rel="prev" title="bioio_base" href="modules.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+g012dce03b documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+gf4774f939 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g012dce03b documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+gf4774f939 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g012dce03b documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gf4774f939 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -348,9 +348,9 @@ Prefixes the keys of the result by the prefix given.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dims</span> <span class="o">=</span> <span class="n">Dimensions</span><span class="p">(</span><span class="s2">&quot;TCZYX&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">624</span><span class="p">,</span> <span class="mi">924</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dims</span> <span class="o">=</span> <span class="n">Dimensions</span><span class="p">(</span><span class="s2">"TCZYX"</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">624</span><span class="p">,</span> <span class="mi">924</span><span class="p">))</span>
 <span class="gp">... </span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>
-<span class="gp">... </span><span class="n">dims</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">]</span>
+<span class="gp">... </span><span class="n">dims</span><span class="p">[</span><span class="s1">'T'</span><span class="p">,</span> <span class="s1">'X'</span><span class="p">]</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -824,28 +824,28 @@ added with a depth of 1.</p>
 <p>See <cite>aicsimageio.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -894,28 +894,28 @@ added with a depth of 1.</p></li>
 <p>See <cite>aicsimageio.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1965,42 +1965,42 @@ dimension selection for the requested dimension.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">z1</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">z1</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YX"</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YX"</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YX"</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YX"</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YX&quot;</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YX"</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Empty dimension expansion</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">with_time</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;TZYX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">with_time</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"TZYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Dimension order shuffle</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">as_zx_base</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="s2">&quot;YZX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">as_zx_base</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"ZYX"</span><span class="p">,</span> <span class="s2">"YZX"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Selections, empty dimension expansions, and dimension order shuffle</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">example</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;CYX&quot;</span><span class="p">,</span> <span class="s2">&quot;BSTCZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">... </span><span class="n">example</span> <span class="o">=</span> <span class="n">reshape_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"CYX"</span><span class="p">,</span> <span class="s2">"BSTCZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2201,11 +2201,11 @@ or None if the dimension unknown.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">])</span>
-<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.ome.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;TCZYX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"file.ome.tif"</span><span class="p">,</span> <span class="s2">"TCZYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.png&quot;</span><span class="p">,</span> <span class="s2">&quot;CYX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"file.png"</span><span class="p">,</span> <span class="s2">"CYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2510,7 +2510,7 @@ or None if the dimension unknown.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=a2446c64"></script>
+</div><script src="_static/documentation_options.js?v=eca3b50f"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

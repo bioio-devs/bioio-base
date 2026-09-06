@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base.benchmark - bioio-base 0.1.dev1+g012dce03b documentation</title>
+        <title>bioio_base.benchmark - bioio-base 0.1.dev1+gf4774f939 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g012dce03b documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+gf4774f939 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g012dce03b documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+gf4774f939 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -232,11 +232,11 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for bioio_base.benchmark</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">    A simple benchmarking function (`benchmark()`) can be imported from</span>
 <span class="sd">    this file to be used by individual readers to then performance test</span>
 <span class="sd">    their individual readers</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
@@ -251,17 +251,17 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
 
-<span class="n">OUTPUT_DESTINATION_DEFAULT</span> <span class="o">=</span> <span class="s2">&quot;output.csv&quot;</span>
+<span class="n">OUTPUT_DESTINATION_DEFAULT</span> <span class="o">=</span> <span class="s2">"output.csv"</span>
 
 
 <div class="viewcode-block" id="BenchmarkDefinition">
 <a class="viewcode-back" href="../../bioio_base.html#bioio_base.benchmark.BenchmarkDefinition">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BenchmarkDefinition</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">TypedDict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Definition of a benchmark test</span>
 <span class="sd">    ran on each test file, prefix is used to</span>
 <span class="sd">    denote differences between tests</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">bioio_base</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span></div>
@@ -271,7 +271,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_all_scenes_read</span><span class="p">(</span>
     <span class="n">test_file</span><span class="p">:</span> <span class="n">bioio_base</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Reader</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read all scenes of the file&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read all scenes of the file"""</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">scene</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">:</span>
         <span class="n">image</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
@@ -281,7 +281,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_all_scenes_delayed_read</span><span class="p">(</span>
     <span class="n">test_file</span><span class="p">:</span> <span class="n">bioio_base</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Reader</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read all scenes of the file delayed&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read all scenes of the file delayed"""</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">scene</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">:</span>
         <span class="n">image</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="n">scene</span><span class="p">)</span>
@@ -291,22 +291,22 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_ome_metadata</span><span class="p">(</span>
     <span class="n">test_file</span><span class="p">:</span> <span class="n">bioio_base</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Reader</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the OME metadata of the image&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read the OME metadata of the image"""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">reader</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span><span class="o">.</span><span class="n">ome_metadata</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_format_bytes</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Formats the bytes given into a human readable format&quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Ki&quot;</span><span class="p">,</span> <span class="s2">&quot;Mi&quot;</span><span class="p">,</span> <span class="s2">&quot;Gi&quot;</span><span class="p">,</span> <span class="s2">&quot;Ti&quot;</span><span class="p">,</span> <span class="s2">&quot;Pi&quot;</span><span class="p">,</span> <span class="s2">&quot;Ei&quot;</span><span class="p">,</span> <span class="s2">&quot;Zi&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_bytes</span><span class="p">(</span><span class="n">num</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"B"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Formats the bytes given into a human readable format"""</span>
+    <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">"Ki"</span><span class="p">,</span> <span class="s2">"Mi"</span><span class="p">,</span> <span class="s2">"Gi"</span><span class="p">,</span> <span class="s2">"Ti"</span><span class="p">,</span> <span class="s2">"Pi"</span><span class="p">,</span> <span class="s2">"Ei"</span><span class="p">,</span> <span class="s2">"Zi"</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1024.0</span><span class="p">:</span>
-            <span class="n">formatted_num</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s2">&quot;3.1f&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">formatted_num</span><span class="si">}{</span><span class="n">unit</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">formatted_num</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s2">"3.1f"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">formatted_num</span><span class="si">}{</span><span class="n">unit</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">num</span> <span class="o">/=</span> <span class="mf">1024.0</span>
-    <span class="n">formatted_num</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s2">&quot;.1f&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">formatted_num</span><span class="si">}</span><span class="s2">Yi</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">formatted_num</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s2">".1f"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">formatted_num</span><span class="si">}</span><span class="s2">Yi</span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
 
 
 <div class="viewcode-block" id="benchmark_test">
@@ -315,10 +315,10 @@
     <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Gets performance stats for calling the given function.</span>
 <span class="sd">    Prefixes the keys of the result by the prefix given.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">tracemalloc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
     <span class="n">test</span><span class="p">()</span>
@@ -330,9 +330,9 @@
 
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Pause between tests</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot; Time Elapsed&quot;</span><span class="p">:</span> <span class="n">time_elapsed</span><span class="p">,</span>
-        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot; Memory Peak&quot;</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">peak</span><span class="p">),</span>
-        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot; Each Core % Used&quot;</span><span class="p">:</span> <span class="n">core_usage</span><span class="p">,</span>
+        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">" Time Elapsed"</span><span class="p">:</span> <span class="n">time_elapsed</span><span class="p">,</span>
+        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">" Memory Peak"</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">peak</span><span class="p">),</span>
+        <span class="n">prefix</span> <span class="o">+</span> <span class="s2">" Each Core % Used"</span><span class="p">:</span> <span class="n">core_usage</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -345,37 +345,37 @@
     <span class="n">additional_test_definitions</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">BenchmarkDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">output_destination</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">OUTPUT_DESTINATION_DEFAULT</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform actual benchmark test&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Perform actual benchmark test"""</span>
     <span class="n">benchmark_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 
     <span class="c1"># Ensure test files are present</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Test file list is empty&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Test file list is empty"</span>
 
     <span class="c1"># Default benchmark test definitions</span>
     <span class="n">default_benchmark_tests</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">BenchmarkDefinition</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;First Scene Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(),</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"First Scene Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(),</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;All Scenes Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_all_scenes_read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"All Scenes Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_all_scenes_read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;First Scene Delayed Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(),</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"First Scene Delayed Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(),</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;All Scenes Delayed Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_all_scenes_delayed_read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"All Scenes Delayed Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_all_scenes_delayed_read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;Metadata Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"Metadata Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="p">{</span>
-            <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;OME Metadata Read&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_read_ome_metadata</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
+            <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"OME Metadata Read"</span><span class="p">,</span>
+            <span class="s2">"test"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">_read_ome_metadata</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span>
         <span class="p">},</span>
     <span class="p">]</span>
 
@@ -391,7 +391,7 @@
         <span class="n">fs</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">bioio_base</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pathlike_to_fs</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span>
 
         <span class="c1"># Get file info (size, etc.)</span>
-        <span class="n">file_size</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
+        <span class="n">file_size</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="s2">"size"</span><span class="p">]</span>
 
         <span class="c1"># Extract file name using os.path</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -405,32 +405,32 @@
             <span class="n">tests_from_files</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="o">**</span><span class="n">tests_from_files</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">benchmark_test</span><span class="p">(</span>
-                    <span class="n">prefix</span><span class="o">=</span><span class="n">test_definition</span><span class="p">[</span><span class="s2">&quot;prefix&quot;</span><span class="p">],</span>
-                    <span class="n">test</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">test_definition</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">](</span><span class="n">test_file</span><span class="p">),</span>
+                    <span class="n">prefix</span><span class="o">=</span><span class="n">test_definition</span><span class="p">[</span><span class="s2">"prefix"</span><span class="p">],</span>
+                    <span class="n">test</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">test_definition</span><span class="p">[</span><span class="s2">"test"</span><span class="p">](</span><span class="n">test_file</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">}</span>
         <span class="n">output_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
                 <span class="o">**</span><span class="n">tests_from_files</span><span class="p">,</span>
-                <span class="s2">&quot;File Name&quot;</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
-                <span class="s2">&quot;File Size&quot;</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">file_size</span><span class="p">),</span>
-                <span class="s2">&quot;Shape&quot;</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
-                <span class="s2">&quot;Dim Order&quot;</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
-                <span class="s2">&quot;Date Recorded&quot;</span><span class="p">:</span> <span class="n">now_date_string</span><span class="p">,</span>
-                <span class="s2">&quot;Available Memory&quot;</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">total_ram</span><span class="p">),</span>
-                <span class="s2">&quot;Available CPU Cores&quot;</span><span class="p">:</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span>
+                <span class="s2">"File Name"</span><span class="p">:</span> <span class="n">file_name</span><span class="p">,</span>
+                <span class="s2">"File Size"</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">file_size</span><span class="p">),</span>
+                <span class="s2">"Shape"</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="s2">"Dim Order"</span><span class="p">:</span> <span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+                <span class="s2">"Date Recorded"</span><span class="p">:</span> <span class="n">now_date_string</span><span class="p">,</span>
+                <span class="s2">"Available Memory"</span><span class="p">:</span> <span class="n">_format_bytes</span><span class="p">(</span><span class="n">total_ram</span><span class="p">),</span>
+                <span class="s2">"Available CPU Cores"</span><span class="p">:</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
     <span class="c1"># Write out the results</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_rows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_destination</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_destination</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">output_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">output_rows</span><span class="p">)</span>
 
     <span class="n">benchmark_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performance test took </span><span class="si">{</span><span class="n">benchmark_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">benchmark_start_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Performance test took </span><span class="si">{</span><span class="n">benchmark_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">benchmark_start_time</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span></div>
 
 
 
@@ -472,7 +472,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=a2446c64"></script>
+</div><script src="../../_static/documentation_options.js?v=eca3b50f"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
