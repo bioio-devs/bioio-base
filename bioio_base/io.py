@@ -121,4 +121,4 @@ def s3_https_to_s3(
             "Use the s3:// URI or a public S3 URL to read a directory."
         )
 
-    return f"s3://{bucket_and_key}", {"anon": True, **fs_kwargs}
+    return "s3://" + bucket_and_key, {"anon": True, **fs_kwargs}

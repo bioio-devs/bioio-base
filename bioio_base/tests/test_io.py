@@ -100,4 +100,4 @@ def test_s3_https_to_s3_leaves_other_uris_alone(uri: str) -> None:
 )
 def test_s3_https_to_s3_rejects_presigned_url(query: str) -> None:
     with pytest.raises(ValueError, match="presigned"):
-        s3_https_to_s3(f"https://s3.us-west-2.amazonaws.com/my-bucket/key?{query}")
+        s3_https_to_s3("https://s3.us-west-2.amazonaws.com/my-bucket/key?" + query)
