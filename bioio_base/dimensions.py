@@ -157,6 +157,11 @@ class Dimensions:
                 f"Key must be a string or list of strings but got type {type(key)}"
             )
 
+    def __contains__(self, key: Union[str, Sequence[str]]) -> bool:
+        if isinstance(key, seq) and not isinstance(key, str):
+            return all(k in self._dims_shape for k in key)
+        return key in self._dims_shape
+
     def __setattr__(self, __name: str, __value: int) -> None:
         super().__setattr__(__name, __value)
 
