@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Contributing" href="contributing.html"><link rel="prev" title="bioio_base" href="modules.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base package - bioio-base 0.1.dev1+g64748f21b documentation</title>
+        <title>bioio_base package - bioio-base 0.1.dev1+g5d6237240 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g64748f21b documentation</div></a>
+      <a href="index.html"><div class="brand">bioio-base 0.1.dev1+g5d6237240 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g64748f21b documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g5d6237240 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -575,6 +575,43 @@ Default: {}</p>
 <dd class="field-odd"><dl class="simple">
 <dt>FileNotFoundError</dt><dd><p>If enforce_exists is provided value True and the resource is not found or is
 unavailable.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio_base.io.s3_https_to_s3">
+<span class="sig-prename descclassname"><span class="pre">bioio_base.io.</span></span><span class="sig-name descname"><span class="pre">s3_https_to_s3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio_base/io.html#s3_https_to_s3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio_base.io.s3_https_to_s3" title="Link to this definition">¶</a></dt>
+<dd><p>Rewrite an S3 HTTPS URL as an anonymous <code class="docutils literal notranslate"><span class="pre">s3://</span></code> URI.</p>
+<p>A directory can’t be listed over HTTP(S), but the same objects can be over
+<code class="docutils literal notranslate"><span class="pre">s3://</span></code>. Both <code class="docutils literal notranslate"><span class="pre">https://s3.&lt;region&gt;.amazonaws.com/&lt;bucket&gt;/&lt;key&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">https://&lt;bucket&gt;.s3.&lt;region&gt;.amazonaws.com/&lt;key&gt;</span></code> are recognized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>uri: ImageLike</strong></dt><dd><p>The image to rewrite. Anything other than an S3 HTTPS URL is returned
+unchanged.</p>
+</dd>
+<dt><strong>fs_kwargs: Dict[str, Any]</strong></dt><dd><p>Any specific keyword arguments to pass down to the fsspec created filesystem.
+Default: {}</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>uri: ImageLike</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">s3://</span></code> URI, or the given uri if it is not an S3 HTTPS URL.</p>
+</dd>
+<dt>fs_kwargs: Dict[str, Any]</dt><dd><p>The given fs_kwargs, with <code class="docutils literal notranslate"><span class="pre">anon=True</span></code> added for a rewritten URL unless
+already set.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the URL is presigned. A signature covers one object, so it can’t be
+carried over to listing a directory.</p>
 </dd>
 </dl>
 </dd>
@@ -2345,6 +2382,7 @@ or None if the dimension unknown.</p>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.io">bioio_base.io module</a><ul>
 <li><a class="reference internal" href="#bioio_base.io.pathlike_to_fs"><code class="docutils literal notranslate"><span class="pre">pathlike_to_fs()</span></code></a></li>
+<li><a class="reference internal" href="#bioio_base.io.s3_https_to_s3"><code class="docutils literal notranslate"><span class="pre">s3_https_to_s3()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-bioio_base.noop_reader">bioio_base.noop_reader module</a><ul>
@@ -2510,7 +2548,7 @@ or None if the dimension unknown.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=9a59ad82"></script>
+</div><script src="_static/documentation_options.js?v=5a4d455b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

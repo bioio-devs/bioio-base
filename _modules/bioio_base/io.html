@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2025.12.19 -->
-        <title>bioio_base.io - bioio-base 0.1.dev1+g64748f21b documentation</title>
+        <title>bioio_base.io - bioio-base 0.1.dev1+g5d6237240 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g64748f21b documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio-base 0.1.dev1+g5d6237240 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g64748f21b documentation</span>
+  <span class="sidebar-brand-text">bioio-base 0.1.dev1+g5d6237240 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -237,13 +237,14 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">urlparse</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fsspec.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">url_to_fs</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">fsspec.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractFileSystem</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">PathLike</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -299,6 +300,68 @@
     <span class="c1"># fs.open and complete their function during the context of the opened buffer.</span>
     <span class="k">return</span> <span class="n">fs</span><span class="p">,</span> <span class="n">path</span></div>
 
+
+
+<div class="viewcode-block" id="s3_https_to_s3">
+<a class="viewcode-back" href="../../bioio_base.html#bioio_base.io.s3_https_to_s3">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">s3_https_to_s3</span><span class="p">(</span>
+    <span class="n">uri</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span>
+    <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ImageLike</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Rewrite an S3 HTTPS URL as an anonymous ``s3://`` URI.</span>
+
+<span class="sd">    A directory can't be listed over HTTP(S), but the same objects can be over</span>
+<span class="sd">    ``s3://``. Both ``https://s3.&lt;region&gt;.amazonaws.com/&lt;bucket&gt;/&lt;key&gt;`` and</span>
+<span class="sd">    ``https://&lt;bucket&gt;.s3.&lt;region&gt;.amazonaws.com/&lt;key&gt;`` are recognized.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uri: ImageLike</span>
+<span class="sd">        The image to rewrite. Anything other than an S3 HTTPS URL is returned</span>
+<span class="sd">        unchanged.</span>
+<span class="sd">    fs_kwargs: Dict[str, Any]</span>
+<span class="sd">        Any specific keyword arguments to pass down to the fsspec created filesystem.</span>
+<span class="sd">        Default: {}</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    uri: ImageLike</span>
+<span class="sd">        The ``s3://`` URI, or the given uri if it is not an S3 HTTPS URL.</span>
+<span class="sd">    fs_kwargs: Dict[str, Any]</span>
+<span class="sd">        The given fs_kwargs, with ``anon=True`` added for a rewritten URL unless</span>
+<span class="sd">        already set.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the URL is presigned. A signature covers one object, so it can't be</span>
+<span class="sd">        carried over to listing a directory.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uri</span><span class="p">,</span> <span class="n">fs_kwargs</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"http"</span><span class="p">,</span> <span class="s2">"https"</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".amazonaws.com"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uri</span><span class="p">,</span> <span class="n">fs_kwargs</span>
+
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"s3."</span><span class="p">):</span>
+        <span class="n">bucket_and_key</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bucket</span><span class="p">,</span> <span class="n">virtual_hosted</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">".s3."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">virtual_hosted</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">uri</span><span class="p">,</span> <span class="n">fs_kwargs</span>
+
+        <span class="n">bucket_and_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">bucket</span><span class="si">}{</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span>
+
+    <span class="k">if</span> <span class="p">{</span><span class="s2">"x-amz-signature"</span><span class="p">,</span> <span class="s2">"signature"</span><span class="p">}</span> <span class="o">&amp;</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">query</span><span class="p">)}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s2"> is a presigned URL, which only grants access to a single object. "</span>
+            <span class="s2">"Use the s3:// URI or a public S3 URL to read a directory."</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">"s3://"</span> <span class="o">+</span> <span class="n">bucket_and_key</span><span class="p">,</span> <span class="p">{</span><span class="s2">"anon"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">fs_kwargs</span><span class="p">}</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -331,7 +394,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=9a59ad82"></script>
+</div><script src="../../_static/documentation_options.js?v=5a4d455b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
