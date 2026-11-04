@@ -1,8 +1,9 @@
 """
-    A simple benchmarking function (`benchmark()`) can be imported from
-    this file to be used by individual readers to then performance test
-    their individual readers
+A simple benchmarking function (`benchmark()`) can be imported from
+this file to be used by individual readers to then performance test
+their individual readers
 """
+
 import csv
 import datetime
 import multiprocessing
