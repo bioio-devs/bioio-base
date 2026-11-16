@@ -120,7 +120,7 @@ def compute_dim_specs(
         # Dimension is an iterable
         # Dimension is not in return dimensions
         if (
-            isinstance(kwargs.get(dim), (list, tuple, range, slice))
+            isinstance(kwargs.get(dim), (list, tuple, range, slice, np.ndarray))
             and dim not in return_dims
         ):
             raise ConflictingArgumentsError(
@@ -161,6 +161,26 @@ def compute_dim_specs(
                 # dask.Array and numpy.ndarray both natively support
                 # List[int] and slices being passed to getitem so no need to cast them
                 # to anything different
+                if isinstance(dim_spec, np.ndarray):
+                    if dim_spec.ndim != 1:
+                        raise TypeError(
+                            f"Array selection for {dim} must be 1-D. "
+                            f"Got {dim_spec.ndim}-D."
+                        )
+                    if dim_spec.dtype == bool:
+                        if len(dim_spec) != size:
+                            raise IndexError(
+                                f"Boolean mask for {dim} has length {len(dim_spec)} "
+                                f"but Dimension shape is {size}."
+                            )
+                        dim_spec = np.flatnonzero(dim_spec)
+                    elif not np.issubdtype(dim_spec.dtype, np.integer):
+                        raise TypeError(
+                            f"Array selection for {dim} must be integer or boolean. "
+                            f"Got dtype {dim_spec.dtype}."
+                        )
+                    dim_spec = dim_spec.tolist()
+
                 if isinstance(dim_spec, (tuple, range)):
                     dim_spec = list(dim_spec)
 
@@ -202,7 +222,8 @@ def compute_dim_specs(
                         "Dimensions not in output must be integers. "
                         f"Got {type(dim_spec).__name__} for {dim}."
                     )
-                check_selection_max = dim_spec + 1 if dim_spec >= 0 else -dim_spec
+                index = int(dim_spec)
+                check_selection_max = index + 1 if index >= 0 else -index
             else:
                 dim_spec = 0
                 display_dim_spec = dim_spec
