@@ -166,7 +166,13 @@ def compute_dim_specs(
 
                 # Get the largest absolute value index in the list using min and max
                 if isinstance(dim_spec, list):
-                    check_selection_max = max([abs(min(dim_spec)), max(dim_spec)])
+                    if not all(-size <= i < size for i in dim_spec):
+                        raise IndexError(
+                            f"Dimension specified with {dim}={display_dim_spec} "
+                            f"but Dimension shape is {size}."
+                        )
+                    dim_spec = [i % size for i in dim_spec]
+                    check_selection_max = max(dim_spec)
                     # try to convert to slice if possible
                     dim_spec = reduce_to_slice(dim_spec)
 
