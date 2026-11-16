@@ -587,3 +587,27 @@ def test_reshape_data_still_matches_helpers() -> None:
     specs, new_dims = transforms.compute_dim_specs(data.shape, "ZYX", "YX", Z=3)
     via_helpers = transforms.finalize_dims(data[tuple(specs)], new_dims, "ZYX", "YX")
     np.testing.assert_array_equal(direct, via_helpers)
+
+
+@pytest.mark.parametrize(
+    "return_dims, selection, expected",
+    [
+        ("CZYX", {"T": 0, "C": -1}, (1, 4, 10, 12)),
+        ("CZYX", {"T": 0, "C": np.int64(1)}, (1, 4, 10, 12)),
+        ("ZYX", {"T": 0, "C": 0, "Y": slice(None, 5)}, (4, 5, 12)),
+        ("ZYX", {"T": 0, "C": 0, "Y": slice(5, None)}, (4, 5, 12)),
+        ("ZYX", {"T": 2, "C": 0}, IndexError),
+        ("ZYX", {"T": 0, "C": -4}, IndexError),
+        ("CZYX", {"T": 0, "C": 3}, IndexError),
+    ],
+)
+def test_reshape_data_index_forms(
+    return_dims: str, selection: Mapping[str, Any], expected: Any
+) -> None:
+    data = np.zeros((2, 3, 4, 10, 12))
+    if expected is IndexError:
+        with pytest.raises(IndexError):
+            transforms.reshape_data(data, "TCZYX", return_dims, **selection)
+    else:
+        result = transforms.reshape_data(data, "TCZYX", return_dims, **selection)
+        assert result.shape == expected

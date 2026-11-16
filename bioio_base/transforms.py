@@ -146,8 +146,16 @@ def compute_dim_specs(
                 dim_spec = kwargs.get(dim)
                 display_dim_spec = dim_spec
 
-                if isinstance(dim_spec, int):
-                    dim_spec = slice(dim_spec, dim_spec + 1)
+                size = shape[dim_index]
+                if isinstance(dim_spec, Integral):
+                    index = int(dim_spec)
+                    if not -size <= index < size:
+                        raise IndexError(
+                            f"Dimension specified with {dim}={display_dim_spec} "
+                            f"but Dimension shape is {size}."
+                        )
+                    index %= size
+                    dim_spec = slice(index, index + 1)
 
                 # Convert operator to standard list or slice
                 # dask.Array and numpy.ndarray both natively support
@@ -164,7 +172,9 @@ def compute_dim_specs(
 
                 # Get the largest absolute value index from start and stop of slice
                 if isinstance(dim_spec, slice):
-                    check_selection_max = max([abs(dim_spec.stop), abs(dim_spec.start)])
+                    start = 0 if dim_spec.start is None else dim_spec.start
+                    stop = size if dim_spec.stop is None else dim_spec.stop
+                    check_selection_max = max(abs(start), abs(stop))
             else:
                 # Nothing was requested from this dimension
                 dim_spec = slice(None, None, None)
@@ -186,7 +196,7 @@ def compute_dim_specs(
                         "Dimensions not in output must be integers. "
                         f"Got {type(dim_spec).__name__} for {dim}."
                     )
-                check_selection_max = dim_spec
+                check_selection_max = dim_spec + 1 if dim_spec >= 0 else -dim_spec
             else:
                 dim_spec = 0
                 display_dim_spec = dim_spec
