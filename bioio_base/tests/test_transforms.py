@@ -177,7 +177,7 @@ def test_reshape_data_shape(
     assert actual.shape == expected_shape
 
     # Check that the output data is the same type as the input
-    assert type(actual) == type(data)
+    assert type(actual) is type(data)
 
 
 @pytest.mark.parametrize(
@@ -250,7 +250,7 @@ def test_reshape_data_values(
     np.testing.assert_array_equal(slice_in_computed, actual_computed[idx_out])
 
     # Check that the output data is the same type as the input
-    assert type(actual) == type(slice_in)
+    assert type(actual) is type(slice_in)
 
 
 # Arrays used for value checking on kwarg provided reshape_data
@@ -317,7 +317,7 @@ def test_reshape_data_kwargs_values(
             expected = da.transpose(expected, transposer)
 
     # Check that the output data is the same type as the input
-    assert type(actual) == type(expected)
+    assert type(actual) is type(expected)
 
     if isinstance(actual, da.core.Array):
         actual = actual.compute()
@@ -376,7 +376,7 @@ def test_transpose_to_dims(
     assert actual.shape == expected_shape
 
     # Check that the output data is the same type as the input
-    assert type(actual) == type(data)
+    assert type(actual) is type(data)
 
 
 def get_data_reference(
