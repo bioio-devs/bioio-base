@@ -27,7 +27,10 @@ ImageLike = Union[
 ]
 
 # A per-dimension selection (e.g. C=1, C=[0, 2], Z=slice(0, 4, 2)).
-DimSelection: TypeAlias = Union[int, List[int], Tuple[int, ...], range, slice]
+# A numpy array is either 1-D integer indices or a boolean mask of the dim's size.
+DimSelection: TypeAlias = Union[
+    int, List[int], Tuple[int, ...], range, slice, np.ndarray
+]
 
 # A single getitem op applied to one dimension, as produced by compute_dim_specs.
 DimSpec: TypeAlias = Union[int, slice, List[int]]
