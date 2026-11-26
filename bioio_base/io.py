@@ -3,7 +3,7 @@
 
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, Tuple
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 from fsspec.core import url_to_fs
 
@@ -52,6 +52,11 @@ def pathlike_to_fs(
 
     # Get details
     fs, path = url_to_fs(uri, **fs_kwargs)
+
+    # Native HTTP clients (e.g. libCZI's curl) reject unescaped characters like spaces.
+    # "%" is kept safe so already-encoded paths are not double-encoded.
+    if path.startswith(("http://", "https://")):
+        path = quote(path, safe=":/?#[]@!$&'()*+,;=%")
 
     # Check file exists
     if enforce_exists:
