@@ -35,6 +35,21 @@ def test_pathlib_to_fs_with_missing_file(
 
 
 @pytest.mark.parametrize(
+    "uri, expected_path",
+    [
+        ("https://host/a b=0.czi", "https://host/a%20b=0.czi"),
+        ("https://host/a%20b.czi", "https://host/a%20b.czi"),
+        ("https://host/a  café.czi", "https://host/a%20%20caf%C3%A9.czi"),
+        ("https://host/a b.czi?x=a b#frag", "https://host/a%20b.czi?x=a%20b#frag"),
+    ],
+)
+def test_pathlike_to_fs_encodes_http_path(uri: str, expected_path: str) -> None:
+    _, path = pathlike_to_fs(uri)
+    assert path == expected_path
+    assert path.isascii() and not any(c.isspace() for c in path)
+
+
+@pytest.mark.parametrize(
     "uri, expected_uri",
     [
         (
