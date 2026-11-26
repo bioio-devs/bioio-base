@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import pathlib
+from functools import partial
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+from threading import Thread
+from typing import BinaryIO
+from urllib.request import ProxyHandler, build_opener
 
 import pytest
 
@@ -32,6 +37,69 @@ def test_pathlib_to_fs_with_missing_file(
     uri = tmp_path / "missing-file.txt"
 
     pathlike_to_fs(uri, enforce_exists, fs_kwargs=dict(anon=True))
+
+
+@pytest.mark.parametrize(
+    "filename, url_filename, encoded_filename",
+    [
+        ("a b=0.tiff", "a b=0.tiff", "a%20b=0.tiff"),
+        ("a b=0.tiff", "a%20b=0.tiff", "a%20b=0.tiff"),
+        ("a  bcafé.tiff", "a  bcafé.tiff", "a%20%20bcaf%C3%A9.tiff"),
+    ],
+    ids=["literal-spaces", "encoded-spaces", "multiple-spaces-unicode"],
+)
+def test_pathlike_to_fs_http_url_path(
+    tmp_path: pathlib.Path, filename: str, url_filename: str, encoded_filename: str
+) -> None:
+    (tmp_path / filename).write_bytes(b"image bytes")
+    query = "X-Amz-Signature=f00d&foo=a%2Fb%2B%3D&foo=2"
+    targets: list[str] = []
+
+    class Handler(SimpleHTTPRequestHandler):
+        def send_head(self) -> BinaryIO | None:
+            targets.append(self.path)
+            return super().send_head()
+
+    with HTTPServer(("127.0.0.1", 0), partial(Handler, directory=tmp_path)) as server:
+        thread = Thread(target=server.serve_forever, kwargs={"poll_interval": 0.05})
+        thread.start()
+        try:
+            origin = f"http://127.0.0.1:{server.server_port}"
+            target = f"/{encoded_filename}?{query}"
+            fs, path = pathlike_to_fs(f"{origin}/{url_filename}?{query}#view")
+            assert path == f"{origin}{target}#view"
+            with build_opener(ProxyHandler({})).open(path, timeout=5) as stream:
+                assert stream.read() == b"image bytes"
+            assert targets == [target]
+            assert fs.exists(path)
+            with fs.open(path, "rb") as stream:
+                assert stream.read() == b"image bytes"
+        finally:
+            server.shutdown()
+            thread.join()
+
+
+def test_pathlike_to_fs_https_preserves_query_and_fragment() -> None:
+    uri = "https://example.invalid/a b%20c\t%23%3F=0.czi?x=%2f&x=+##view?raw"
+    _, path = pathlike_to_fs(uri)
+    assert (
+        path == "https://example.invalid/a%20b%20c%09%23%3F=0.czi?x=%2f&x=+##view?raw"
+    )
+
+
+def test_pathlike_to_fs_preserves_local_path(tmp_path: pathlib.Path) -> None:
+    path = tmp_path / "a b#=é%20.tiff"
+    path.write_bytes(b"image bytes")
+    uris: tuple[pathlib.Path | str, ...] = (
+        path,
+        str(path),
+        f"file://{path.as_posix()}",
+    )
+    for uri in uris:
+        fs, resolved = pathlike_to_fs(uri, enforce_exists=True)
+        assert resolved == path.as_posix()
+        with fs.open(resolved, "rb") as stream:
+            assert stream.read() == b"image bytes"
 
 
 @pytest.mark.parametrize(
