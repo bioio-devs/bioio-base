@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, Tuple
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 from fsspec.core import url_to_fs
 
@@ -52,6 +53,14 @@ def pathlike_to_fs(
 
     # Get details
     fs, path = url_to_fs(uri, **fs_kwargs)
+
+    # Some readers pass the HTTP URL to a transport that does not escape it.
+    # Match the path directly because urlsplit removes literal tabs and newlines.
+    http_path = re.match(r"https?://[^/?#]*(/[^?#]*)", path)
+    if http_path is not None:
+        # Preserve existing escapes, URL path delimiters, and fsspec glob syntax.
+        encoded = quote(http_path[1], safe="/%:@!$&'()*+,;=[]")
+        path = path[: http_path.start(1)] + encoded + path[http_path.end(1) :]
 
     # Check file exists
     if enforce_exists:
